@@ -2,60 +2,55 @@
 #include <stdlib.h>
 
 int main(){
-
-    int hora=0, minuto=0, segundo=0, num=0, controlo=1;
-    int ch=0, cm=0, cs=0;
-    long int totalSegundos = 0;
-    char tipo=' ';
-
-    printf("Introduza o tempo no formato h(horas) m(minutos) s(segundos):\n");
     
-    while(controlo<=3){
-        scanf("%c%d", &tipo, &num);
-
-        if(ch > 1){
-            printf("Erro: número de horas repetidos\n");
-            exit(1);
-        }
-        if(cm > 1){
-            printf("Erro: número de minutos repetidos\n");
-            exit(1);
-        }
-        if(cs > 1){
-            printf("Erro: número de segundos repetidos\n");
-            exit(1);
-        }
-        switch(tipo){
+    int hora=0, minuto=0, segundo=0;
+    int h=0, m=0, s=0, controlo=1;
+    long int totSegundo;
+    char ch;
+    printf("Introduza o tempo no formato h(hora) m(minuto) s(segundo):\n");
+    
+    while(controlo){
+        scanf(" %c", &ch);
+        switch(ch){
             case 'h':
-                hora = num;
-                ch++;
+                h++;
+                if(h > 1){
+                    printf("Erro: Campo hora duplicado\n");
+                    exit(1);
+                }
+                scanf("%d", &hora);
                 break;
             case 'm':
-                if(num > 59){
+                scanf("%d", &minuto);
+                if(minuto > 59){
                     printf("Erro: número de minutos inválidos\n");
                     exit(1);
                 }
-                minuto = num;
-                cm++;
+                if(m > 1){
+                    printf("Erro: Campo minuto duplicado\n");
+                    exit(1);
+                }
+                m++;
                 break;
             case 's':
-                if(num > 59){
+                scanf("%d", &segundo);
+                if(segundo > 59){
                     printf("Erro: número de segundos inválidos\n");
                     exit(1);
                 }
-                segundo = num;
-                cs++;
+                if(s > 1){
+                    printf("Erro: Campo segundo duplicado\n");
+                    exit(1);
+                }
+                s++;
                 break;
             default:
+                controlo = 0;
                 break;
         }
-        if(!(tipo != 'h' || tipo != 'm' || tipo != 's')){
-            break;
-        }
-        controlo++;
-        //getchar();
     }
-    totalSegundos = hora * 60 * 60 + minuto * 60 + segundo;
-    printf("Leu: %dh %dm %ds = %ld segundos\n", hora, minuto, segundo, totalSegundos);
+    totSegundo = (hora * 60 * 60) + (minuto * 60) + segundo;
+    printf("Leu %dh %dm %ds = %ld\n", hora, minuto, segundo, totSegundo);
+
     return 0;
 }
