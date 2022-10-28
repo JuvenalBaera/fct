@@ -46,6 +46,7 @@ struct CIDADAO{
 };
 
 typedef struct{
+    int tamanho;
     struct CIDADAO cidadaos[MAX_CIDADAO];
 }BASEDADOS;
 
@@ -91,11 +92,11 @@ void le_nss(struct NUM_SERV_SEC *nss){
 
 void le_info_pessoal(struct INFO_PESSOAL *infp){
     printf("INTRODUZA OS DADOS PESSOAS\n");
-    printf("\tNome........: ");
+    printf("\tNome.........: ");
     le_text(infp->nome, TAM_DADOS);
     le_inteiro(&(infp->dia_nasc), 1, 31, "\tDia..........: ");
     le_inteiro(&(infp->mes_nasc), 1, 12, "\tMes..........: ");
-    le_inteiro(&(infp->ano_nasc), 1, 2022, "\tAno..........: ");
+    le_inteiro(&(infp->ano_nasc), 1900, 2022, "\tAno..........: ");
     le_inteiro(&(infp->altura), 1, 3, "\tAltura.......: ");
     printf("\tCor dos olhos: ");
     le_text(infp->olhos, TAM_DADOS);
@@ -113,7 +114,7 @@ void le_info_number(struct INFO_NUMBER *infn){
 
 void le_morada(struct MORADA *address){
     printf("INTRODUZA OS DADOS DA MORADA\n");
-    printf("\tRua..........: ");
+    printf("\tRua...........: ");
     le_text(address->rua, TAM_DADOS);
     le_inteiro(&(address->cod_postal1), 1, 9999, "\tCodigo postal1: ");
     le_inteiro(&(address->cod_postal2), 1, 9999, "\tCodigo postal2: ");
@@ -141,8 +142,7 @@ void le_cidadao(struct CIDADAO *cid){
 // ##################### IMPRESSÃO DOS DADOS ##############
 
 void print_nss(struct NUM_SERV_SEC nss){
-    printf("NSS\n");
-    printf("\tNSS: %d\n", nss.num_serie);
+    printf("NSS: %d\n", nss.num_serie);
 }
 
 void print_info_pessoal(struct INFO_PESSOAL infp){
@@ -186,13 +186,156 @@ void print_cidadao(struct CIDADAO cid){
 }
 
 
+// ########################## MENUS #######################
+
+void incializar_base(BASEDADOS *base){
+    base->tamanho = 0;
+    for(int i = 0; i < MAX_CIDADAO; i++)
+        base->cidadaos[i].nss.num_serie = 0;
+}
+
+void base_vazia(){
+    printf("\nBASE DE DADOS ESTA VAZIA\n\n");
+}
+
+void mostrar_nss(BASEDADOS base){
+    if(base.tamanho > 0){
+        for(int i = 0; i < base.tamanho; i++){
+            if(base.cidadaos[i].nss.num_serie != 0){
+                print_nss(base.cidadaos[i].nss);
+            }
+        }
+    }
+    else
+        base_vazia();
+}
+
+void mostrar_info_cidadao(BASEDADOS base, int nss){
+    for(int i = 0; i < base.tamanho; i++){
+        if(base.cidadaos[i].nss.num_serie == nss){
+            print_cidadao(base.cidadaos[i]);
+            return;
+        }
+    }
+    printf("\nO Cidadao com NSS %d Nao existe\n", nss);
+}
+
+void modificar_cidadao(BASEDADOS *base, int nss){
+    for(int i = 0; i < base->tamanho; i++){
+        if(base->cidadaos[i].nss.num_serie == nss){
+            le_info_pessoal(&(base->cidadaos[i].infp));
+            le_info_number(&(base->cidadaos[i].infn));
+            le_morada(&(base->cidadaos[i].address));
+            le_confidencial(&(base->cidadaos[i].clubes));
+            return;
+        }
+    }
+    printf("\nCidadao com NSS %d nao existe\n", nss);
+}
+
+void novo_registo(BASEDADOS *base){
+    if(base->tamanho <= MAX_CIDADAO){
+        for(int i = 0; i < MAX_CIDADAO; i++){
+            if(base->cidadaos[i].nss.num_serie == 0 && i != base->tamanho){
+                le_cidadao(&(base->cidadaos[i]));    
+                base->tamanho++;
+                return;
+            }
+            else
+                break;
+        }
+        le_cidadao(&(base->cidadaos[base->tamanho]));
+        base->tamanho++;
+    }
+    else
+        printf("\nA BASE DE DADOS ESTA CHEIA\n");
+}
+
+void apagar_registo(BASEDADOS *base, int nss){
+    for(int i = 0; i < base->tamanho; i++){
+        if(base->cidadaos[i].nss.num_serie == nss){
+            base->cidadaos[i].nss.num_serie = 0;
+            base->tamanho--;
+            return;
+        }
+    }
+    printf("\nCidadao com NSS %d, nao existe\n\n", nss);
+}
+
+
+void menu(char *opcao){
+    printf("--------------------------------------------------------------------------\n");
+    printf("|   /*********** PROGRAMA SIRP - Registo dos cidadaos **********/        |\n");
+    printf("--------------------------------------------------------------------------\n");
+    printf("|                                                                        |\n");
+    printf("| a - Mostrar os numero de serie de todos os elementos da base de dados  |\n");
+    printf("| b - Mostrar toda a informacao do cidadao com um certo numero (a pedir) |\n");
+    printf("| c - Modificar a informacao do cidadao com um certo numero (a pedir)    |\n");
+    printf("| d - Criar um novo registo para um novo cidadao                         |\n");
+    printf("| e - Apagar o registo com um certo numero (a pedir)                     |\n");
+    printf("| s - Sair do programa                                                   |\n");
+    printf("|                                                                        |\n");
+    printf("--------------------------------------------------------------------------\n");
+
+    printf("Qual e a opcao: ");
+    *opcao = getchar();
+    clear_buffer();
+}
+
+
 // ########################## MAIN/START ###################
 int main(){
 
-    // struct CIDADAO cidadao;
-    // le_cidadao(&cidadao);
-    // printf("\n");
-    // print_cidadao(cidadao);
+    BASEDADOS basedados;
+    int numero;
+    char opcao;
+    system("cls");
+    incializar_base(&basedados);
+    do{
+        menu(&opcao);
+        switch(opcao){
+            case 'a': case 'A':
+                if(basedados.tamanho > 0)
+                    mostrar_nss(basedados);
+                else
+                    base_vazia();
+            break;
+            case 'b': case 'B':
+                if(basedados.tamanho > 0){
+                    le_inteiro(&numero, 1, 30000, "Digite o NSS a Ver: ");
+                    mostrar_info_cidadao(basedados, numero);
+                }
+                else
+                    base_vazia();
+            break;
+            case 'c': case 'C':
+                if(basedados.tamanho > 0){
+                    le_inteiro(&numero, 1, 30000, "Digite o NSS a Ver: ");
+                    modificar_cidadao(&basedados, numero);
+                }
+                else
+                    base_vazia();
+            break;
+            case 'd': case 'D':
+                printf("\n");
+                novo_registo(&basedados);
+            break;
+            case 'e': case 'E':
+                if(basedados.tamanho > 0){
+                    le_inteiro(&numero, 1, 30000, "Digite o NSS a Apagar: ");
+                    apagar_registo(&basedados, numero);
+                }
+                else
+                    base_vazia();
+            break;
+            case 's': case 'S':
+                printf("\n|========= MUITO OBRIGADO ==========|\n");
+                exit(0);
+            break;
+            default:
+                printf("\nOPCAO INVALIDA\n\n");
+        }
+    }while(1);
 
     return 0;
 }
