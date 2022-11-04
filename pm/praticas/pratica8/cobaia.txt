@@ -1,0 +1,360 @@
+22623
+Joao Miguel Bento
+12
+1
+1991
+152
+azuis
+vermelhos
+145678
+738046
+345899
+873690
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+28182
+Joao Miguel Cunha Bispo Campilho Pereira
+13
+2
+1991
+167
+castanhos
+amarelos
+145679
+738047
+345900
+873691
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31318
+Joao Miguel de Oliveira Esteves Correia
+14
+3
+1991
+189
+pretos
+azuis
+145680
+738048
+345901
+873692
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31559
+Joao Miguel Duarte Barata Oliveira
+15
+4
+1991
+176
+verdes
+castanhos
+145681
+738049
+345902
+873693
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+28324
+Joao Miguel Ferreira Pecorelli
+16
+5
+1991
+192
+vermelhos
+pretos
+145682
+738050
+345903
+873694
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31431
+Joao Miguel Mariano Fialho
+17
+6
+1991
+179
+amarelos
+verdes
+145683
+738051
+345904
+873695
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31687
+Joao Nuno Carmona de Brito Barreto
+18
+7
+1991
+152
+azuis
+vermelhos
+145684
+738052
+345905
+873696
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+32497
+Joao Nuno Fernandes Pedro Soares
+19
+8
+1991
+167
+castanhos
+amarelos
+145685
+738053
+345906
+873697
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+25292
+Joao Nuno Valerio Grilo
+20
+9
+1991
+189
+pretos
+azuis
+145686
+738054
+345907
+873698
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+22787
+Joao Paulo Bento Narciso
+21
+10
+1991
+176
+verdes
+castanhos
+145687
+738055
+345908
+873699
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31621
+Joao Pedro Costa Pinto
+22
+11
+1991
+192
+vermelhos
+pretos
+145688
+738056
+345909
+873700
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31786
+Joao Pedro da Rosa Moreira
+23
+12
+1991
+179
+amarelos
+verdes
+145689
+738057
+345910
+873701
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31415
+Joao Pedro da Silva Matos
+24
+1
+1991
+152
+azuis
+vermelhos
+145690
+738058
+345911
+873702
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+32052
+Joao Pedro Neves Abrantes de Carvalho
+25
+2
+1991
+167
+castanhos
+amarelos
+145691
+738059
+345912
+873703
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31684
+Joao Pinheiro Zuzarte Reis
+26
+3
+1991
+189
+pretos
+azuis
+145692
+738060
+345913
+873704
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+32139
+Joao Ricardo Barros Sousa
+27
+4
+1991
+176
+verdes
+castanhos
+145693
+738061
+345914
+873705
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+24009
+Joao Vasco Dias da Silva
+28
+5
+1991
+192
+vermelhos
+pretos
+145694
+738062
+345915
+873706
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31582
+Joao Vasco Mestre Correia Goncalves
+29
+6
+1991
+179
+amarelos
+verdes
+145695
+738063
+345916
+873707
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+31433
+Joao Vazao Proenca
+30
+7
+1991
+152
+azuis
+vermelhos
+145696
+738064
+345917
+873708
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
+25400
+Jorge Daniel Ribeiro Lourenco
+1
+8
+1991
+167
+castanhos
+amarelos
+145697
+738065
+345918
+873709
+rua moderna, 34 - 4 Esq
+1270
+315
+S. Manuel da Mata
+Partido da Justica
+Sport Lisboa e Benfica
