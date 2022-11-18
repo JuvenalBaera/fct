@@ -24,7 +24,7 @@ typedef struct{
 }UM_ARMAZEM;
 
 typedef struct{
-    UM_ARMAZEM slote[XSLOTE][YSLOTE][PRATELEIRA];
+    UM_ARMAZEM slote[PRATELEIRA][XSLOTE][YSLOTE];
     unsigned int tamanho;
 }ARMAZEM;
 
@@ -94,6 +94,18 @@ void ler_texto(char *text, int tam, boolean str_narray){
 
 // ########################## MAESTRO ##########################
 
+void inicializar_armazem(ARMAZEM *armazem){
+    armazem->tamanho = 0;
+    for(int i = 0; i < PRATELEIRA ; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE ; k++){
+                armazem->slote[i][j][k].ocupado = FALSE;
+                armazem->slote[i][j][k].lote.id = 0;
+            }
+        }
+    }
+}
+
 void show_one_batch(LOTE lote){
     printf("ID.........: %d\n", lote.id);
     printf("Destination: %s\n", lote.destino);
@@ -114,7 +126,6 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
     LOTE aux_lote;
 
     if(file){
-
         for(int i = 0; i < 4; i++){
             for(int j = 0; j < 4; j++){
                 if(!feof(file)){
@@ -136,24 +147,25 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
 }
 
 void show_batch_info(ARMAZEM armazem, int id){
-    for(int i = 0; i < XSLOTE; i++){
-        for(int j = 0; j < YSLOTE; j++){
-            for(int k = 0; j < PRATELEIRA; k++){
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
                 if(armazem.slote[i][j][k].lote.id == id){
                     show_one_batch(armazem.slote[i][j][k].lote);
+                    printf("Slot %d %d Shelf: %d\n", j, k, i);
                     return;
                 }
             }
         }
     }
-    printf("Id Não existe no armazem\n");
+    printf("Id %d Não existe no armazem\n", id);
 }
 
 void show_batches(ARMAZEM armazem){
     printf("\n============= SIZE %d ==================\n", armazem.tamanho);
-    for(int i = 0; i < XSLOTE; i++){
-        for(int j = 0; j < YSLOTE; j++){
-            for(int k = 0; j < PRATELEIRA; k++){
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
                 if(armazem.slote[i][j][k].ocupado == TRUE){
                     show_one_batch(armazem.slote[i][j][k].lote);
                     printf("\n");
@@ -172,11 +184,11 @@ void show_worehouse(ARMAZEM armazem, int prateleira){
     for(int i = 0; i < XSLOTE; i++){
         printf("%d", i);
         for(int j = 0; j < YSLOTE; j++){
-            if(armazem.slote[i][j][prateleira].ocupado == TRUE){
-                printf(" . ");
+            if(armazem.slote[prateleira][i][j].ocupado == TRUE){
+                printf(" X ");
             }
             else
-                printf(" X ");
+                printf(" . ");
         }
         printf("\n");
     }
@@ -192,9 +204,9 @@ void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
     LOTE aux_lote;
 
     if(file){
-        for(int i = 0; i < XSLOTE; i++){
-            for(int j = 0; j < YSLOTE; j++){
-                for(int k = 0; j < PRATELEIRA; k++){
+        for(int i = 0; i < PRATELEIRA; i++){
+            for(int j = 0; j < XSLOTE; j++){
+                for(int k = 0; k < YSLOTE; k++){
                     if(!feof(file)){
                         fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, 
                                                          &aux_lote.quantidade, &aux_lote.tipo);
@@ -232,32 +244,18 @@ void menu_pricipal(char *opcao){
     printf("\n=============== MENU ===============\n");
     printf("\t1 - Show tray\n");
     printf("\t2 - Show batch info\n");
-    printf("\t3 - Show batches\n\n");
-    printf("\t4 - Show warehouse occupancy\n");
+    printf("\t3 - Show batches\n");
+    printf("\t4 - Show warehouse occupancy\n\n");
 
     printf("\t5 - Store tray\n");
     printf("\t6 - Swap batch placement\n");
-    printf("\t7 - Show statitiscs\n");
+    printf("\t7 - Show statitiscs\n\n");
 
     printf("\t8 - Perform expedition\n");
     printf("\te - exit\n\n");
     *opcao = ler_char("Choose the option: ");
     printf("\n");
 }
-
-
-void inicializar_armazem(ARMAZEM *armazem){
-    armazem->tamanho = 0;
-    for(int i = 0; i < XSLOTE; i++){
-        for(int j = 0; j < YSLOTE; j++){
-            for(int k = 0; k < PRATELEIRA; k++){
-                armazem->slote[i][j][k].ocupado = FALSE;
-                armazem->slote[i][j][k].lote.id = 0;
-            }
-        }
-    }
-}
-
 
 
 //####################### MAIN FUNCTION ####################
@@ -271,7 +269,6 @@ int main(int argc, char *argv[]){
     int numero;
 
     inicializar_armazem(&armazem);
-
     if(argc > 1){
         ler_ficheiro_txt(argv[1], &armazem);
     }
@@ -287,6 +284,7 @@ int main(int argc, char *argv[]){
             break;
             case '2':
                 numero = ler_inteiro(1, 32000, "Digite o ID: ");
+                printf("========= PRODUCT =======\n");
                 show_batch_info(armazem, numero);
             break;
             case '3': 
