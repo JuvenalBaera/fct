@@ -17,10 +17,6 @@ typedef struct {
     int tipo;
 }LOTE;
 
-typedef struct{
-    LOTE lote[4][4];
-    int total;
-}TABULEIRO;
 
 typedef struct{
     LOTE lote;
@@ -33,6 +29,9 @@ typedef struct{
 }ARMAZEM;
 
 // ######################### FUNÇÕES UTILITÁRIAS ########################
+void erro_abrir_fich(char nome[]){
+    printf("\nErro ao abrir o ficheiro \"%s\"\n", nome);
+}
 
 void limpa_buffer(){
     char ch;
@@ -101,16 +100,40 @@ void show_one_batch(LOTE lote){
     printf("Quantity...: %d\n", lote.quantidade);
     switch(lote.tipo){
         case 1:
-            printf("Type.......: Livrete\n");
+            printf("Type.......: Cartão\n");
             break;
         case 2:
-            printf("Type.......: Cartão\n");
+            printf("Type.......: Livrete\n");
             break;
     }
     printf("Expire Date: %s\n", lote.data);
 }
 
-void show_tray(char filename[]){}
+void show_tray(char filename[], LOTE tabuleiro[4][4]){
+    FILE *file = fopen(filename, "r");
+    LOTE aux_lote;
+
+    if(file){
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                if(!feof(file)){
+                    fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, &aux_lote.quantidade, &aux_lote.tipo);
+                    tabuleiro[i][j] = aux_lote;
+                }
+            }
+        }
+
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                printf("%2d_%c  ", tabuleiro[i][j].id, (tabuleiro[i][j].tipo==1) ? 'C' : 'L');
+            }
+            printf("\n");
+        }
+    }
+    else
+        erro_abrir_fich(filename);
+}
 
 void show_batch_info(ARMAZEM armazem, int id){
     for(int i = 0; i < XSLOTE; i++){
@@ -126,27 +149,68 @@ void show_batch_info(ARMAZEM armazem, int id){
     printf("Id Não existe no armazem\n");
 }
 
-void show_batches(LOTE lote){}
+void show_batches(ARMAZEM armazem){
+    printf("\n============= SIZE %d ==================\n", armazem.tamanho);
+    for(int i = 0; i < XSLOTE; i++){
+        for(int j = 0; j < YSLOTE; j++){
+            for(int k = 0; j < PRATELEIRA; k++){
+                if(armazem.slote[i][j][k].ocupado == TRUE){
+                    show_one_batch(armazem.slote[i][j][k].lote);
+                    printf("\n");
+                }
+            }
+        }
+    }
+}
 
-void show_worehouse(ARMAZEM armazem, int prateleira){}
+void show_worehouse(ARMAZEM armazem, int prateleira){
+    printf("----------- WAREHOUSE -----------\n");
+    for(int i = 0; i < YSLOTE; i++){
+        printf("  %d", i);
+    }
+    printf("\n");
+    for(int i = 0; i < XSLOTE; i++){
+        printf("%d", i);
+        for(int j = 0; j < YSLOTE; j++){
+            if(armazem.slote[i][j][prateleira].ocupado == TRUE){
+                printf(" . ");
+            }
+            else
+                printf(" X ");
+        }
+        printf("\n");
+    }
+}
 
 void store_tray(char filename[], ARMAZEM *armazem, int id, int xlote, int ylote, int xslot, int yslot, int prat){}
 
+
 //########################### FICHEIROS ########################
 
-void erro_abrir_fich(char nome[]){
-    printf("\nErro ao abrir o ficheiro \"%s\"\n", nome);
-}
-
-void ler_ficheiro_txt(char filename[]){
+void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
     FILE *file = fopen(filename, "r");
     LOTE aux_lote;
 
     if(file){
-        while(!feof(file)){
-            fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, &aux_lote.quantidade, &aux_lote.tipo);
-            show_one_batch(aux_lote);
-            printf("\n\n");
+        for(int i = 0; i < XSLOTE; i++){
+            for(int j = 0; j < YSLOTE; j++){
+                for(int k = 0; j < PRATELEIRA; k++){
+                    if(!feof(file)){
+                        fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, 
+                                                         &aux_lote.quantidade, &aux_lote.tipo);
+                        if(armazem->slote[i][j][k].ocupado == FALSE){
+                            armazem->slote[i][j][k].lote = aux_lote;
+                            armazem->slote[i][j][k].ocupado = TRUE;
+                            armazem->tamanho++;
+                        }
+                        else
+                            printf("Posição Ocupado\n");
+                    }
+                    else {
+                        return;
+                    }
+                }
+            }
         }
     }
     else
@@ -158,7 +222,7 @@ void ler_ficheiro_bin(char filename[]){
     LOTE aux_lote;
 
     if(file){
-        
+        printf("Hello ficheiro binário\n");
     }
     else
         erro_abrir_fich(filename);
@@ -178,14 +242,15 @@ void menu_pricipal(char *opcao){
     printf("\t8 - Perform expedition\n");
     printf("\te - exit\n\n");
     *opcao = ler_char("Choose the option: ");
+    printf("\n");
 }
 
 
 void inicializar_armazem(ARMAZEM *armazem){
     armazem->tamanho = 0;
-    for(int i = 0; i < 9; i++){
-        for(int j = 0; j < 9; j++){
-            for(int k = 0; k < 4; k++){
+    for(int i = 0; i < XSLOTE; i++){
+        for(int j = 0; j < YSLOTE; j++){
+            for(int k = 0; k < PRATELEIRA; k++){
                 armazem->slote[i][j][k].ocupado = FALSE;
                 armazem->slote[i][j][k].lote.id = 0;
             }
@@ -199,25 +264,38 @@ void inicializar_armazem(ARMAZEM *armazem){
 
 int main(int argc, char *argv[]){
 
-    char opcao;
-    
+    LOTE tabuleiro[4][4];
     ARMAZEM armazem;
+    char opcao;
+    char filename[10];
+    int numero;
+
     inicializar_armazem(&armazem);
 
-    printf("%d\n", argc);
     if(argc > 1){
-        ler_ficheiro_txt(argv[1]);
-        //ler_ficheiro_bin(argv[1]);
+        ler_ficheiro_txt(argv[1], &armazem);
     }
 
-    /* do{
+    do{
         menu_pricipal(&opcao);
 
         switch(opcao){
-            case '1': break;
-            case '2': break;
-            case '3': break;
-            case '4': break;
+            case '1':
+                printf("Entry the filename: ");
+                ler_texto(filename, 10, 1);
+                show_tray(filename, tabuleiro);
+            break;
+            case '2':
+                numero = ler_inteiro(1, 32000, "Digite o ID: ");
+                show_batch_info(armazem, numero);
+            break;
+            case '3': 
+                show_batches(armazem);
+            break;
+            case '4': 
+                numero = ler_inteiro(0, PRATELEIRA, "Choose shelf: ");
+                show_worehouse(armazem, numero);
+            break;
             case '5': break;
             case '6': break;
             case '7': break;
@@ -229,7 +307,7 @@ int main(int argc, char *argv[]){
                 printf("Inválid Option\n");
         }
 
-    }while(opcao != 'e' && opcao != 'E'); */
+    }while(opcao != 'e' && opcao != 'E');
 
     return 0;
 }
