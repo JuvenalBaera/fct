@@ -28,7 +28,11 @@ typedef struct{
     unsigned int tamanho;
 }ARMAZEM;
 
-// ######################### FUNÇÕES UTILITÁRIAS ########################
+typedef struct{
+    int prt, xs, ys;
+}COORD_ARMAZEM;
+
+// ######################### UTILITIES FUNCTIONS ########################
 void erro_abrir_fich(char nome[]){
     printf("\nErro ao abrir o ficheiro \"%s\"\n", nome);
 }
@@ -66,14 +70,6 @@ char ler_char(char *msg){
     return ch;
 }
 
-/**
- * Nome......: ler_texto
- * entrada...: char *txt (variável onde o texto vai)
- *             int tam (tamanho a ler)
- *             boolean str_narray (se é string[1] ou array[0])
- * finalidade: Ler um texto [string ou array]
- * retorno...: sem retorno
-*/
 void ler_texto(char *text, int tam, boolean str_narray){
     char ch;
     int i = 0;
@@ -91,8 +87,7 @@ void ler_texto(char *text, int tam, boolean str_narray){
 }
 
 
-
-// ########################## MAESTRO ##########################
+// ########################## HANDLE STRUCTS ###################
 
 void inicializar_armazem(ARMAZEM *armazem){
     armazem->tamanho = 0;
@@ -101,6 +96,66 @@ void inicializar_armazem(ARMAZEM *armazem){
             for(int k = 0; k < YSLOTE ; k++){
                 armazem->slote[i][j][k].ocupado = FALSE;
                 armazem->slote[i][j][k].lote.id = 0;
+            }
+        }
+    }
+}
+
+void inicializar_tabuleiro(LOTE tabuleio[4][4]){
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            tabuleio[i][j].id = 0;
+        }
+    }
+}
+
+boolean existe_id_tabuleiro(LOTE tabuleiro[4][4], int id){
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j < 4; j++){
+            if(tabuleiro[i][j].id == id)
+                return TRUE;
+        }
+    }
+    return FALSE;
+}
+
+boolean existe_id_armazem(ARMAZEM armazem, int id, COORD_ARMAZEM *coord){
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
+                if(armazem.slote[i][j][k].lote.id == id){
+                    coord->prt = i;
+                    coord->xs = j;
+                    coord->ys = k;
+                    return TRUE;
+                }
+            }
+        }
+    }
+    return FALSE;
+}
+
+void ler_coord_armazem(COORD_ARMAZEM *coord){
+    coord->prt = ler_inteiro(0, PRATELEIRA-1, "Digite a prateleira: ");
+    coord->xs = ler_inteiro(0, XSLOTE-1, "Digite a posição X: ");
+    coord->ys = ler_inteiro(0, YSLOTE-1, "Digite a posição Y: ");
+}
+
+
+// ########################## FUNCTIONALITIES [MENU] ##########################
+
+void inserir_lote_armazem(ARMAZEM *armazem, LOTE lote, boolean show_index){
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
+                if(armazem->slote[i][j][k].ocupado == FALSE){
+                    armazem->slote[i][j][k].lote = lote;
+                    armazem->slote[i][j][k].ocupado = TRUE;
+                    if(show_index == TRUE)
+                        printf("Slot: %d %d %d\n", j, k, i);
+                    armazem->tamanho++;
+                    return;
+                }
             }
         }
     }
@@ -193,10 +248,62 @@ void show_worehouse(ARMAZEM armazem, int prateleira){
     }
 }
 
-void store_tray(char filename[], ARMAZEM *armazem, int id, int xlote, int ylote, int xslot, int yslot, int prat){}
+void store_tray(char filename[], LOTE tabuleiro[4][4], ARMAZEM *armazem){
+    FILE *file = fopen(filename, "r");
+    LOTE aux_lote;
+    COORD_ARMAZEM coord = {0, 0, 0};
+
+    if(file){
+        for(int i = 0; i < 4; i++){
+            for(int j = 0; j < 4; j++){
+                if(!feof(file)){
+                    fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, 
+                                                         &aux_lote.quantidade, &aux_lote.tipo);
+                    if(existe_id_tabuleiro(tabuleiro, aux_lote.id) == FALSE){
+                        tabuleiro[i][j] = aux_lote;
+                        printf("Id: %2d Tray: %d %d -> ", aux_lote.id, i, j);
+                        
+                        if(existe_id_armazem(*armazem, aux_lote.id, &coord) == FALSE){
+                            inserir_lote_armazem(armazem, aux_lote, TRUE);
+                        }
+                        else
+                            printf("\nRepeated ID %d in WAREHOUSE\n", aux_lote.id);
+                    }
+                    else
+                        printf("Repeated product ID: %d Discarding\n", aux_lote.id);
+                }
+            }
+        }
+    }
+    else
+        erro_abrir_fich(filename);
+}
+
+void swap_batch_placement(ARMAZEM *armazem, int id){
+    LOTE tmp_lote;
+    COORD_ARMAZEM a_coord = {0, 0, 0};
+    COORD_ARMAZEM n_coord = {0, 0, 0};
+
+    if(existe_id_armazem(*armazem, id, &a_coord) == TRUE){
+        ler_coord_armazem(&n_coord);
+
+        if(armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].ocupado == TRUE){
+            tmp_lote = armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote;
+            armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote = armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote;
+            armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote = tmp_lote;
+        }
+        else{
+            armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote = armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote;
+            armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].ocupado = TRUE;
+            armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].ocupado = FALSE;
+        }
+    }
+    else
+        printf("Product with ID: %d does't exist\n", id);
+}
 
 
-//########################### FICHEIROS ########################
+//########################### HANDLE FILES ########################
 
 void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
     FILE *file = fopen(filename, "r");
@@ -209,13 +316,7 @@ void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
                     if(!feof(file)){
                         fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, 
                                                          &aux_lote.quantidade, &aux_lote.tipo);
-                        if(armazem->slote[i][j][k].ocupado == FALSE){
-                            armazem->slote[i][j][k].lote = aux_lote;
-                            armazem->slote[i][j][k].ocupado = TRUE;
-                            armazem->tamanho++;
-                        }
-                        else
-                            printf("Posição Ocupado\n");
+                        inserir_lote_armazem(armazem, aux_lote, FALSE);
                     }
                     else {
                         return;
@@ -223,17 +324,41 @@ void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
                 }
             }
         }
+        fclose(file);
     }
     else
         erro_abrir_fich(filename);
 }
 
-void ler_ficheiro_bin(char filename[]){
+void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
     FILE *file = fopen(filename, "rb");
     LOTE aux_lote;
 
     if(file){
-        printf("Hello ficheiro binário\n");
+        while(!feof(file)){
+            fread(&aux_lote, sizeof(LOTE), 1, file);
+            inserir_lote_armazem(armazem, aux_lote, FALSE);
+        }
+        fclose(file);
+    }
+    else
+        erro_abrir_fich(filename);
+}
+
+void escrever_fich_bin(char filename[], ARMAZEM armazem){
+    FILE *file = fopen(filename, "wb");
+
+    if(file){
+        for(int i = 0; i < PRATELEIRA; i++){
+            for(int j = 0; j < XSLOTE; j++){
+                for(int k = 0; k < YSLOTE; k++){
+                    if(armazem.slote[i][j][k].ocupado == TRUE){
+                        fwrite(&(armazem.slote[i][j][k].lote), sizeof(LOTE), 1, file);
+                    }
+                }
+            }
+        }
+        fclose(file);
     }
     else
         erro_abrir_fich(filename);
@@ -265,12 +390,17 @@ int main(int argc, char *argv[]){
     ARMAZEM armazem;
     char opcao;
     char filename[10];
+    char file_bin[] = "warehouse.dat";
     int numero;
 
     inicializar_armazem(&armazem);
+    inicializar_tabuleiro(tabuleiro);
+
     if(argc > 1){
         ler_ficheiro_txt(argv[1], &armazem);
     }
+
+    ler_ficheiro_bin(file_bin, &armazem);
 
     do{
         menu_pricipal(&opcao);
@@ -293,8 +423,15 @@ int main(int argc, char *argv[]){
                 numero = ler_inteiro(0, PRATELEIRA, "Choose shelf: ");
                 show_worehouse(armazem, numero);
             break;
-            case '5': break;
-            case '6': break;
+            case '5':
+                printf("Entry the filename: ");
+                ler_texto(filename, 10, 1);
+                store_tray(filename, tabuleiro, &armazem);
+            break;
+            case '6':
+                numero = ler_inteiro(1, 32000, "Digite o ID do produto: ");
+                swap_batch_placement(&armazem, numero);
+            break;
             case '7': break;
             case '8': break;
             case 'e': case 'E':
@@ -305,6 +442,8 @@ int main(int argc, char *argv[]){
         }
 
     }while(opcao != 'e' && opcao != 'E');
+    
+    escrever_fich_bin("test.dat", armazem);
 
     return 0;
 }
