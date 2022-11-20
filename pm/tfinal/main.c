@@ -9,6 +9,8 @@
 #define YSLOTE 10
 #define PRATELEIRA 5
 
+#define TAM_TAB 4
+
 typedef struct {
     int id;
     char destino[30];
@@ -102,16 +104,16 @@ void inicializar_armazem(ARMAZEM *armazem){
 }
 
 void inicializar_tabuleiro(LOTE tabuleio[4][4]){
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 4; j++){
+    for(int i = 0; i < TAM_TAB; i++){
+        for(int j = 0; j < TAM_TAB; j++){
             tabuleio[i][j].id = 0;
         }
     }
 }
 
-boolean existe_id_tabuleiro(LOTE tabuleiro[4][4], int id){
-    for(int i = 0; i < 4; i++){
-        for(int j = 0; j < 4; j++){
+boolean existe_id_tabuleiro(LOTE tabuleiro[TAM_TAB][TAM_TAB], int id){
+    for(int i = 0; i < TAM_TAB; i++){
+        for(int j = 0; j < TAM_TAB; j++){
             if(tabuleiro[i][j].id == id)
                 return TRUE;
         }
@@ -181,16 +183,16 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
     LOTE aux_lote;
 
     if(file){
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
+        for(int i = 0; i < TAM_TAB; i++){
+            for(int j = 0; j < TAM_TAB; j++){
                 if(!feof(file)){
                     fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, &aux_lote.quantidade, &aux_lote.tipo);
                     tabuleiro[i][j] = aux_lote;
                 }
             }
         }
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
+        for(int i = 0; i < TAM_TAB; i++){
+            for(int j = 0; j < TAM_TAB; j++){
                 printf("%2d_%c  ", tabuleiro[i][j].id, (tabuleiro[i][j].tipo==1) ? 'C' : 'L');
             }
             printf("\n");
@@ -248,14 +250,14 @@ void show_worehouse(ARMAZEM armazem, int prateleira){
     }
 }
 
-void store_tray(char filename[], LOTE tabuleiro[4][4], ARMAZEM *armazem){
+void store_tray(char filename[], LOTE tabuleiro[TAM_TAB][TAM_TAB], ARMAZEM *armazem){
     FILE *file = fopen(filename, "r");
     LOTE aux_lote;
     COORD_ARMAZEM coord = {0, 0, 0};
 
     if(file){
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < 4; j++){
+        for(int i = 0; i < TAM_TAB; i++){
+            for(int j = 0; j < TAM_TAB; j++){
                 if(!feof(file)){
                     fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, 
                                                          &aux_lote.quantidade, &aux_lote.tipo);
@@ -337,6 +339,7 @@ void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
     if(file){
         while(!feof(file)){
             fread(&aux_lote, sizeof(LOTE), 1, file);
+            show_one_batch(aux_lote);
             inserir_lote_armazem(armazem, aux_lote, FALSE);
         }
         fclose(file);
@@ -386,10 +389,10 @@ void menu_pricipal(char *opcao){
 
 int main(int argc, char *argv[]){
 
-    LOTE tabuleiro[4][4];
+    LOTE tabuleiro[TAM_TAB][TAM_TAB];
     ARMAZEM armazem;
     char opcao;
-    char filename[10];
+    char filename[15];
     char file_bin[] = "warehouse.dat";
     int numero;
 
@@ -400,6 +403,7 @@ int main(int argc, char *argv[]){
         ler_ficheiro_txt(argv[1], &armazem);
     }
 
+    //######################################### TO FIX ##########################################################
     ler_ficheiro_bin(file_bin, &armazem);
 
     do{
@@ -408,7 +412,7 @@ int main(int argc, char *argv[]){
         switch(opcao){
             case '1':
                 printf("Entry the filename: ");
-                ler_texto(filename, 10, 1);
+                ler_texto(filename, 15, 1);
                 show_tray(filename, tabuleiro);
             break;
             case '2':
@@ -425,7 +429,7 @@ int main(int argc, char *argv[]){
             break;
             case '5':
                 printf("Entry the filename: ");
-                ler_texto(filename, 10, 1);
+                ler_texto(filename, 15, 1);
                 store_tray(filename, tabuleiro, &armazem);
             break;
             case '6':
@@ -442,7 +446,7 @@ int main(int argc, char *argv[]){
         }
 
     }while(opcao != 'e' && opcao != 'E');
-    
+
     escrever_fich_bin("test.dat", armazem);
 
     return 0;
