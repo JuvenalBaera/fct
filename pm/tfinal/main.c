@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define boolean int
 #define TRUE 1
@@ -146,21 +147,32 @@ void ler_coord_armazem(COORD_ARMAZEM *coord){
 
 // ########################## FUNCTIONALITIES [MENU] ##########################
 
-void inserir_lote_armazem(ARMAZEM *armazem, LOTE lote, boolean show_index){
+boolean inserir_lote_armazem(ARMAZEM *armazem, LOTE lote, boolean show_index){
+    COORD_ARMAZEM coord = {0,0,0};
+
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
                 if(armazem->slote[i][j][k].ocupado == FALSE){
-                    armazem->slote[i][j][k].lote = lote;
-                    armazem->slote[i][j][k].ocupado = TRUE;
-                    if(show_index == TRUE)
-                        printf("Slot: %d %d %d\n", j, k, i);
-                    armazem->tamanho++;
-                    return;
+                    if(lote.id > 0){
+                        if(existe_id_armazem(*armazem, lote.id, &coord) == FALSE){
+                            armazem->slote[i][j][k].lote = lote;
+                            armazem->slote[i][j][k].ocupado = TRUE;
+                            if(show_index == TRUE)
+                                printf("Slot: %d %d %d\n", j, k, i);
+                            armazem->tamanho++;
+                            return TRUE;
+                        }
+                    }
+                    else{
+                        printf("ID %d Inválido, Não inserido\n", lote.id);
+                        return FALSE;
+                    }
                 }
             }
         }
     }
+    return FALSE;
 }
 
 void show_one_batch(LOTE lote){
@@ -304,6 +316,58 @@ void swap_batch_placement(ARMAZEM *armazem, int id){
         printf("Product with ID: %d does't exist\n", id);
 }
 
+int quant_total(ARMAZEM armazem, char n_cid[], int *t_cid, int *t_car, int *t_liv){
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
+                if(armazem.slote[i][j][k].ocupado == TRUE){
+                    if(strcmp(n_cid, armazem.slote[i][j][k].lote.destino) == 0){
+                        *t_cid++;
+                        if(armazem.slote[i][j][k].lote.tipo == 1)
+                            *t_car++;
+                        else
+                            *t_liv++;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void est_1(ARMAZEM armazem, char nome[], int t_cid, int t_car, int t_liv){
+    char novo_array[100][100];
+    int h = 0;
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
+                if(armazem.slote[i][j][k].ocupado == TRUE){
+                    if(strcmp(nome, armazem.slote[i][j][k].lote.destino) == 0){
+                        strcpy(novo_array[h], nome);
+                    }
+                }
+            }
+        }
+    }
+}
+
+void show_statistics(ARMAZEM armazem){
+    int total_cidades=0, total_cartao=0, total_livrete=0;
+    char nomes[30];
+
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
+                if(armazem.slote[i][j][k].ocupado == TRUE){
+                    strcpy(nomes, armazem.slote[i][j][k].lote.destino);
+                    
+                }
+            }
+        }
+    }
+}
+
+void perform_expedition(){}
+
 
 //########################### HANDLE FILES ########################
 
@@ -335,13 +399,17 @@ void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
 void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
     FILE *file = fopen(filename, "rb");
     LOTE aux_lote;
+    int tot=0;
 
     if(file){
         while(!feof(file)){
             fread(&aux_lote, sizeof(LOTE), 1, file);
-            show_one_batch(aux_lote);
-            inserir_lote_armazem(armazem, aux_lote, FALSE);
+            //show_one_batch(aux_lote);
+            //exit(1);
+            if(inserir_lote_armazem(armazem, aux_lote, FALSE) == TRUE)
+                tot++;
         }
+        printf("\nTotaL: %d\n", tot);
         fclose(file);
     }
     else
@@ -436,8 +504,12 @@ int main(int argc, char *argv[]){
                 numero = ler_inteiro(1, 32000, "Digite o ID do produto: ");
                 swap_batch_placement(&armazem, numero);
             break;
-            case '7': break;
-            case '8': break;
+            case '7':
+                show_statistics(armazem);
+            break;
+            case '8':
+                perform_expedition();
+            break;
             case 'e': case 'E':
                 printf("Good Bye!!!\n");
                 break;
