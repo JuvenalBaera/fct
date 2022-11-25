@@ -6,12 +6,16 @@
 #define TRUE 1
 #define FALSE 0
 
-#define XSLOTE 10
-#define YSLOTE 10
-#define PRATELEIRA 5
+#define XSLOTE 10       // número da posição x do armazém
+#define YSLOTE 10       // número da posicão y do armazém
+#define PRATELEIRA 5    // número de prateleira do armazém
 
-#define TAM_TAB 4
+#define TAM_TAB 4       // Tamanho do tabuleiro
 
+
+/***
+ * Descriao: estructura com lote
+*/
 typedef struct {
     int id;
     char destino[30];
@@ -21,25 +25,46 @@ typedef struct {
 }LOTE;
 
 
+/***
+ * Descriao: Estrutura com um Lote e inteiro que diz se está ocupado ou não
+*/
 typedef struct{
     LOTE lote;
     boolean ocupado;
-}UM_ARMAZEM;
+}SLOTE;
 
+/***
+ * Descriao: estructura com slote [5][10][10] e tamanho que diz diz total de lotes dentro do armazém
+*/
 typedef struct{
-    UM_ARMAZEM slote[PRATELEIRA][XSLOTE][YSLOTE];
+    SLOTE slote[PRATELEIRA][XSLOTE][YSLOTE];
     unsigned int tamanho;
 }ARMAZEM;
 
+
+/***
+ * Descriao: Estrutura com coordenadas do armazém
+*/
 typedef struct{
     int prt, xs, ys;
 }COORD_ARMAZEM;
 
 // ######################### UTILITIES FUNCTIONS ########################
+/***
+ * Descriao: Escreve mensagem em caso de ter um erro ao abrir um arquivo
+ * Input: None
+ * Output: None
+*/
 void erro_abrir_fich(char nome[]){
     printf("\nErro ao abrir o ficheiro \"%s\"\n", nome);
 }
 
+
+/***
+ * Descriao: Procedimento que limpa o buffer até achar ENTER (\n)
+ * Input: None
+ * Output: None
+*/
 void limpa_buffer(){
     char ch;
     do{
@@ -47,10 +72,27 @@ void limpa_buffer(){
     }while(ch != '\n');
 }
 
+
+/***
+ * Descriao: Função que verifica intervalo de um determinado número
+ * Input:   num - Número a ser verificado o intervalo
+ *          min - ||     mínimo do intervalo
+ *          max - ||     máximo do  ||
+ * Output: Verdade(1) em caso do número(num) estar dentro de um intervalo (min) e (max),
+ *          caso contrario retorna Falso(0)
+*/
 int ver_intervalo(int num, int min, int max){
     return (num >= min) && (num <= max) ? TRUE : FALSE;
 }
 
+
+/***
+ * Descriao:  Função que lê um número inteiro dentro de um intervalo 
+ * Input:   min - Nr mínimo a ser lido
+ *          max - Nr máximo a ser lido
+ *          msg - Mensagem a ser mostardo 
+ * Output: Um inteiro com o número lido
+*/
 int ler_inteiro(int min, int max, char *msg){
     int numero, retorno;
 
@@ -65,6 +107,12 @@ int ler_inteiro(int min, int max, char *msg){
     return numero;
 }
 
+
+/***
+ * Descriao: Função para ler um caractere
+ * Input: msg - Mensagem a mostrar
+ * Output: caractere lido
+*/
 char ler_char(char *msg){
     char ch;
     printf("%s", msg);
@@ -73,6 +121,15 @@ char ler_char(char *msg){
     return ch;
 }
 
+
+/***
+ * Descriao: Lê um texto até achar ENTER ou até um máximo número
+ * Input:   txt - Variável para guardar o texto
+ *          tam - Nr máximo a ser lido
+ *          str_narray - se True lê string ou coloca (\0) no fim
+ *                       se False lê array ou não coloca (\0) no fim
+ * Output: None
+*/
 void ler_texto(char *text, int tam, boolean str_narray){
     char ch;
     int i = 0;
@@ -91,7 +148,11 @@ void ler_texto(char *text, int tam, boolean str_narray){
 
 
 // ########################## HANDLE STRUCTS ###################
-
+/***
+ * Descriao: Função para mostrar as informações de um Lote
+ * Input: lote - Lote para mostrar
+ * Output: None
+*/
 void show_one_batch(LOTE lote){
     printf("ID.........: %d\n", lote.id);
     printf("Destination: %s\n", lote.destino);
@@ -108,6 +169,11 @@ void show_one_batch(LOTE lote){
 }
 
 
+/***
+ * Descriao: Inicializa o armazém (estar todas as posições desocupadas e ID de cada LOTE ser 0 [flag])
+ * Input: endereço de um armazém
+ * Output: None
+*/
 void inicializar_armazem(ARMAZEM *armazem){
     armazem->tamanho = 0;
     for(int i = 0; i < PRATELEIRA ; i++){
@@ -120,6 +186,13 @@ void inicializar_armazem(ARMAZEM *armazem){
     }
 }
 
+
+/***
+ * Descriao: recebe um tabuleiro (uma matriz de lote [4x4])
+ *           coloca todos os id a 0 [flag] para dizer que está vazio
+ * Input: matriz de LOTE 4x4 [tabuleiro]
+ * Output: None
+*/
 void inicializar_tabuleiro(LOTE tabuleio[4][4]){
     for(int i = 0; i < TAM_TAB; i++){
         for(int j = 0; j < TAM_TAB; j++){
@@ -128,6 +201,13 @@ void inicializar_tabuleiro(LOTE tabuleio[4][4]){
     }
 }
 
+
+/***
+ * Descriao: Verifica se um determinado ID existe no Tabuleiro
+ * Input: tabuleiro[4][4] - Tabuleiro na qual queremos verificar o ID
+ *        id - O id a ser verificado
+ * Output: TRUE (1) se existir ou FALSE(0) caso não exista
+*/
 boolean existe_id_tabuleiro(LOTE tabuleiro[TAM_TAB][TAM_TAB], int id){
     for(int i = 0; i < TAM_TAB; i++){
         for(int j = 0; j < TAM_TAB; j++){
@@ -138,6 +218,15 @@ boolean existe_id_tabuleiro(LOTE tabuleiro[TAM_TAB][TAM_TAB], int id){
     return FALSE;
 }
 
+
+/***
+ * Descriao: Verifica se um determinado ID existe no Armazém
+ * Input:   armazem - armazém na qual queremos verificar o ID
+ *          id - O id a ser verificado
+ *          Endereço de uma struct COOOD (coordenada) para dizer onde o id está localizado em caso de existir
+ *          se não existir, as coordenadas são configuradas para -1
+ * Output: TRUE (1) em casa de exitir ou FALSE (0) caso não exista
+*/
 boolean existe_id_armazem(ARMAZEM armazem, int id, COORD_ARMAZEM *coord){
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
@@ -157,6 +246,12 @@ boolean existe_id_armazem(ARMAZEM armazem, int id, COORD_ARMAZEM *coord){
     return FALSE;
 }
 
+
+/***
+ * Descriao: lê as coordenadas de um armazém
+ * Input: endereço da struct COORD_ARMAZEM
+ * Output: None
+*/
 void ler_coord_armazem(COORD_ARMAZEM *coord){
     coord->prt = ler_inteiro(0, PRATELEIRA-1, "Digite a prateleira: ");
     coord->xs = ler_inteiro(0, XSLOTE-1, "Digite a posição X: ");
@@ -165,7 +260,15 @@ void ler_coord_armazem(COORD_ARMAZEM *coord){
 
 
 // ########################## FUNCTIONALITIES [MENU] ##########################
-
+/***
+ * Descriao: Insere um Lote no armazém numa posição vaga [id > 0]
+ * Input:   *armazem - Armazém para qual será inserido o lote
+ *          lote - Lote a ser inserido no armazém
+ *          show_index -  se TRUE(1) mostra onde o lote foi inserido
+ *                        se FALSE(0) não mostra
+ * Output:  True em caso de ser inserido ou ID do lote passado não existe e é válido
+ *          False caso contrário
+*/
 boolean inserir_lote_armazem(ARMAZEM *armazem, LOTE lote, boolean show_index){
     COORD_ARMAZEM coord = {0,0,0};
 
@@ -174,12 +277,11 @@ boolean inserir_lote_armazem(ARMAZEM *armazem, LOTE lote, boolean show_index){
             for(int k = 0; k < YSLOTE; k++){
                 if(armazem->slote[i][j][k].ocupado == FALSE){
                     if(lote.id > 0){
-                        //show_one_batch(lote);
                         if(existe_id_armazem(*armazem, lote.id, &coord) == FALSE){
                             armazem->slote[i][j][k].lote = lote;
                             armazem->slote[i][j][k].ocupado = TRUE;
                             if(show_index == TRUE)
-                                printf("Slot: %d %d %d\n", j, k, i);
+                                printf(" -> Slot: %d %d %d\n", j, k, i);
                             armazem->tamanho++;
                             return TRUE;
                         }
@@ -199,6 +301,13 @@ boolean inserir_lote_armazem(ARMAZEM *armazem, LOTE lote, boolean show_index){
     return FALSE;
 }
 
+
+/***
+ * Descriao: Mostra tabuleiro (id e Tipo) guardado num arquivode texto
+ * Input:   filename[] - Nome do arquivo representando o tabuleiro
+ *          tabuleiro  - para guardar os lotes lidos do arquivo
+ * Output: None
+*/
 void show_tray(char filename[], LOTE tabuleiro[4][4]){
     FILE *file = fopen(filename, "r");
     LOTE aux_lote;
@@ -223,20 +332,15 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
         erro_abrir_fich(filename);
 }
 
+
+/***
+ * Descriao: Mostra as informações e a localização de um lote dado um determinado id
+ * Input:   armazem - Armazém onde pode estar o id passado
+ *          id - ID do lote a ser mostrado em caso de existir no armazém
+ * Output: None
+*/
 void show_batch_info(ARMAZEM armazem, int id){
     COORD_ARMAZEM coord = {0, 0, 0};
-    // for(int i = 0; i < PRATELEIRA; i++){
-    //     for(int j = 0; j < XSLOTE; j++){
-    //         for(int k = 0; k < YSLOTE; k++){
-    //             if(armazem.slote[i][j][k].lote.id == id){
-    //                 show_one_batch(armazem.slote[i][j][k].lote);
-    //                 printf("Slot %d %d Shelf: %d\n", j, k, i);
-    //                 return;
-    //             }
-    //         }
-    //     }
-    // }
-
     if(existe_id_armazem(armazem, id, &coord) == TRUE){
         show_one_batch(armazem.slote[coord.prt][coord.xs][coord.ys].lote);
         printf("Slot %d %d Shelf: %d\n", coord.xs, coord.ys, coord.prt);
@@ -245,6 +349,12 @@ void show_batch_info(ARMAZEM armazem, int id){
         printf("Id %d Não existe no armazem\n", id);
 }
 
+
+/***
+ * Descriao: Mostra todos os lotes existentes num armazem
+ * Input: armazem - armazém onde estarão os lotes
+ * Output: none
+*/
 void show_batches(ARMAZEM armazem){
     printf("\n============= SIZE %d ==================\n", armazem.tamanho);
     for(int i = 0; i < PRATELEIRA; i++){
@@ -259,6 +369,13 @@ void show_batches(ARMAZEM armazem){
     }
 }
 
+
+/***
+ * Descriao:  Dado uma prateieira do armazém, mostra 'X' em caso de estar ocupado ou '.' caso contrário
+ * Input:   armazem - armazém na qual queremos mostrar
+ *          prateleira - prateleira do armazém
+ * Output: None
+*/
 void show_worehouse(ARMAZEM armazem, int prateleira){
     printf("----------- WAREHOUSE -----------\n");
     for(int i = 0; i < YSLOTE; i++){
@@ -278,6 +395,14 @@ void show_worehouse(ARMAZEM armazem, int prateleira){
     }
 }
 
+
+/***
+ * Descriao: Dado um ficheiro representando tabuleiro, lê e guarda no tabuleiro[4][4] e no armazem
+ * Input:   filename[] - nome do ficheiro representando o tabuleiro
+ *          tabuleiro[4][4] - tabuleiro a guardar os lotes vindo do ficheiro
+ *          *armazem - endereço do armazém para guardar os lotes vindo do ficheiro
+ * Output: None
+*/
 void store_tray(char filename[], LOTE tabuleiro[TAM_TAB][TAM_TAB], ARMAZEM *armazem){
     FILE *file = fopen(filename, "r");
     LOTE aux_lote;
@@ -291,7 +416,7 @@ void store_tray(char filename[], LOTE tabuleiro[TAM_TAB][TAM_TAB], ARMAZEM *arma
                                                          &aux_lote.quantidade, &aux_lote.tipo);
                     if(existe_id_tabuleiro(tabuleiro, aux_lote.id) == FALSE){
                         tabuleiro[i][j] = aux_lote;
-                        printf("Id: %2d Tray: %d %d -> ", aux_lote.id, i, j);
+                        printf("Id: %2d Tray: %d %d", aux_lote.id, i, j);
                         
                         if(existe_id_armazem(*armazem, aux_lote.id, &coord) == FALSE){
                             inserir_lote_armazem(armazem, aux_lote, TRUE);
@@ -309,6 +434,13 @@ void store_tray(char filename[], LOTE tabuleiro[TAM_TAB][TAM_TAB], ARMAZEM *arma
         erro_abrir_fich(filename);
 }
 
+
+/***
+ * Descriao: Troca de lugares dos lotes no armazém dado um id e se o mesmo existir
+ * Input:   *armazem - armazém no qual queremos trocar o lugar de um lote
+ *          id - ID do lote a trocar
+ * Output: None
+*/
 void swap_batch_placement(ARMAZEM *armazem, int id){
     LOTE tmp_lote;
     COORD_ARMAZEM a_coord = {0, 0, 0};
@@ -316,7 +448,6 @@ void swap_batch_placement(ARMAZEM *armazem, int id){
 
     if(existe_id_armazem(*armazem, id, &a_coord) == TRUE){
         ler_coord_armazem(&n_coord);
-
         if(armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].ocupado == TRUE){
             tmp_lote = armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote;
             armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote = armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote;
@@ -326,12 +457,19 @@ void swap_batch_placement(ARMAZEM *armazem, int id){
             armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote = armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote;
             armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].ocupado = TRUE;
             armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].ocupado = FALSE;
+            armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote.id = 0;
         }
     }
     else
         printf("Product with ID: %d does't exist\n", id);
 }
 
+
+/***
+ * Descriao: 
+ * Input: None
+ * Output: None
+*/
 int quant_total(ARMAZEM armazem, char n_cid[], int *t_cid, int *t_car, int *t_liv){
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
@@ -350,43 +488,86 @@ int quant_total(ARMAZEM armazem, char n_cid[], int *t_cid, int *t_car, int *t_li
     }
 }
 
-void est_1(ARMAZEM armazem, char nome[], int t_cid, int t_car, int t_liv){
-    char novo_array[100][100];
-    int h = 0;
-    for(int i = 0; i < PRATELEIRA; i++){
-        for(int j = 0; j < XSLOTE; j++){
-            for(int k = 0; k < YSLOTE; k++){
-                if(armazem.slote[i][j][k].ocupado == TRUE){
-                    if(strcmp(nome, armazem.slote[i][j][k].lote.destino) == 0){
-                        strcpy(novo_array[h], nome);
-                    }
-                }
-            }
-        }
+
+/***
+ * Descriao: 
+ * Input: None
+ * Output: None
+*/
+boolean existe_cidade(char cidades[20][30], char cidade[]){
+    for(int i = 0; i < 20; i++){
+        if(strcmp(cidades[i], cidade) == 0)
+            return TRUE;
     }
+    return FALSE;
 }
 
+
+/***
+ * Descriao: Mostra as estatíscas de um armazém
+ * Input: armazem - armazém para qual queremos mostrar as estatísticas
+ * Output: None
+*/
 void show_statistics(ARMAZEM armazem){
-    int total_cidades=0, total_cartao=0, total_livrete=0;
-    char nomes[30];
-
+    int total_cidades=6, total_cartao=0, total_livrete=0;
+    char nomes_cid[20][30] = {" "}, aux_nome[20][30];
+    int contadores[3][10] = {};
+    int h = 0, g=0;
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
                 if(armazem.slote[i][j][k].ocupado == TRUE){
-                    strcpy(nomes, armazem.slote[i][j][k].lote.destino);
-                    
+                    strcpy(nomes_cid[h++], armazem.slote[i][j][k].lote.destino);
+                }
+            }
+        }
+    }
+    total_cidades = 0;
+    for(int i = 0; i < h; i++){
+        if(existe_cidade(aux_nome, nomes_cid[i]) == FALSE){
+            strcpy(aux_nome[g++], nomes_cid[i]);
+            total_cidades++;
+        }
+    }
+
+    printf("Total cidades: %d\n", total_cidades);
+    int info[3][total_cidades];
+    for(int i=0; i < total_cidades; i++){
+        printf("%s Total: %d Cartao: %d Livrete: %d\n",
+        aux_nome[i], info[0][i],info[1][i], info[2][i]);
+    }
+    for(int i = 0; i < g; i++){
+        printf("%s\n", aux_nome[i]);
+    }
+}
+
+
+/***
+ * Descriao: 
+ * Input: None
+ * Output: None
+*/
+void perform_expedition(ARMAZEM armazem, char destino[], char data[]){
+    int total_caix = 0;
+    for(int i = 0; i < PRATELEIRA; i++){
+        for(int j = 0; j < XSLOTE; j++){
+            for(int k = 0; k < YSLOTE; k++){
+                if(strcmp(armazem.slote[i][j][k].lote.destino, destino) == 0){
+                    total_caix++;
                 }
             }
         }
     }
 }
-
-void perform_expedition(){}
 
 
 //########################### HANDLE FILES ########################
-
+/***
+ * Descriao: dado nome de um ficheiro texto com os lotes nele, lê e coloca no armazém
+ * Input:   filename[] - nome do ficheiro a ler
+ *          *armazem - armazém onde queremos inserir os lotes vindo do ficheiro
+ * Output: None
+*/
 void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
     FILE *file = fopen(filename, "r");
     LOTE aux_lote;
@@ -412,24 +593,43 @@ void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
         erro_abrir_fich(filename);
 }
 
+
+/***
+ * Descriao: dado nome de um ficheiro binário com os lotes nele, lê e coloca no armazém
+ * Input:   filename[] - nome do ficheiro a ler
+ *          *armazem - armazém onde queremos inserir os lotes vindo do ficheiro
+ * Output: None
+*/
 void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
     FILE *file = fopen(filename, "rb");
+    SLOTE slote;
     LOTE aux_lote;
-    int tot=0;
 
     if(file){
         while(!feof(file)){
-            fread(&aux_lote, sizeof(LOTE), 1, file);
-            if(inserir_lote_armazem(armazem, aux_lote, FALSE) == TRUE)
-                tot++;
+            fread(&slote, sizeof(SLOTE), 1, file);
+            aux_lote.id = slote.lote.id;
+            strcpy(aux_lote.destino, slote.lote.destino);
+            strcpy(aux_lote.data, slote.lote.data);
+            aux_lote.quantidade = slote.lote.quantidade;
+            aux_lote.tipo = slote.lote.tipo;
+            if(aux_lote.id > 0){
+                inserir_lote_armazem(armazem, aux_lote, FALSE);
+            }
         }
-        printf("\nTotaL: %d\n", tot);
         fclose(file);
     }
     else
         erro_abrir_fich(filename);
 }
 
+
+/***
+ * Descriao: dado nome de um ficheiro texto, escreve todos os lotes que estão no aramzém
+ * Input:   filename[] - nome do ficheiro a escrever
+ *          *armazem - armazém onde estão os lotes
+ * Output: None
+*/
 void escrever_fich_bin(char filename[], ARMAZEM armazem){
     FILE *file = fopen(filename, "wb");
 
@@ -438,7 +638,7 @@ void escrever_fich_bin(char filename[], ARMAZEM armazem){
             for(int j = 0; j < XSLOTE; j++){
                 for(int k = 0; k < YSLOTE; k++){
                     if(armazem.slote[i][j][k].ocupado == TRUE){
-                        fwrite(&(armazem.slote[i][j][k].lote), sizeof(LOTE), 1, file);
+                        fwrite(&(armazem.slote[i][j][k]), sizeof(SLOTE), 1, file);
                     }
                 }
             }
@@ -449,6 +649,12 @@ void escrever_fich_bin(char filename[], ARMAZEM armazem){
         erro_abrir_fich(filename);
 }
 
+
+/***
+ * Descriao: Mostra as opções de escolha (menu)
+ * Input:   *opcao - opção de escolha 
+ * Output: None
+*/
 void menu_pricipal(char *opcao){
     printf("\n=============== MENU ===============\n");
     printf("\t1 - Show tray\n");
@@ -468,7 +674,12 @@ void menu_pricipal(char *opcao){
 
 
 //####################### MAIN FUNCTION ####################
-
+/***
+ * Descriao: Função principal
+ * Input:   argc - total de argumentos passados na linha de comando
+ *          *argv[] - os argumentos passados na linha do comando
+ * Output: 0
+*/
 int main(int argc, char *argv[]){
 
     LOTE tabuleiro[TAM_TAB][TAM_TAB];
@@ -476,17 +687,16 @@ int main(int argc, char *argv[]){
     char opcao;
     char filename[15];
     char file_bin[] = "warehouse.dat";
+    char destino[30], data[12];
     int numero;
 
     inicializar_armazem(&armazem);
     inicializar_tabuleiro(tabuleiro);
 
+    ler_ficheiro_bin(file_bin, &armazem);
     if(argc > 1){
         ler_ficheiro_txt(argv[1], &armazem);
     }
-
-    //######################################### TO FIX ##########################################################
-    //ler_ficheiro_bin(file_bin, &armazem);
 
     do{
         menu_pricipal(&opcao);
@@ -522,7 +732,10 @@ int main(int argc, char *argv[]){
                 show_statistics(armazem);
             break;
             case '8':
-                perform_expedition();
+                printf("Destination: ");
+                ler_texto(destino, 30, TRUE);
+                printf("Date: ");
+                ler_texto(data, 12, TRUE);
             break;
             case 'e': case 'E':
                 printf("Good Bye!!!\n");
