@@ -377,7 +377,7 @@ void show_batches(ARMAZEM armazem){
  * Output: None
 */
 void show_worehouse(ARMAZEM armazem, int prateleira){
-    printf("----------- WAREHOUSE -----------\n");
+    printf("----------- WAREHOUSE %d -----------\n", armazem.tamanho);
     for(int i = 0; i < XSLOTE; i++){
         printf("  %d", i);
     }
