@@ -378,7 +378,7 @@ void show_batches(ARMAZEM armazem){
 */
 void show_worehouse(ARMAZEM armazem, int prateleira){
     printf("----------- WAREHOUSE -----------\n");
-    for(int i = 0; i < YSLOTE; i++){
+    for(int i = 0; i < XSLOTE; i++){
         printf("  %d", i);
     }
     printf("\n");
@@ -716,7 +716,7 @@ int main(int argc, char *argv[]){
                 show_batches(armazem);
             break;
             case '4': 
-                numero = ler_inteiro(0, PRATELEIRA, "Choose shelf: ");
+                numero = ler_inteiro(0, PRATELEIRA-1, "Choose shelf: ");
                 show_worehouse(armazem, numero);
             break;
             case '5':
@@ -738,7 +738,7 @@ int main(int argc, char *argv[]){
                 ler_texto(data, 12, TRUE);
             break;
             case 'e': case 'E':
-                printf("Good Bye!!!\n");
+                printf("Thank You!!!\n");
                 break;
             default:
                 printf("Inválid Option\n");
@@ -746,7 +746,7 @@ int main(int argc, char *argv[]){
 
     }while(opcao != 'e' && opcao != 'E');
 
-    escrever_fich_bin("test.dat", armazem);
+    escrever_fich_bin(file_bin, armazem);
 
     return 0;
 }
