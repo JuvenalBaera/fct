@@ -346,7 +346,7 @@ void show_batch_info(ARMAZEM armazem, int id){
         printf("Slot %d %d Shelf: %d\n", coord.xs, coord.ys, coord.prt);
     }
     else
-        printf("Id %d Não existe no armazem\n", id);
+        printf("Id %d Não existe no armazém\n", id);
 }
 
 
@@ -664,7 +664,7 @@ void menu_pricipal(char *opcao){
 
     printf("\t5 - Store tray\n");
     printf("\t6 - Swap batch placement\n");
-    printf("\t7 - Show statitiscs\n\n");
+    printf("\t7 - Show statistics\n\n");
 
     printf("\t8 - Perform expedition\n");
     printf("\te - exit\n\n");
