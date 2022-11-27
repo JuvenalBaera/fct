@@ -176,9 +176,9 @@ void show_one_batch(LOTE lote){
 */
 void inicializar_armazem(ARMAZEM *armazem){
     armazem->tamanho = 0;
-    for(int i = 0; i < PRATELEIRA ; i++){
-        for(int j = 0; j < XSLOTE; j++){
-            for(int k = 0; k < YSLOTE ; k++){
+    for(int i = 0; i < PRATELEIRA ; i++){                   // Percorre as prateieras do armazém
+        for(int j = 0; j < XSLOTE; j++){                    //    ||    posição X do SLOTE dentro do armazém
+            for(int k = 0; k < YSLOTE ; k++){               //    ||       ||   Y      ||
                 armazem->slote[i][j][k].ocupado = FALSE;
                 armazem->slote[i][j][k].lote.id = 0;
             }
@@ -342,11 +342,12 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
 void show_batch_info(ARMAZEM armazem, int id){
     COORD_ARMAZEM coord = {0, 0, 0};
     if(existe_id_armazem(armazem, id, &coord) == TRUE){
+        printf("========= PRODUCT =======\n");
         show_one_batch(armazem.slote[coord.prt][coord.xs][coord.ys].lote);
         printf("Slot %d %d Shelf: %d\n", coord.xs, coord.ys, coord.prt);
     }
     else
-        printf("Id %d Não existe no armazem\n", id);
+        printf("Id %d Não existe no armazém\n", id);
 }
 
 
@@ -664,7 +665,7 @@ void menu_pricipal(char *opcao){
 
     printf("\t5 - Store tray\n");
     printf("\t6 - Swap batch placement\n");
-    printf("\t7 - Show statitiscs\n\n");
+    printf("\t7 - Show statistics\n\n");
 
     printf("\t8 - Perform expedition\n");
     printf("\te - exit\n\n");
@@ -683,23 +684,23 @@ void menu_pricipal(char *opcao){
 int main(int argc, char *argv[]){
 
     LOTE tabuleiro[TAM_TAB][TAM_TAB];
-    ARMAZEM armazem;
-    char opcao;
-    char filename[15];
-    char file_bin[] = "warehouse.dat";
+    ARMAZEM armazem;                            // armazém
+    char opcao;                                 // opção digitada
+    char filename[15];                          // general purpose para nome de arquivo pedido
+    char file_bin[] = "warehouse.dat";          // nome do arquivo de incialização
     char destino[30], data[12];
-    int numero;
+    int numero;                                 // general purpose para números
 
     inicializar_armazem(&armazem);
     inicializar_tabuleiro(tabuleiro);
 
-    ler_ficheiro_bin(file_bin, &armazem);
-    if(argc > 1){
+    ler_ficheiro_bin(file_bin, &armazem);       // inicializar o programa lendo o arquivo binário
+    if(argc > 1){                               // em caso de passar nome de arquivo na linha de comando
         ler_ficheiro_txt(argv[1], &armazem);
     }
 
     do{
-        menu_pricipal(&opcao);
+        menu_pricipal(&opcao);                  // mostra menu e lê opção
 
         switch(opcao){
             case '1':
@@ -708,8 +709,7 @@ int main(int argc, char *argv[]){
                 show_tray(filename, tabuleiro);
             break;
             case '2':
-                numero = ler_inteiro(1, 32000, "Digite o ID: ");
-                printf("========= PRODUCT =======\n");
+                numero = ler_inteiro(1, 32000, "Digite o ID: ");   
                 show_batch_info(armazem, numero);
             break;
             case '3': 
