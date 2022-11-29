@@ -261,9 +261,9 @@ boolean existe_id_armazem(ARMAZEM armazem, int id, COORD_ARMAZEM *coord){
  * Output: None
 */
 void ler_coord_armazem(COORD_ARMAZEM *coord){
-    coord->prt = ler_inteiro(0, PRATELEIRA-1, "Digite a prateleira: ");
-    coord->xs = ler_inteiro(0, XSLOTE-1, "Digite a posição X: ");
-    coord->ys = ler_inteiro(0, YSLOTE-1, "Digite a posição Y: ");
+    coord->prt = ler_inteiro(0, PRATELEIRA-1, "Digite a prateleira [0 - 4]: ");
+    coord->xs = ler_inteiro(0, XSLOTE-1, "Digite a posição X [0 - 9]: ");
+    coord->ys = ler_inteiro(0, YSLOTE-1, "Digite a posição Y [0 - 9]: ");
 }
 
 
@@ -560,6 +560,7 @@ void show_statistics(ARMAZEM armazem){
             maior_quant = aux_quant;
     }
 
+    // Inprimi * a escala
     for(i=0; i < total_cidades; i++){
         aux_quant = info[1][i] + info[2][i];
         printf("%-10s (%3d): ",  cid_n_rep[i], aux_quant);
@@ -751,7 +752,7 @@ int main(int argc, char *argv[]){
                 show_batches(armazem);
             break;
             case '4': 
-                numero = ler_inteiro(0, PRATELEIRA-1, "Choose shelf: ");
+                numero = ler_inteiro(0, PRATELEIRA-1, "Choose shelf [0 - 4]: ");
                 show_worehouse(armazem, numero);
             break;
             case '5':
