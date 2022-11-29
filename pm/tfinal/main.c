@@ -88,6 +88,11 @@ int ver_intervalo(int num, int min, int max){
     return (num >= min) && (num <= max) ? TRUE : FALSE;
 }
 
+void print_char(int tam, char ch){
+    for(int i = 0; i < tam; i++)
+        putchar(ch);
+    putchar('\n');
+}
 
 /***
  * Descriao:  Função que lê um número inteiro dentro de um intervalo 
@@ -381,7 +386,7 @@ void show_batches(ARMAZEM armazem){
  * Output: None
 */
 void show_worehouse(ARMAZEM armazem, int prateleira){
-    printf("----------- WAREHOUSE %d -----------\n", armazem.tamanho);
+    printf("----------- WAREHOUSE %d -----------\n\n", armazem.tamanho);
     for(int i = 0; i < XSLOTE; i++){
         printf("  %d", i);
     }
@@ -474,30 +479,6 @@ void swap_batch_placement(ARMAZEM *armazem, int id){
  * Input: None
  * Output: None
 */
-int quant_total(ARMAZEM armazem, char n_cid[], int *t_cid, int *t_car, int *t_liv){
-    for(int i = 0; i < PRATELEIRA; i++){
-        for(int j = 0; j < XSLOTE; j++){
-            for(int k = 0; k < YSLOTE; k++){
-                if(armazem.slote[i][j][k].ocupado == TRUE){
-                    if(strcmp(n_cid, armazem.slote[i][j][k].lote.destino) == 0){
-                        *t_cid++;
-                        if(armazem.slote[i][j][k].lote.tipo == 1)
-                            *t_car++;
-                        else
-                            *t_liv++;
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-/***
- * Descriao: 
- * Input: None
- * Output: None
-*/
 boolean existe_cidade(char cidades[20][30], char cidade[]){
     for(int i = 0; i < 20; i++){
         if(strcmp(cidades[i], cidade) == 0)
@@ -513,9 +494,10 @@ boolean existe_cidade(char cidades[20][30], char cidade[]){
 */
 void show_statistics(ARMAZEM armazem){
     int total_cidades=0;
-    char nomes_cid[20][30] = {" "}, aux_nome[20][30];
+    char nomes_cid[20][30] = {" "}, cid_n_rep[20][30];
     int *info[3] = {0};
     int i, j, k, h = 0;
+    int asterisco = 50, porcem = 100, maior_quant, aux_quant;
 
     // Pega todas as cidades que estão no aramzém
     for(i = 0; i < PRATELEIRA; i++){
@@ -531,16 +513,16 @@ void show_statistics(ARMAZEM armazem){
     // Retirar cidades repetidas
     // h fica com total de cidades (repetidos) no armazém
     for(int g = 0, i = 0; i < h; i++){
-        if(existe_cidade(aux_nome, nomes_cid[i]) == FALSE){
-            strcpy(aux_nome[g++], nomes_cid[i]);
+        if(existe_cidade(cid_n_rep, nomes_cid[i]) == FALSE){
+            strcpy(cid_n_rep[g++], nomes_cid[i]);
             total_cidades++;
         }
     }
 
     // alocar memória para 
     // 0 - Total de cada cidade
-    // 1 -   ||  de Cartão de cada cidade
-    // 2 -   ||  de Livrete de cada cidade
+    // 1 -   ||  de Cartões de cada cidade
+    // 2 -   ||  de Livretes de cada cidade
     for(i = 0; i < 3; i++)
         info[i] = calloc(total_cidades, sizeof(int));
 
@@ -549,7 +531,7 @@ void show_statistics(ARMAZEM armazem){
             for(j = 0; j < XSLOTE; j++){
                 for(k = 0; k < YSLOTE; k++){
                     if(armazem.slote[i][j][k].ocupado == TRUE){
-                        if(strcmp(aux_nome[h], armazem.slote[i][j][k].lote.destino) == 0){
+                        if(strcmp(cid_n_rep[h], armazem.slote[i][j][k].lote.destino) == 0){
                             info[0][h]++;
                             if(armazem.slote[i][j][k].lote.tipo == 1){      // Em caso de ser Cartão
                                 info[1][h] += armazem.slote[i][j][k].lote.quantidade;
@@ -566,11 +548,28 @@ void show_statistics(ARMAZEM armazem){
 
     for(i=0; i < total_cidades; i++){
         printf("%-10s Total: %3d  Cartao: %3d  Livrete: %3d\n",
-        aux_nome[i], info[0][i],info[1][i], info[2][i]);
+        cid_n_rep[i], info[0][i],info[1][i], info[2][i]);
     }
     printf("\n");
+
+    // pega a maior quantidade de produtos existente no armazém
+    maior_quant = info[1][0] + info[2][0];
+    for(i = 1; i < total_cidades; i++){
+        aux_quant = info[1][i] + info[2][i];
+        if(aux_quant >= maior_quant)
+            maior_quant = aux_quant;
+    }
+
     for(i=0; i < total_cidades; i++){
-        printf("%-10s (%3d):\n",  aux_nome[i], (info[1][i] + info[2][i]));
+        aux_quant = info[1][i] + info[2][i];
+        printf("%-10s (%3d): ",  cid_n_rep[i], aux_quant);
+        if(aux_quant == maior_quant){
+            print_char(asterisco, '*');
+        }
+        else{
+            h = (int) (aux_quant * porcem) / maior_quant;
+            print_char((h * asterisco / porcem), '*');
+        }
     }
 
     for(i = 0; i < 3; i++)
@@ -600,8 +599,8 @@ void perform_expedition(ARMAZEM armazem, char destino[], char data[]){
 //########################### HANDLE FILES ########################
 /***
  * Descriao: dado nome de um ficheiro texto com os lotes nele, lê e coloca no armazém
- * Input:   filename[] - nome do ficheiro a ler
- *          *armazem - armazém onde queremos inserir os lotes vindo do ficheiro
+ * Input:    filename[] - nome do ficheiro a ler
+ *           *armazem - armazém onde queremos inserir os lotes vindo do ficheiro
  * Output: None
 */
 void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
@@ -643,14 +642,15 @@ void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
 
     if(file){
         while(!feof(file)){
-            fread(&slote, sizeof(SLOTE), 1, file);
-            aux_lote.id = slote.lote.id;
-            strcpy(aux_lote.destino, slote.lote.destino);
-            strcpy(aux_lote.data, slote.lote.data);
-            aux_lote.quantidade = slote.lote.quantidade;
-            aux_lote.tipo = slote.lote.tipo;
-            if(aux_lote.id > 0){
-                inserir_lote_armazem(armazem, aux_lote, FALSE);
+            if(fread(&slote, sizeof(SLOTE), 1, file)){
+                aux_lote.id = slote.lote.id;
+                strcpy(aux_lote.destino, slote.lote.destino);
+                strcpy(aux_lote.data, slote.lote.data);
+                aux_lote.quantidade = slote.lote.quantidade;
+                aux_lote.tipo = slote.lote.tipo;
+                if(aux_lote.id > 0){
+                    inserir_lote_armazem(armazem, aux_lote, FALSE);
+                }
             }
         }
         fclose(file);
