@@ -326,7 +326,7 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
         }
         for(int i = 0; i < TAM_TAB; i++){
             for(int j = 0; j < TAM_TAB; j++){
-                printf("%2d_%c  ", tabuleiro[i][j].id, (tabuleiro[i][j].tipo==1) ? 'C' : 'L');
+                printf("%2d_%c  ", tabuleiro[i][j].id, (tabuleiro[i][j].tipo == 1) ? 'C' : 'L');
             }
             printf("\n");
         }
