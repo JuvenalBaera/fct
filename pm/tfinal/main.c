@@ -513,10 +513,12 @@ void show_statistics(ARMAZEM armazem){
     int total_cidades=6, total_cartao=0, total_livrete=0;
     char nomes_cid[20][30] = {" "}, aux_nome[20][30];
     int contadores[3][10] = {};
-    int h = 0, g=0;
-    for(int i = 0; i < PRATELEIRA; i++){
-        for(int j = 0; j < XSLOTE; j++){
-            for(int k = 0; k < YSLOTE; k++){
+    int *info[3];
+    int i, j, k, h = 0, g=0;
+
+    for(i = 0; i < PRATELEIRA; i++){
+        for(j = 0; j < XSLOTE; j++){
+            for(k = 0; k < YSLOTE; k++){
                 if(armazem.slote[i][j][k].ocupado == TRUE){
                     strcpy(nomes_cid[h++], armazem.slote[i][j][k].lote.destino);
                 }
@@ -524,21 +526,43 @@ void show_statistics(ARMAZEM armazem){
         }
     }
     total_cidades = 0;
-    for(int i = 0; i < h; i++){
+    for(i = 0; i < h; i++){
         if(existe_cidade(aux_nome, nomes_cid[i]) == FALSE){
             strcpy(aux_nome[g++], nomes_cid[i]);
             total_cidades++;
         }
     }
 
-    printf("Total cidades: %d\n", total_cidades);
-    int info[3][total_cidades];
-    for(int i=0; i < total_cidades; i++){
-        printf("%s Total: %d Cartao: %d Livrete: %d\n",
-        aux_nome[i], info[0][i],info[1][i], info[2][i]);
+    for(i = 0; i < 3; i++)
+        info[i] = malloc(sizeof(int)*total_cidades);
+
+    for(i=0; i < 3; i++)
+        for(j = 0; j < total_cidades; j++)
+            info[i][j] = 0;
+
+    for(int t = 0; t < total_cidades; t++){
+        for(i = 0; i < PRATELEIRA; i++){
+            for(j = 0; j < XSLOTE; j++){
+                for(k = 0; k < YSLOTE; k++){
+                    if(armazem.slote[i][j][k].ocupado == TRUE){
+                        if(strcmp(aux_nome[t], armazem.slote[i][j][k].lote.destino) == 0){
+                            info[0][t]++;
+                            if(armazem.slote[i][j][k].lote.tipo == 1){
+                                info[1][t] += armazem.slote[i][j][k].lote.quantidade;
+                            }
+                            else{
+                                info[2][t] += armazem.slote[i][j][k].lote.quantidade;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-    for(int i = 0; i < g; i++){
-        printf("%s\n", aux_nome[i]);
+
+    for(i=0; i < total_cidades; i++){
+        printf("%-10s Total: %3d  Cartao: %3d  Livrete: %3d\n",
+        aux_nome[i], info[0][i],info[1][i], info[2][i]);
     }
 }
 
