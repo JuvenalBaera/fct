@@ -162,18 +162,18 @@ void ler_texto(char *text, int tam, boolean str_narray){
  * Output: None
 */
 void show_one_batch(LOTE lote){
-    printf("ID.........: %d\n", lote.id);
-    printf("Destination: %s\n", lote.destino);
-    printf("Quantity...: %d\n", lote.quantidade);
+    printf("\tID.........: %d\n", lote.id);
+    printf("\tDestination: %s\n", lote.destino);
+    printf("\tQuantity...: %d\n", lote.quantidade);
     switch(lote.tipo){
         case 1:
-            printf("Type.......: Cartão\n");
+            printf("\tType.......: Cartão\n");
             break;
         case 2:
-            printf("Type.......: Livrete\n");
+            printf("\tType.......: Livrete\n");
             break;
     }
-    printf("Expire Date: %s\n", lote.data);
+    printf("\tExpire Date: %s\n", lote.data);
 }
 
 
@@ -350,9 +350,9 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
 void show_batch_info(ARMAZEM armazem, int id){
     COORD_ARMAZEM coord = {0, 0, 0};
     if(existe_id_armazem(armazem, id, &coord) == TRUE){
-        printf("========= PRODUCT =======\n");
+        printf("\t========= PRODUCT =======\n");
         show_one_batch(armazem.slote[coord.prt][coord.xs][coord.ys].lote);
-        printf("Slot %d %d Shelf: %d\n", coord.xs, coord.ys, coord.prt);
+        printf("\tSlot %d %d Shelf: %d\n", coord.xs, coord.ys, coord.prt);
     }
     else
         printf("Id %d Não existe no armazém\n", id);
