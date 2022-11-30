@@ -560,7 +560,7 @@ void show_statistics(ARMAZEM armazem){
             maior_quant = aux_quant;
     }
 
-    // Inprimi * a escala
+    // Inprimir * na proporção
     for(i=0; i < total_cidades; i++){
         aux_quant = info[1][i] + info[2][i];
         printf("%-10s (%3d): ",  cid_n_rep[i], aux_quant);
