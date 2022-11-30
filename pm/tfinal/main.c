@@ -497,7 +497,7 @@ void show_statistics(ARMAZEM armazem){
     char nomes_cid[20][30] = {" "}, cid_n_rep[20][30];
     int *info[3] = {0};
     int i, j, k, h = 0;
-    int asterisco = 50, porcem = 100, maior_quant, aux_quant;
+    int asterisco = 50, porcem = 100, maior_quant, total_produto;
 
     // Pega todas as cidades que estão no aramzém
     for(i = 0; i < PRATELEIRA; i++){
@@ -553,22 +553,22 @@ void show_statistics(ARMAZEM armazem){
     printf("\n");
 
     // pega a maior quantidade de produtos existente no armazém
-    maior_quant = info[1][0] + info[2][0];
+    maior_quant = info[1][0] + info[2][0];          // maior fica com o total do peimeiro produto
     for(i = 1; i < total_cidades; i++){
-        aux_quant = info[1][i] + info[2][i];
-        if(aux_quant >= maior_quant)
-            maior_quant = aux_quant;
+        total_produto = info[1][i] + info[2][i];    // total de produto em cada cidade
+        if(total_produto >= maior_quant)            // Compara o total de produto atual com o maior
+            maior_quant = total_produto;
     }
 
     // Inprimir * na proporção
     for(i=0; i < total_cidades; i++){
-        aux_quant = info[1][i] + info[2][i];
-        printf("%-10s (%3d): ",  cid_n_rep[i], aux_quant);
-        if(aux_quant == maior_quant){
+        total_produto = info[1][i] + info[2][i];
+        printf("%-10s (%3d): ",  cid_n_rep[i], total_produto);
+        if(total_produto == maior_quant){
             print_char(asterisco, '*');
         }
         else{
-            h = (int) (aux_quant * porcem) / maior_quant;
+            h = (int) (total_produto * porcem) / maior_quant;
             print_char((h * asterisco / porcem), '*');
         }
     }
@@ -583,12 +583,18 @@ void show_statistics(ARMAZEM armazem){
  * Input: None
  * Output: None
 */
-void perform_expedition(ARMAZEM armazem, char destino[], char data[]){
+void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
     int total_caix = 0;
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
-                if(strcmp(armazem.slote[i][j][k].lote.destino, destino) == 0){
+                if(strcmp(armazem->slote[i][j][k].lote.destino, destino) == 0){
+                    if(armazem->slote[i][j][k].lote.tipo == 1){
+                        printf("Cartão\n");
+                    }
+                    else{
+                        printf("Livrete\n");
+                    }
                     total_caix++;
                 }
             }
@@ -704,7 +710,8 @@ void menu_pricipal(char *opcao){
     printf("\t7 - Show statistics\n\n");
 
     printf("\t8 - Perform expedition\n");
-    printf("\te - exit\n\n");
+    printf("\te - exit");
+    printf("\n====================================\n");
     *opcao = ler_char("Choose the option: ");
     printf("\n");
 }
@@ -772,6 +779,7 @@ int main(int argc, char *argv[]){
                 ler_texto(destino, 30, TRUE);
                 printf("Date: ");
                 ler_texto(data, 12, TRUE);
+                perform_expedition(&armazem, destino, data);
             break;
             case 'e': case 'E':
                 printf("Thank You!!!\n");
