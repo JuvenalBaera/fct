@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #define boolean int
 #define TRUE 1
@@ -584,22 +585,39 @@ void show_statistics(ARMAZEM armazem){
  * Output: None
 */
 void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
-    int total_caix = 0;
+    int total_caix = 0, tot_liv=0, tot_cart = 0;
+    int ids[20], indexId=0;
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
                 if(strcmp(armazem->slote[i][j][k].lote.destino, destino) == 0){
-                    if(armazem->slote[i][j][k].lote.tipo == 1){
-                        printf("Cartão\n");
+                    if(strcmp(armazem->slote[i][j][k].lote.data, data) <= 0){
+                        ids[indexId++] = armazem->slote[i][j][k].lote.id;
+                        if(armazem->slote[i][j][k].lote.tipo == 1){
+                            //printf("Cartão\n");
+                            tot_cart++;
+                        }
+                        else{
+                            //printf("Livrete\n");
+                            tot_liv++;
+                        }
+                        total_caix++;
                     }
-                    else{
-                        printf("Livrete\n");
-                    }
-                    total_caix++;
                 }
             }
         }
     }
+    if(total_caix > 0){
+        printf("\nDestino: %s\n", destino);
+        printf("Total de Cartão : %d\n", tot_cart);
+        printf("Total de Livrete: %d\n", tot_liv);
+
+        for(int i = 0; i < total_caix; i++){
+            printf("\tID %d\n", ids[i]);
+        }
+    }
+    else
+        printf("%s doesn't have product in warehouse\n", destino);
 }
 
 
@@ -777,6 +795,8 @@ int main(int argc, char *argv[]){
             case '8':
                 printf("Destination: ");
                 ler_texto(destino, 30, TRUE);
+                for(int i = 0; i < strlen(destino); i++)
+                    destino[i] = toupper(destino[i]);
                 printf("Date: ");
                 ler_texto(data, 12, TRUE);
                 perform_expedition(&armazem, destino, data);
