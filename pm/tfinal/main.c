@@ -585,8 +585,9 @@ void show_statistics(ARMAZEM armazem){
  * Output: None
 */
 void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
-    int total_caix = 0, tot_liv=0, tot_cart = 0;
-    int ids[20], indexId=0;
+    int total_caix = 0, tot_liv=0, tot_cart = 0, totalBox=0;
+    int ids[20], indexId=0, box[5]={0};
+    char confirm = ' ';
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
@@ -594,11 +595,9 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
                     if(strcmp(armazem->slote[i][j][k].lote.data, data) <= 0){
                         ids[indexId++] = armazem->slote[i][j][k].lote.id;
                         if(armazem->slote[i][j][k].lote.tipo == 1){
-                            //printf("Cartão\n");
                             tot_cart++;
                         }
                         else{
-                            //printf("Livrete\n");
                             tot_liv++;
                         }
                         total_caix++;
@@ -614,6 +613,24 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
 
         for(int i = 0; i < total_caix; i++){
             printf("\tID %d\n", ids[i]);
+        }
+        confirm = ler_char("\nConfirm xpedition (y/n): ");
+        confirm = toupper(confirm);
+
+        if(confirm == 'Y'){
+
+            for(int i = 0; i < PRATELEIRA; i++){
+                for(int j = 0; j < XSLOTE; j++){
+                    for(int k = 0; k < YSLOTE; k++){
+                        for(int h = 0; h < total_caix; h++){
+                            if(armazem->slote[i][j][k].lote.id == ids[h]){
+                                armazem->slote[i][j][k].lote.id = 0;
+                                armazem->slote[i][j][k].ocupado = FALSE;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     else
