@@ -424,18 +424,17 @@ void store_tray(char filename[], LOTE tabuleiro[TAM_TAB][TAM_TAB], ARMAZEM *arma
                 if(!feof(file)){
                     fscanf(file, "%d %s %s %d %d\n", &aux_lote.id, aux_lote.destino, aux_lote.data, 
                                                          &aux_lote.quantidade, &aux_lote.tipo);
-                    if(existe_id_tabuleiro(tabuleiro, aux_lote.id) == FALSE){
+                    if(existe_id_tabuleiro(tabuleiro, aux_lote.id) == FALSE){ // FIXE
                         tabuleiro[i][j] = aux_lote;
                         printf("Id: %2d Tray: %d %d", aux_lote.id, i, j);
-                        
-                        if(existe_id_armazem(*armazem, aux_lote.id, &coord) == FALSE){
+                    }
+                    else
+                        printf("Repeated product ID: %d Discarding\n", aux_lote.id);
+                    if(existe_id_armazem(*armazem, aux_lote.id, &coord) == FALSE){
                             inserir_lote_armazem(armazem, aux_lote, TRUE);
                         }
                         else
                             printf("\nRepeated ID %d in WAREHOUSE\n", aux_lote.id);
-                    }
-                    else
-                        printf("Repeated product ID: %d Discarding\n", aux_lote.id);
                 }
             }
         }
@@ -596,7 +595,8 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
             for(int k = 0; k < YSLOTE; k++){
                 if(strcmp(armazem->slote[i][j][k].lote.destino, destino) == 0){
                     if(strcmp(armazem->slote[i][j][k].lote.data, data) <= 0){
-                        ids[indexId++] = armazem->slote[i][j][k].lote.id;
+                        if(armazem->slote[i][j][k].lote.id > 0)
+                            ids[indexId++] = armazem->slote[i][j][k].lote.id;
                         if(armazem->slote[i][j][k].lote.tipo == 1)
                             tot_cart++;
                         else
@@ -629,6 +629,7 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
                             if(armazem->slote[i][j][k].lote.id == ids[h]){
                                 armazem->slote[i][j][k].lote.id = 0;        
                                 armazem->slote[i][j][k].ocupado = FALSE;    // retirar do armazém os produtos encontrados
+                                armazem->tamanho--;
                             }
                         }
                     }
