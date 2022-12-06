@@ -558,14 +558,14 @@ void show_statistics(ARMAZEM armazem){
     for(i = 1; i < total_cidades; i++){
         total_produto = info[1][i] + info[2][i];    // total de produto em cada cidade
         if(total_produto >= maior_quant)            // Compara o total de produto atual com o maior
-            maior_quant = total_produto;
+            maior_quant = total_produto;            // guardar maior número de produto (livrete e cartão)
     }
 
     // Inprimir * na proporção
     for(i=0; i < total_cidades; i++){
         total_produto = info[1][i] + info[2][i];
-        printf("%-10s (%3d): ",  cid_n_rep[i], total_produto);
-        if(total_produto == maior_quant){
+        printf("%-10s (%3d): ",  cid_n_rep[i], total_produto); // imprimi destino e o total de produto
+        if(total_produto == maior_quant){                      // o maior imprimi 50 *
             print_char(asterisco, '*');
         }
         else{
@@ -581,60 +581,65 @@ void show_statistics(ARMAZEM armazem){
 
 /***
  * Descriao: 
- * Input: None
+ * Input: *armazem : armazém onde será feito a expedição
+ *        destino[]: nome do destino
+ *        data[]   : data limite dos produtos
  * Output: None
 */
 void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
-    int total_caix = 0, tot_liv=0, tot_cart = 0, totalBox=0;
-    int ids[20], indexId=0, box[5]={0};
+    int total_product = 0, tot_liv=0, tot_cart = 0;
+    int ids[20], indexId=0;
     char confirm = ' ';
+
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
                 if(strcmp(armazem->slote[i][j][k].lote.destino, destino) == 0){
                     if(strcmp(armazem->slote[i][j][k].lote.data, data) <= 0){
                         ids[indexId++] = armazem->slote[i][j][k].lote.id;
-                        if(armazem->slote[i][j][k].lote.tipo == 1){
+                        if(armazem->slote[i][j][k].lote.tipo == 1)
                             tot_cart++;
-                        }
-                        else{
+                        else
                             tot_liv++;
-                        }
-                        total_caix++;
+                        total_product++;
                     }
                 }
             }
         }
     }
-    if(total_caix > 0){
+    if(total_product > 0){      // em caso de encontrar um produto com a descrição (nome do destino e a data válida)
         printf("\nDestino: %s\n", destino);
         printf("Total de Cartão : %d\n", tot_cart);
         printf("Total de Livrete: %d\n", tot_liv);
 
-        for(int i = 0; i < total_caix; i++){
-            printf("\tID %d\n", ids[i]);
+        for(int i = 0; i < total_product; i++){
+            printf("\tID %d\n", ids[i]);            // imprimir os id dos produtos encontrados
         }
-        confirm = ler_char("\nConfirm xpedition (y/n): ");
-        confirm = toupper(confirm);
+        putchar('\n');
+        do{
+            confirm = ler_char("Confirm expedition (y/n): ");
+            confirm = toupper(confirm);
+        }while(confirm != 'N' && confirm != 'Y');
 
         if(confirm == 'Y'){
-
             for(int i = 0; i < PRATELEIRA; i++){
                 for(int j = 0; j < XSLOTE; j++){
                     for(int k = 0; k < YSLOTE; k++){
-                        for(int h = 0; h < total_caix; h++){
+                        for(int h = 0; h < total_product; h++){
                             if(armazem->slote[i][j][k].lote.id == ids[h]){
-                                armazem->slote[i][j][k].lote.id = 0;
-                                armazem->slote[i][j][k].ocupado = FALSE;
+                                armazem->slote[i][j][k].lote.id = 0;        
+                                armazem->slote[i][j][k].ocupado = FALSE;    // retirar do armazém os produtos encontrados
                             }
                         }
                     }
                 }
             }
         }
+        else
+            printf("Expedition discarted\n");
     }
     else
-        printf("%s doesn't have product in warehouse\n", destino);
+        printf("%s doesn't have product in warehouse or product is out of date\n", destino);
 }
 
 
@@ -659,7 +664,7 @@ void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
                         inserir_lote_armazem(armazem, aux_lote, FALSE);
                     }
                     else {
-                        return;
+                        return;         // fim do arquivo, acaba o procedimento
                     }
                 }
             }
@@ -685,12 +690,12 @@ void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
     if(file){
         while(!feof(file)){
             if(fread(&slote, sizeof(SLOTE), 1, file)){
-                aux_lote.id = slote.lote.id;
+                aux_lote.id = slote.lote.id;                    // cópia do slote para lote e inserir no armazém
                 strcpy(aux_lote.destino, slote.lote.destino);
                 strcpy(aux_lote.data, slote.lote.data);
                 aux_lote.quantidade = slote.lote.quantidade;
                 aux_lote.tipo = slote.lote.tipo;
-                if(aux_lote.id > 0){
+                if(aux_lote.id > 0){                            // Id válido
                     inserir_lote_armazem(armazem, aux_lote, FALSE);
                 }
             }
@@ -769,11 +774,11 @@ int main(int argc, char *argv[]){
     char destino[30], data[12];
     int numero;                                 // general purpose para números
 
-    inicializar_armazem(&armazem);
-    inicializar_tabuleiro(tabuleiro);
+    inicializar_armazem(&armazem);              // todos os Id = 0 e ocupado = False (0)
+    inicializar_tabuleiro(tabuleiro);           // ids = 0
 
     ler_ficheiro_bin(file_bin, &armazem);       // inicializar o programa lendo o arquivo binário
-    if(argc > 1){                               // em caso de passar nome de arquivo na linha de comando
+    if(argc > 1){                               // em caso de passar nome do tabuleiro na linha de comando
         ler_ficheiro_txt(argv[1], &armazem);
     }
 
@@ -819,15 +824,13 @@ int main(int argc, char *argv[]){
                 perform_expedition(&armazem, destino, data);
             break;
             case 'e': case 'E':
-                printf("Thank You!!!\n");
+                printf("Thank You!! Good Bye\n");
                 break;
             default:
                 printf("Inválid Option\n");
         }
-
     }while(opcao != 'e' && opcao != 'E');
 
-    escrever_fich_bin(file_bin, armazem);
-
+    escrever_fich_bin(file_bin, armazem);               // escreve tudo o que está no armazém para o arquivo binário
     return 0;
 }
