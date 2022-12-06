@@ -157,26 +157,6 @@ void ler_texto(char *text, int tam, boolean str_narray){
 
 
 // ########################## HANDLE STRUCTS ###################
-/***
- * Descriao: Função para mostrar as informações de um Lote
- * Input: lote - Lote para mostrar
- * Output: None
-*/
-void show_one_batch(LOTE lote){
-    printf("\tID.........: %d\n", lote.id);
-    printf("\tDestination: %s\n", lote.destino);
-    printf("\tQuantity...: %d\n", lote.quantidade);
-    switch(lote.tipo){
-        case 1:
-            printf("\tType.......: Cartão\n");
-            break;
-        case 2:
-            printf("\tType.......: Livrete\n");
-            break;
-    }
-    printf("\tExpire Date: %s\n", lote.data);
-}
-
 
 /***
  * Descriao: Inicializa o armazém (estar todas as posições desocupadas e ID de cada LOTE ser 0 [flag])
@@ -265,6 +245,27 @@ void ler_coord_armazem(COORD_ARMAZEM *coord){
     coord->prt = ler_inteiro(0, PRATELEIRA-1, "Digite a prateleira [0 - 4]: ");
     coord->xs = ler_inteiro(0, XSLOTE-1, "Digite a posição X [0 - 9]: ");
     coord->ys = ler_inteiro(0, YSLOTE-1, "Digite a posição Y [0 - 9]: ");
+}
+
+
+/***
+ * Descriao: Função para mostrar as informações de um Lote
+ * Input: lote - Lote para mostrar
+ * Output: None
+*/
+void show_one_batch(LOTE lote){
+    printf("\tID.........: %d\n", lote.id);
+    printf("\tDestination: %s\n", lote.destino);
+    printf("\tQuantity...: %d\n", lote.quantidade);
+    switch(lote.tipo){
+        case 1:
+            printf("\tType.......: Cartão\n");
+            break;
+        case 2:
+            printf("\tType.......: Livrete\n");
+            break;
+    }
+    printf("\tExpire Date: %s\n", lote.data);
 }
 
 
@@ -372,6 +373,7 @@ void show_batches(ARMAZEM armazem){
             for(int k = 0; k < YSLOTE; k++){
                 if(armazem.slote[i][j][k].ocupado == TRUE){
                     show_one_batch(armazem.slote[i][j][k].lote);
+                    printf("\tSlot %d %d Shelf: %d\n", j, k, i);
                     printf("\n");
                 }
             }
