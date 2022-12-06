@@ -639,7 +639,7 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
             printf("Expedition discarted\n");
     }
     else
-        printf("%s doesn't have product in warehouse or product is out of date\n", destino);
+        printf("%s doesn't have product in warehouse or product is out of time\n", destino);
 }
 
 
