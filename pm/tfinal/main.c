@@ -482,9 +482,9 @@ void swap_batch_placement(ARMAZEM *armazem, int id){
  *        cidade[]        : cidade a verificar
  * Output: Trye se o destino existe caso contrário False
 */
-boolean existe_cidade(char cidades[20][30], char cidade[]){
+boolean existe_destino(char destinos[20][30], char destino[]){
     for(int i = 0; i < 20; i++){
-        if(strcmp(cidades[i], cidade) == 0)
+        if(strcmp(destinos[i], destino) == 0)
             return TRUE;
     }
     return FALSE;
@@ -496,8 +496,8 @@ boolean existe_cidade(char cidades[20][30], char cidade[]){
  * Output: None
 */
 void show_statistics(ARMAZEM armazem){
-    int total_cidades=0;
-    char nomes_cid[20][30] = {" "}, cid_n_rep[20][30];
+    int total_destino=0;
+    char nomes_destino[20][30] = {" "}, destino_n_rep[20][30];
     int *info[3] = {0};
     int i, j, k, h = 0;
     int asterisco = 50, porcem = 100, maior_quant, total_produto;
@@ -507,7 +507,7 @@ void show_statistics(ARMAZEM armazem){
         for(j = 0; j < XSLOTE; j++){
             for(k = 0; k < YSLOTE; k++){
                 if(armazem.slote[i][j][k].ocupado == TRUE){
-                    strcpy(nomes_cid[h++], armazem.slote[i][j][k].lote.destino);
+                    strcpy(nomes_destino[h++], armazem.slote[i][j][k].lote.destino);
                 }
             }
         }
@@ -516,9 +516,9 @@ void show_statistics(ARMAZEM armazem){
     // Retirar cidades repetidas
     // h fica com total de cidades (repetidos) no armazém
     for(int g = 0, i = 0; i < h; i++){
-        if(existe_cidade(cid_n_rep, nomes_cid[i]) == FALSE){
-            strcpy(cid_n_rep[g++], nomes_cid[i]);
-            total_cidades++;
+        if(existe_destino(destino_n_rep, nomes_destino[i]) == FALSE){
+            strcpy(destino_n_rep[g++], nomes_destino[i]);
+            total_destino++;
         }
     }
 
@@ -527,14 +527,14 @@ void show_statistics(ARMAZEM armazem){
     // 1 -   ||  de Cartões de cada cidade
     // 2 -   ||  de Livretes de cada cidade
     for(i = 0; i < 3; i++)
-        info[i] = (int*) calloc(total_cidades, sizeof(int));
+        info[i] = (int*) calloc(total_destino, sizeof(int));
 
-    for(h = 0; h < total_cidades; h++){     // Percorre a cada cidade
+    for(h = 0; h < total_destino; h++){     // Percorre a cada cidade
         for(i = 0; i < PRATELEIRA; i++){
             for(j = 0; j < XSLOTE; j++){
                 for(k = 0; k < YSLOTE; k++){
                     if(armazem.slote[i][j][k].ocupado == TRUE){
-                        if(strcmp(cid_n_rep[h], armazem.slote[i][j][k].lote.destino) == 0){
+                        if(strcmp(destino_n_rep[h], armazem.slote[i][j][k].lote.destino) == 0){
                             info[0][h]++;
                             if(armazem.slote[i][j][k].lote.tipo == 1){      // Em caso de ser Cartão
                                 info[1][h] += armazem.slote[i][j][k].lote.quantidade;
@@ -549,24 +549,25 @@ void show_statistics(ARMAZEM armazem){
         }
     }
 
-    for(i=0; i < total_cidades; i++){
+    // Mostrar as informações dos destinos 
+    for(i=0; i < total_destino; i++){
         printf("%-10s Total: %3d  Cartao: %3d  Livrete: %3d\n",
-        cid_n_rep[i], info[0][i],info[1][i], info[2][i]);
+        destino_n_rep[i], info[0][i],info[1][i], info[2][i]);
     }
     printf("\n");
 
     // pega a maior quantidade de produtos existente no armazém
     maior_quant = info[1][0] + info[2][0];          // maior fica com o total do peimeiro produto
-    for(i = 1; i < total_cidades; i++){
+    for(i = 1; i < total_destino; i++){
         total_produto = info[1][i] + info[2][i];    // total de produto em cada cidade
         if(total_produto >= maior_quant)            // Compara o total de produto atual com o maior
             maior_quant = total_produto;            // guardar maior número de produto (livrete e cartão)
     }
 
     // Inprimir * na proporção
-    for(i=0; i < total_cidades; i++){
+    for(i=0; i < total_destino; i++){
         total_produto = info[1][i] + info[2][i];
-        printf("%-10s (%3d): ",  cid_n_rep[i], total_produto); // imprimi destino e o total de produto
+        printf("%-10s (%3d): ",  destino_n_rep[i], total_produto); // imprimi destino e o total de produto
         if(total_produto == maior_quant){                      // o maior imprimi 50 *
             print_char(asterisco, '*');
         }
