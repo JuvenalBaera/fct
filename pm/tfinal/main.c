@@ -591,35 +591,66 @@ void show_statistics(ARMAZEM armazem){
  * Output: None
 */
 void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
-    int total_product = 0, tot_liv=0, tot_cart = 0;
-    int ids[20], indexId=0;
+    int total_product = 0;
+    int ids[20], indexId=0, qntTipo=0;
     char confirm = ' ';
+    LOTE aux;
+    int caixas[10] = {0}, sizeBox = 200, sizeCart=1, sizeLiv = 4;
+    int infoIds[10][10] = {0}, indInfo = 0, tipos[10] = {0};
 
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
-                if(strcmp(armazem->slote[i][j][k].lote.destino, destino) == 0){
-                    if(strcmp(armazem->slote[i][j][k].lote.data, data) <= 0){ // Se está dentro do prazo
-                        if(armazem->slote[i][j][k].lote.id > 0)
-                            ids[indexId++] = armazem->slote[i][j][k].lote.id;
-                        if(armazem->slote[i][j][k].lote.tipo == 1)
-                            tot_cart++;
-                        else
-                            tot_liv++;
-                        total_product++;
+                aux = armazem->slote[i][j][k].lote;
+                if(strcmp(aux.destino, destino) == 0){
+                    if(strcmp(aux.data, data) <= 0){ // Se está dentro do prazo
+                        if(aux.id > 0){
+                            ids[indexId++] = aux.id;
+                            if(aux.tipo == 1){
+                                qntTipo = aux.quantidade * sizeCart;
+                                tipos[indInfo] = 1;
+                            }
+                            else{
+                                qntTipo = aux.quantidade * sizeLiv;
+                                tipos[indInfo] = 2;
+                            }
+
+                            printf("ID: %2d Qnty: %d\n", aux.id, qntTipo); 
+                            if((caixas[0] <= sizeBox) && (caixas[0] + qntTipo <= sizeBox)){
+                                caixas[0] += qntTipo;
+                                infoIds[0][indInfo++] = aux.id;
+                            }
+                            else if((caixas[1] <= sizeBox) && (caixas[1] + qntTipo <= sizeBox)){
+                                caixas[1] += qntTipo;
+                                infoIds[1][indInfo++] = aux.id;
+                            }
+                            else if((caixas[2] <= sizeBox) && (caixas[2] + qntTipo) <= sizeBox){
+                                caixas[2] += qntTipo;
+                                infoIds[2][indInfo++] = aux.id;
+                            }
+                            else{
+                                caixas[3] += qntTipo;
+                                infoIds[3][indInfo++] = aux.id;
+                            }
+                            total_product++;
+                        }
                     }
                 }
             }
         }
     }
     if(total_product > 0){      // em caso de encontrar um produto com a descrição (nome do destino e a data válida)
-        printf("\nDestino: %s\n", destino);
-        printf("Total de Cartão : %d\n", tot_cart);
-        printf("Total de Livrete: %d\n", tot_liv);
-
-        printf("\nBOX\n");
-        for(int i = 0; i < total_product; i++){
-            printf("\tID %d\n", ids[i]);            // imprimir os id dos produtos encontrados
+        printf("\nCREATING BOXES FOR DESTINATION: %s\n", destino);
+        for(int i = 0; i < 10; i++){
+            if(caixas[i] > 0){
+                printf("BOX %d:\n", i);
+                for(int j = 0; j < indInfo; j++){
+                    if(infoIds[i][j] > 0){
+                        printf("\tID: %d ", infoIds[i][j]);
+                        tipos[j] == 1 ? printf("(C)\n") : printf("(L)\n");
+                    }
+                }
+            }
         }
         putchar('\n');
         do{
