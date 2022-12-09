@@ -454,17 +454,17 @@ void store_tray(char filename[], LOTE tabuleiro[TAM_TAB][TAM_TAB], ARMAZEM *arma
 */
 void swap_batch_placement(ARMAZEM *armazem, int id){
     LOTE tmp_lote;
-    COORD_ARMAZEM a_coord = {-1, -1, -1};
-    COORD_ARMAZEM n_coord = {-1, -1, -1};
+    COORD_ARMAZEM a_coord = {-1, -1, -1}; // coordenada atual do produto
+    COORD_ARMAZEM n_coord = {-1, -1, -1}; // nova coordenadas do produto
 
-    if(existe_id_armazem(*armazem, id, &a_coord) == TRUE){
+    if(existe_id_armazem(*armazem, id, &a_coord) == TRUE){ // se o produto existir no armazém
         ler_coord_armazem(&n_coord);
-        if(armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].ocupado == TRUE){
+        if(armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].ocupado == TRUE){ // nova coordenada já existe produto (trocar)
             tmp_lote = armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote;
             armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote = armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote;
             armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote = tmp_lote;
         }
-        else{
+        else{ // Em caso da nova posição estar vazio
             armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].lote = armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].lote;
             armazem->slote[n_coord.prt][n_coord.xs][n_coord.ys].ocupado = TRUE;
             armazem->slote[a_coord.prt][a_coord.xs][a_coord.ys].ocupado = FALSE;
@@ -477,9 +477,10 @@ void swap_batch_placement(ARMAZEM *armazem, int id){
 
 
 /***
- * Descriao: 
- * Input: None
- * Output: None
+ * Descriao: Verifica se um destino existe numa matriz
+ * Input: cidades[20][30] : 20 cidades
+ *        cidade[]        : cidade a verificar
+ * Output: Trye se o destino existe caso contrário False
 */
 boolean existe_cidade(char cidades[20][30], char cidade[]){
     for(int i = 0; i < 20; i++){
@@ -526,7 +527,7 @@ void show_statistics(ARMAZEM armazem){
     // 1 -   ||  de Cartões de cada cidade
     // 2 -   ||  de Livretes de cada cidade
     for(i = 0; i < 3; i++)
-        info[i] = calloc(total_cidades, sizeof(int));
+        info[i] = (int*) calloc(total_cidades, sizeof(int));
 
     for(h = 0; h < total_cidades; h++){     // Percorre a cada cidade
         for(i = 0; i < PRATELEIRA; i++){
@@ -575,6 +576,7 @@ void show_statistics(ARMAZEM armazem){
         }
     }
 
+    // Liberar memória alocada
     for(i = 0; i < 3; i++)
         free(info[i]);
 }
@@ -596,7 +598,7 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
                 if(strcmp(armazem->slote[i][j][k].lote.destino, destino) == 0){
-                    if(strcmp(armazem->slote[i][j][k].lote.data, data) <= 0){
+                    if(strcmp(armazem->slote[i][j][k].lote.data, data) <= 0){ // Se está dentro do prazo
                         if(armazem->slote[i][j][k].lote.id > 0)
                             ids[indexId++] = armazem->slote[i][j][k].lote.id;
                         if(armazem->slote[i][j][k].lote.tipo == 1)
@@ -614,6 +616,7 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
         printf("Total de Cartão : %d\n", tot_cart);
         printf("Total de Livrete: %d\n", tot_liv);
 
+        printf("\nBOX\n");
         for(int i = 0; i < total_product; i++){
             printf("\tID %d\n", ids[i]);            // imprimir os id dos produtos encontrados
         }
@@ -637,6 +640,7 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
                     }
                 }
             }
+            printf("Product(s) Removed from Warehouse\n");
         }
         else
             printf("Expedition discarted\n");
@@ -719,7 +723,7 @@ void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
 void escrever_fich_bin(char filename[], ARMAZEM armazem){
     FILE *file = fopen(filename, "wb");
 
-    if(file){
+    if(file){ // Se o arquivo foi aberto(não houve erro)
         for(int i = 0; i < PRATELEIRA; i++){
             for(int j = 0; j < XSLOTE; j++){
                 for(int k = 0; k < YSLOTE; k++){
@@ -821,7 +825,7 @@ int main(int argc, char *argv[]){
                 printf("Destination: ");
                 ler_texto(destino, 30, TRUE);
                 for(int i = 0; i < strlen(destino); i++)
-                    destino[i] = toupper(destino[i]);
+                    destino[i] = toupper(destino[i]);       // converte parar maiúsculas
                 printf("Date: ");
                 ler_texto(data, 12, TRUE);
                 perform_expedition(&armazem, destino, data);
