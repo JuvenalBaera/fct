@@ -596,8 +596,9 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
     char confirm = ' ';
     LOTE aux;
     int caixas[10] = {0}, sizeBox = 200, sizeCart=1, sizeLiv = 4;
-    int infoIds[10][10] = {0}, indInfo = 0, tipos[10] = {0};
+    int infoIds[10][10] = {0}, indInfo = 0, tipos[10] = {0}, quantys[10]={0};
 
+    putchar('\n');
     for(int i = 0; i < PRATELEIRA; i++){
         for(int j = 0; j < XSLOTE; j++){
             for(int k = 0; k < YSLOTE; k++){
@@ -608,29 +609,22 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
                             ids[indexId++] = aux.id;
                             if(aux.tipo == 1){
                                 qntTipo = aux.quantidade * sizeCart;
+                                // quantys[indInfo] = qntTipo;
                                 tipos[indInfo] = 1;
                             }
                             else{
                                 qntTipo = aux.quantidade * sizeLiv;
                                 tipos[indInfo] = 2;
                             }
+                            quantys[indInfo] = qntTipo;
 
-                            printf("ID: %2d Qnty: %d\n", aux.id, qntTipo); 
-                            if((caixas[0] <= sizeBox) && (caixas[0] + qntTipo <= sizeBox)){
-                                caixas[0] += qntTipo;
-                                infoIds[0][indInfo++] = aux.id;
-                            }
-                            else if((caixas[1] <= sizeBox) && (caixas[1] + qntTipo <= sizeBox)){
-                                caixas[1] += qntTipo;
-                                infoIds[1][indInfo++] = aux.id;
-                            }
-                            else if((caixas[2] <= sizeBox) && (caixas[2] + qntTipo) <= sizeBox){
-                                caixas[2] += qntTipo;
-                                infoIds[2][indInfo++] = aux.id;
-                            }
-                            else{
-                                caixas[3] += qntTipo;
-                                infoIds[3][indInfo++] = aux.id;
+                            printf("ID: %2d Qnty: %d\n", aux.id, qntTipo);
+                            for(int h = 0; h < 10; h++){
+                                if((caixas[h] <= sizeBox) && (caixas[h] + qntTipo <= sizeBox)){
+                                    caixas[h] += qntTipo;
+                                    infoIds[h][indInfo++] = aux.id;
+                                    break;
+                                }
                             }
                             total_product++;
                         }
@@ -646,8 +640,11 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
                 printf("BOX %d:\n", i);
                 for(int j = 0; j < indInfo; j++){
                     if(infoIds[i][j] > 0){
-                        printf("\tID: %d ", infoIds[i][j]);
-                        tipos[j] == 1 ? printf("(C)\n") : printf("(L)\n");
+                        printf("\tID: %2d ", infoIds[i][j]);
+                        if(tipos[j] == 1)
+                            printf("Qnty: %3d (C)\n", quantys[j]);
+                        else
+                            printf("Qnty: %3d (L)\n", quantys[j]);
                     }
                 }
             }
