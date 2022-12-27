@@ -352,7 +352,7 @@ void show_tray(char filename[], LOTE tabuleiro[4][4]){
 void show_batch_info(ARMAZEM armazem, int id){
     COORD_ARMAZEM coord = {0, 0, 0};
     if(existe_id_armazem(armazem, id, &coord) == TRUE){
-        printf("\t========= PRODUCT =======\n");
+        printf("\n\t========= PRODUCT =======\n");
         show_one_batch(armazem.slote[coord.prt][coord.xs][coord.ys].lote);
         printf("\tSlot %d %d Shelf: %d\n", coord.xs, coord.ys, coord.prt);
     }
@@ -431,7 +431,7 @@ void store_tray(char filename[], LOTE tabuleiro[TAM_TAB][TAM_TAB], ARMAZEM *arma
                         printf("Id: %2d Tray: %d %d", aux_lote.id, i, j);
                     }
                     else
-                        printf("Repeated product ID: %d Discarding\n", aux_lote.id);
+                        printf("Repeated product ID: %d Discarding", aux_lote.id);
                     if(existe_id_armazem(*armazem, aux_lote.id, &coord) == FALSE){
                             inserir_lote_armazem(armazem, aux_lote, TRUE);
                         }
@@ -497,7 +497,7 @@ boolean existe_destino(char destinos[20][30], char destino[]){
 */
 void show_statistics(ARMAZEM armazem){
     int total_destino=0;
-    char nomes_destino[20][30] = {" "}, destino_n_rep[20][30];
+    char nomes_destino[100][30] = {" "}, destino_n_rep[100][30];
     int *info[3] = {0};
     int i, j, k, h = 0;
     int asterisco = 50, porcem = 100, maior_quant, total_produto;
@@ -595,8 +595,8 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
     int ids[20], indexId=0, qntTipo=0;
     char confirm = ' ';
     LOTE aux;
-    int caixas[10] = {0}, sizeBox = 200, sizeCart=1, sizeLiv = 4;
-    int infoIds[10][10] = {0}, indInfo = 0, tipos[10] = {0}, quantys[10]={0};
+    int caixas[20] = {0}, sizeBox = 200, sizeCart=1, sizeLiv = 4;
+    int infoIds[20][20] = {0}, indInfo = 0, tipos[20] = {0}, quantys[20]={0};
 
     putchar('\n');
     for(int i = 0; i < PRATELEIRA; i++){
@@ -619,7 +619,7 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
                             quantys[indInfo] = qntTipo;
 
                             printf("ID: %2d Qnty: %d\n", aux.id, qntTipo);
-                            for(int h = 0; h < 10; h++){
+                            for(int h = 0; h < 20; h++){
                                 if((caixas[h] <= sizeBox) && (caixas[h] + qntTipo <= sizeBox)){
                                     caixas[h] += qntTipo;
                                     infoIds[h][indInfo++] = aux.id;
@@ -635,7 +635,7 @@ void perform_expedition(ARMAZEM *armazem, char destino[], char data[]){
     }
     if(total_product > 0){      // em caso de encontrar um produto com a descrição (nome do destino e a data válida)
         printf("\nCREATING BOXES FOR DESTINATION: %s\n", destino);
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 20; i++){
             if(caixas[i] > 0){
                 printf("BOX %d:\n", i);
                 for(int j = 0; j < indInfo; j++){
@@ -721,18 +721,12 @@ void ler_ficheiro_txt(char filename[], ARMAZEM *armazem){
 void ler_ficheiro_bin(char filename[], ARMAZEM *armazem){
     FILE *file = fopen(filename, "rb");
     SLOTE slote;
-    LOTE aux_lote;
 
     if(file){
         while(!feof(file)){
             if(fread(&slote, sizeof(SLOTE), 1, file)){
-                aux_lote.id = slote.lote.id;                    // cópia do slote para lote e inserir no armazém
-                strcpy(aux_lote.destino, slote.lote.destino);
-                strcpy(aux_lote.data, slote.lote.data);
-                aux_lote.quantidade = slote.lote.quantidade;
-                aux_lote.tipo = slote.lote.tipo;
-                if(aux_lote.id > 0){                            // Id válido
-                    inserir_lote_armazem(armazem, aux_lote, FALSE);
+                if(slote.lote.id > 0){                            // Id válido
+                    inserir_lote_armazem(armazem, slote.lote, FALSE);
                 }
             }
         }
