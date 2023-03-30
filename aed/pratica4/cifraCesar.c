@@ -4,18 +4,18 @@
 
 #define TAMTEXTO 100
 
-void lerDados(char *texto, int *codigo);
+void lerDados(char *texto, int *codigo, int *linhas);
 void cifrarTexto(char *texto, char *cifrado, int codigo);
 
 int main(){
 
-    int codigo;
+    int codigo, linhas;
     char texto[TAMTEXTO];
     char cifrado[TAMTEXTO];
 
-    lerDados(texto, &codigo);
+    lerDados(texto, &codigo, &linhas);
     cifrarTexto(texto, cifrado, codigo);
-    printf("Texto cifrado: %s\n", cifrado);
+    printf("Texto cifrado: %s", cifrado);
     return 0;
 }
 
@@ -26,22 +26,42 @@ void clearBuffer(){
     }while(ch != '\n');
 }
 
-void lerDados(char *texto, int *codigo){
+void lerDados(char *texto, int *codigo, int *linhas){
+    char aux[TAMTEXTO];
+    texto[0] = '\0';
     printf("Codigo: ");
     scanf("%d", codigo);
+    printf("Linhas: ");
+    scanf("%d", linhas);
     clearBuffer();
-    printf("Texto: ");
-    fgets(texto, TAMTEXTO, stdin);
+    printf("Texto:\n");
+
+    for(int i = 0; i < *linhas; i++){
+        fgets(aux, TAMTEXTO, stdin);
+        aux[strlen(aux)-1] = '\0';
+        texto = strcat(texto, aux);
+    }
 }
 
 void cifrarTexto(char *texto, char *cifrado, int codigo){
     char aux;
-    for(int i = 0; i < strlen(texto); i++){
+    int i=0;
+
+    codigo %= 27;
+    codigo++;
+
+    printf("Codigo: %d\n", codigo);
+
+    for(; i < strlen(texto); i++){
         aux = texto[i];
         if(islower(aux)){
-            cifrado[i] = aux + codigo;
+            if((aux + codigo) > 'z'){
+                cifrado[i] = 'a' + ((aux + codigo - 'z') -1);
+            }
+            else cifrado[i] = aux + codigo;
         }
         else
             cifrado[i] = aux;
     }
+    cifrado[i] = '\0';
 }
