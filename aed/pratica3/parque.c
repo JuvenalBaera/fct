@@ -42,31 +42,19 @@ float daCaixaParque(parque p){
     return p->caixa;
 }
 
-int procuraCarroParque(parque p, char *mat){
-    int tamParque = p->lugares.cont;
-    int i = 0, existeMatricula = 0;
+// int procuraCarroParque(parque p, char *mat){
+//     int tamParque = p->lugares.cont;
+//     int i = 0, existeMatricula = 0;
 
-    if(tamParque <= p->lugares.cap){
-        while((i < tamParque) && (existeMatricula == 0)){
-            if(strcmp(pegaMatriculaTicket(p->lugares.vetorLugares[i]), mat) == 0)
-                existeMatricula = 1;
-            i++;
-        }
-    }
-    return existeMatricula;
-}
-
-int entradaCarroParque(parque p, char *mat, int hora, int minutos){
-    int tamParque = p->lugares.cont;
-    int i = 0, existeMatricula = procuraCarroParque(p, mat);
-
-    if(existeMatricula == 0){
-        p->lugares.vetorLugares[tamParque] = criaTicket(mat, hora, minutos);
-        p->lugares.cont++;
-    }
-    return !existeMatricula;
-}
-
+//     if(tamParque <= p->lugares.cap){
+//         while((i < tamParque) && (existeMatricula == 0)){
+//             if(strcmp(pegaMatriculaTicket(p->lugares.vetorLugares[i]), mat) == 0)
+//                 existeMatricula = 1;
+//             i++;
+//         }
+//     }
+//     return existeMatricula;
+// }
 
 // PRE: p != NULL && mat != NULL
 int posCarro(parque p, char * mat){
@@ -75,11 +63,6 @@ int posCarro(parque p, char * mat){
     int i = 0;
 
     if(tamParque <= p->lugares.cap){
-       /* while(i < tamParque){
-            if(strcmp(pegaMatriculaTicket(p->lugares.vetorLugares[i]), mat) == 0)
-                return i;
-            i++;
-        } */
         for(;i<tamParque; i++){
             if(strcmp(pegaMatriculaTicket(p->lugares.vetorLugares[i]), mat) == 0)
                 return i;
@@ -87,6 +70,19 @@ int posCarro(parque p, char * mat){
     }
     return -1;
 }
+
+int entradaCarroParque(parque p, char *mat, int hora, int minutos){
+    int tamParque = p->lugares.cont;
+    int i = 0, existeMatricula = posCarro(p, mat);
+
+    if(existeMatricula == -1){
+        p->lugares.vetorLugares[tamParque] = criaTicket(mat, hora, minutos);
+        p->lugares.cont++;
+        return 1;
+    }
+    return 0;
+}
+
 
 float daPrecoParque(parque p, char *mat, int h, int m){
     int pos = posCarro(p, mat), estadia;
@@ -106,9 +102,8 @@ float daPrecoParque(parque p, char *mat, int h, int m){
     return pagar;
 }
 
-void tiraCarroParque(parque p, char *mat){
-    int pos = posCarro(p, mat), estadia;
-    float pagar = 0.0;
+void tiraCarroParque(parque p, int pos){
+    apagaTicket(p->lugares.vetorLugares[pos]);
     for(int i = pos; i < p->lugares.cont-1; i++){
         p->lugares.vetorLugares[i] = p->lugares.vetorLugares[i+1];
     }
@@ -123,8 +118,7 @@ char* pegaMatriculaParque(parque p, int index){
 // PRE: p != NULL
 void destroiParque(parque p){
 	//TODO
-    if(p)
-        free(p);
+    free(p);
 }
 
 // PRE: p != NULL
@@ -133,7 +127,6 @@ void destroiParqueETickets(parque p){
     for(int i = 0; i < p->lugares.cont; i++){
         apagaTicket(p->lugares.vetorLugares[i]);
     }
-    // free(p->lugares.vetorLugares);
     destroiParque(p);
 }
 //TODO

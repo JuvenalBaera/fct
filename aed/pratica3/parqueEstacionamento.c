@@ -69,7 +69,6 @@ void cmdEntradaCarro(parque p, char * linha){
 }
 
 void cmdSaidaCarro(parque p,char * linha){
-
 	//completar
 	char c, mat[MAXMAT];
 	int h,m, pos;
@@ -85,7 +84,7 @@ void cmdSaidaCarro(parque p,char * linha){
         else{
             preco = daPrecoParque(p, mat, h, m);
             printf("Carro com matricula %s deve pagar %.2f euros.\n", pegaMatriculaParque(p, pos), preco);
-			tiraCarroParque(p, mat);
+			tiraCarroParque(p, pos);
         }
     }
 }
