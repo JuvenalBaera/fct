@@ -12,24 +12,31 @@ sequencia criaSequencia(int cap){
     sequencia seq = (sequencia) malloc(sizeof(struct _sequencia));
     if(seq == NULL) return NULL;
     seq->elementos = (void *) malloc(sizeof (void *) * cap);
-    if(seq->elementos == NULL) return NULL;
+    if(seq->elementos == NULL){
+        free(seq);
+        return NULL;
+    } 
     seq->capacidade = cap + 1;
     seq->numElementos = 0;
 }
 
-int vaziaSequencia(sequencia s){
-    return s == NULL;
-}
 int tamanhoSequencia(sequencia s){
     return s->numElementos;
 }
-void * elementoPosSequencia(sequencia s, int i){
-    return s->elementos + i;
+
+int vaziaSequencia(sequencia s){
+    return !tamanhoSequencia(s); // 1 - empty || 0 - not empty
 }
+
+void * elementoPosSequencia(sequencia s, int i){
+    return s->elementos[i];
+    // return s->elementos + i;
+}
+
 void adicionaPosSequencia(sequencia s, void * elem, int i){
     if(i == 1)
         s->elementos[i] = elem;
-    else if(i == tamanhoSequencia(s))
+    else if(i == tamanhoSequencia(s)) // X 1 2 3 X 4 5
         s->elementos[tamanhoSequencia(s)] = elem;
     else{
 
