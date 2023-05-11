@@ -37,4 +37,3 @@ quartos[i]->ocupado == TRUE
     Candidatura:
         Estudante
         Quarto
-    
