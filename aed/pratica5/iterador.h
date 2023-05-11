@@ -36,5 +36,6 @@ Parametros: it - iterador
 Retorno: endereco do elemento
 Pre-condicoes: it != NULL && temSeguinteIterador(it) == 1
 ***********************************************/ 
-void * seguinteIterador(iterador it); 
+void * seguinteIterador(iterador it);
+
 #endif
