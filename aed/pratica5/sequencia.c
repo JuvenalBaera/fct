@@ -15,7 +15,7 @@ sequencia criaSequencia(int cap){
     if(seq->elementos == NULL){
         free(seq);
         return NULL;
-    } 
+    }
     seq->capacidade = cap + 1;
     seq->numElementos = 0;
 }
@@ -39,7 +39,9 @@ void adicionaPosSequencia(sequencia s, void * elem, int i){
     else if(i == tamanhoSequencia(s)) // X 1 2 3 X 4 5
         s->elementos[tamanhoSequencia(s)] = elem;
     else{
-
+	for(int j = s->capacidade; j >= i; j--)
+		s->elementos[j] = s->elementos[j-1]
+	s->elementos[i] = elem;
     }
     void * tmp = elem;
 }

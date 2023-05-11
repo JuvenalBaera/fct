@@ -1,0 +1,40 @@
+================ TADS ================
+    TAM_DADOS 50
+    RESTANTE_DADOS 20
+
+    DadosComum:
+        login[RESTANTE_DADOS]
+        nome[TAM_DADOS]
+        universidade[TAM_DADOS]
+
+
+    Quarto:
+        código[RESTANTE_DADOS]
+        Gerente p;
+        Estudante e (coleção)
+        universidade[TAM_DADOS]
+        residência[TAM_DADOS]
+        localidade[TAM_DADOS]
+        andar
+        descrição[200]
+        ocupado
+
+
+    Estudante:
+        struct Dados
+        idade
+        localidade
+        Quarto q[10]; (vetor acompanhado)
+
+    Gerente:
+        struct Dados
+
+quartos[i]->localidade == caparica
+quartos[i]->ocupado == TRUE
+    lista(quartos[i])
+
+    
+    Candidatura:
+        Estudante
+        Quarto
+    
