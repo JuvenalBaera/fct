@@ -33,10 +33,11 @@ void destroiEstudante(estudante e){
     free(e);
 }
 
-int existeCandidaturaQuarto(estudante e, quarto q){
+int existeCandidaturaQuartoEstudante(estudante e, quarto q){
     for(int i = 0; i < 10; i++){
-        if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0)
+        if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0){
             return 1;
+        }
     }
     return 0;
 }
@@ -45,10 +46,10 @@ void adicionaCandidaturaEstudante(estudante e, quarto q){
     e->candidaturasQuartos[e->numCandidaturas++] = q;
 }
 
-char* daLocalidade(estudante e){
+char* daLocalidadeEstudante(estudante e){
     return e->localidade;
 }
 
-int daIdade(estudante e){
+int daIdadeEstudante(estudante e){
     return e->idade;
 }

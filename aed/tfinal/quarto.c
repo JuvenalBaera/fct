@@ -40,23 +40,23 @@ char * daCodigoQuarto(quarto q){
     return q->codigo;
 }
 
-char * daUni(quarto q){
+char * daUniversidadeQuarto(quarto q){
     return q->universidade;
 }
 
-char * daResidencia(quarto q){
+char * daResidenciaQuarto(quarto q){
     return q->residencia;
 }
 
-char * daLocalidade(quarto q){
+char * daLocalidadeQuarto(quarto q){
     return q->localidade;
 }
 
-int daAndar(quarto q){
+int daAndarQuarto(quarto q){
     return q->andar;
 }
 
-char * daDescricao(quarto q){
+char * daDescricaoQuarto(quarto q){
     return q->descricao;
 }
 
