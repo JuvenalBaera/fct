@@ -3,21 +3,25 @@
 #include "quarto.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 
 struct _estudante{
     comum dados;
     int idade;
-    char *localidade;
-    quarto q[10];
+    char localidade[30];
+    quarto candidaturasQuartos[10];
     int numCandidaturas;
 };
 
 estudante criaEstudante(char *login, char *nome, int idade, char *local, char *uni){
     estudante e = (estudante) malloc(sizeof(struct _estudante));
-    if(e == NULL);
+    if(e == NULL) return NULL;
     e->dados = criaComum(login, nome, uni);
-    if(e->dados == NULL) return NULL;
+    if(e->dados == NULL) {
+        free(e);
+        return NULL;
+    }
     e->idade = idade;
     strcpy(e->localidade, local);
     e->numCandidaturas = 0;
@@ -27,6 +31,18 @@ estudante criaEstudante(char *login, char *nome, int idade, char *local, char *u
 void destroiEstudante(estudante e){
     destroiComum(e->dados);
     free(e);
+}
+
+int existeCandidaturaQuarto(estudante e, quarto q){
+    for(int i = 0; i < 10; i++){
+        if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0)
+            return 1;
+    }
+    return 0;
+}
+
+void adicionaCandidaturaEstudante(estudante e, quarto q){
+    e->candidaturasQuartos[e->numCandidaturas++] = q;
 }
 
 char* daLocalidade(estudante e){

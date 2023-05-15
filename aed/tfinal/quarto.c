@@ -13,7 +13,7 @@ struct _quarto {
     gerente gerenteQuarto;
     // estudante estudanteQuarto; // (coleção);
     char universidade[TAM_DADOS];
-    char residência[TAM_DADOS];
+    char residencia[TAM_DADOS];
     char localidade[TAM_DADOS];
     int andar;
     char descricao[200];
@@ -36,34 +36,30 @@ void destroiQuarto( quarto q){
     free(q);
 }
 
-char * DaCodigoQuarto(quarto q){
+char * daCodigoQuarto(quarto q){
     return q->codigo;
 }
 
-char * DaUni(quarto q){
+char * daUni(quarto q){
     return q->universidade;
 }
 
-char * DaResidencia(quarto q){
-    return q->residência;
+char * daResidencia(quarto q){
+    return q->residencia;
 }
 
-char * DaLocalidade(quarto q){
+char * daLocalidade(quarto q){
     return q->localidade;
 }
 
-int DaAndar(quarto q){
+int daAndar(quarto q){
     return q->andar;
 }
 
-char * DaDescricao(quarto q){
+char * daDescricao(quarto q){
     return q->descricao;
 }
 
-void ocupaQuarto(quarto q){
-    q->ocupado = 1;
-}
-
-void desocupaQuarto(quarto q){
-    q->ocupado = 0;
+void ocuparDesocuparQuarto(quarto q, int oc_desc){
+    q->ocupado = oc_desc;
 }

@@ -2,5 +2,5 @@
 #define _H_SISTEMA
 
 typedef struct _sistema *sistema;
-
+sistema criaSistema();
 #endif
