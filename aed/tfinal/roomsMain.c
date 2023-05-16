@@ -250,7 +250,7 @@ void modificaEstadoDeQuarto(sistema s, char *linha){
     char cmd[3], codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS], estado[RESTANTE_DADOS];
     quarto q;
     gerente g;
-    if(sscanf(linh, "%s %s %s %s\n", cmd, codigo, loginGerente, estado)==4){
+    if(sscanf(linha, "%s %s %s %s\n", cmd, codigo, loginGerente, estado)==4){
         q =daQuartoPorCodigoDoSistema(s, codigo);
         if(q == NULL)
             printf("Inexistencia do quarto referido\n\n");
