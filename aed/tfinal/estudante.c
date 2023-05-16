@@ -53,3 +53,7 @@ char* daLocalidadeEstudante(estudante e){
 int daIdadeEstudante(estudante e){
     return e->idade;
 }
+
+comum daDadosEstudante(estudante e){
+    return e->dados;
+}

@@ -1,5 +1,5 @@
-#include "gerente.h"
 #include "comun.h"
+#include "gerente.h"
 #include <stdlib.h>
 
 struct _gerente {
@@ -17,4 +17,8 @@ gerente criaGerente(char *login, char *nome, char *uni){
 void destroiGerente(gerente g){
     destroiComum(g->dados);
     free(g);
+}
+
+comum daDadosGerente(gerente g){
+    return g->dados;
 }
