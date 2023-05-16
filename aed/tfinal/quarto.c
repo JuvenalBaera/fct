@@ -17,18 +17,19 @@ struct _quarto {
     char localidade[TAM_DADOS];
     int andar;
     char descricao[200];
-    int ocupado;
+    char ocupado[RESTANTE_DADOS];
 };
 
-quarto criaQuarto(char *cod, gerente g, char *uni, char *local, int andar, char *desc){
+quarto criaQuarto(char *cod, gerente g, char *uni, char *res, char *local, int andar, char *desc){
     quarto q = (quarto) malloc(sizeof(struct _quarto));
     if(q == NULL) return NULL;
     strcpy(q->codigo,  cod);
     strcpy(q->localidade, local);
     strcpy(q->universidade, uni);
+    strcpy(q->residencia, res);
     strcpy(q->descricao, desc);
     q->andar = andar;
-    q->ocupado = 0;
+    strcpy(q->ocupado, "livre");
     q->gerenteQuarto = g;
 }
 
@@ -60,6 +61,10 @@ char * daDescricaoQuarto(quarto q){
     return q->descricao;
 }
 
-void ocuparDesocuparQuarto(quarto q, int oc_desc){
-    q->ocupado = oc_desc;
+void ocuparDesocuparQuarto(quarto q, char * oc_desc){
+    strcpy(q->ocupado, oc_desc);
+}
+
+char *  daOcupadoQuarto(quarto q){
+    return q->ocupado;
 }

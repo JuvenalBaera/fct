@@ -4,6 +4,7 @@
 
 struct _gerente {
     comum dados;
+  //  coleção de quartos;
 };
 
 gerente criaGerente(char *login, char *nome, char *uni){

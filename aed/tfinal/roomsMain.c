@@ -68,7 +68,7 @@ void interpretador(sistema s){
             lerDados(linha, 5);
             inserirNovoQuarto(s, linha);
         }else if(strcmp(cmd,"DQ")==0){
-            // TODO
+            informacaoDoQuarto(s, linha);
         }else if(strcmp(cmd,"MQ")==0){
 
         }else if(strcmp(cmd,"RQ")==0){
@@ -196,18 +196,17 @@ void informacaoDoGerente(sistema s, char *linha){
     }
 }
 
-// ################## Quarto ##################
 
+// ################## QUARTO ##################
 void inserirNovoQuarto(sistema s, char *linha){
     quarto q;
     gerente g;
-    char cmd[3], codigoQuarto[RESTANTE_DADOS],  loginGerente[RESTANTE_DADOS], nomeRes[TAMANHO_DADOS];
+    char cmd[3], codigoQuarto[RESTANTE_DADOS],  loginGerente[RESTANTE_DADOS], residencia[TAMANHO_DADOS];
     char uni[TAMANHO_DADOS], localidade[TAMANHO_DADOS], descricao[200];
     int andar;
-    // FIXME
-    printf("entrei1\n\n");
+    
     if(sscanf(linha, "%s %s %s\n%s\n%s\n%s\n%d\n%s\n",cmd, codigoQuarto, loginGerente,
-                                                     nomeRes, uni, localidade, andar, descricao)==8){
+                                                     residencia, uni, localidade, &andar, descricao)==8){
         g = daGerentePorLoginDoSistema(s, loginGerente);
         if( g == NULL)
             printf("Inexistencia do gerente referido\n\n");
@@ -216,14 +215,15 @@ void inserirNovoQuarto(sistema s, char *linha){
               printf("Quarto existente\n\n");  
             }
             else{
-                if(strcmp(daUniversidade(daDadosGerente(g)), uni) == 0)
-                    printf("Operacao nao autorizada\n\n");
-                else{
-                    q = criaQuarto(codigoQuarto, g, uni, localidade, andar, descricao);
-                    if( q!= NULL){
+                if(strcmp(daUniversidade(daDadosGerente(g)), uni) == 0){
+                    q = criaQuarto(codigoQuarto, g, uni, residencia, localidade, andar, descricao);
+                    if(q != NULL){
                         inserirQuartoSistema(s, q);
                         printf("Registo de quarto executado\n\n");
                     }
+                }
+                else{
+                    printf("Operacao nao autorizada\n\n");
                 }
             }
         }
@@ -231,9 +231,49 @@ void inserirNovoQuarto(sistema s, char *linha){
     
 }
 
-// TODO
-void informacaoDoQuarto(sistema s, char *linha){}
-void modificaEstadoDeQuarto(sistema s, char *linha){}
+void informacaoDoQuarto(sistema s, char *linha){
+    char cmd[3], codigo[RESTANTE_DADOS];
+    quarto q;
+    if(sscanf(linha, "%s %s\n", cmd, codigo) == 2){
+        q = daQuartoPorCodigoDoSistema(s, codigo);
+        if(q == NULL)
+            printf("Inexistencia do quarto referido\n\n");
+        else{
+            printf("%s, %s\n%s\n%s\n%d\n%s\n%s\n\n", daCodigoQuarto(q), daResidenciaQuarto(q),
+                                               daUniversidadeQuarto(q), daLocalidadeQuarto(q),
+                                               daAndarQuarto(q), daDescricaoQuarto(q),daOcupadoQuarto(q));
+        }
+    }
+}
+
+void modificaEstadoDeQuarto(sistema s, char *linha){
+    char cmd[3], codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS], estado[RESTANTE_DADOS];
+    quarto q;
+    gerente g;
+    if(sscanf(linh, "%s %s %s %s\n", cmd, codigo, loginGerente, estado)==4){
+        q =daQuartoPorCodigoDoSistema(s, codigo);
+        if(q == NULL)
+            printf("Inexistencia do quarto referido\n\n");
+        else{
+            g=daGerentePorLoginDoSistema(s,loginGerente);
+            if(g == NULL){
+                printf("Inexistencia do gerente referido\n\n");
+
+            }
+            else{
+                if(strcmp(estado,"ocupado")==0){
+                   //fix later
+                    /*
+                   if(haCandidaturasAQuarto(q)==0)
+                        printf("...") 
+                    
+                    */
+                }
+            }
+        }
+        
+    }
+}
 void remocaoDeQuarto(sistema s, char *linha){}
 // TODO
 void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){}

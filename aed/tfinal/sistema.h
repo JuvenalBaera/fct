@@ -19,7 +19,7 @@ gerente daGerentePorLoginDoSistema(sistema s, char *login);
 
 int existeQuartoNoSistema(sistema s, quarto q);
 void inserirQuartoSistema(sistema s, quarto q);
-quarto daQuartoPoCodigoDoSistema(sistema s, char *cod);
+quarto daQuartoPorCodigoDoSistema(sistema s, char *cod);
 int existeCodigoDoQuartoNoSistema(sistema s, char * codigo);
 
 #endif
