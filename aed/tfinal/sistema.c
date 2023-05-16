@@ -102,6 +102,14 @@ int existeQuartoNoSistema(sistema s, quarto q){
     return 0;
 }
 
+int existeCodigoDoQuartoNoSistema(sistema s, char * codigo){
+    for(int i = 0; i < s->qtdQuartos; i++){
+        if(strcmp(daCodigoQuarto(s->quartos[i]), codigo) == 0)
+            return 1;
+    }
+    return 0;
+}
+
 quarto daQuartoPoCodigoDoSistema(sistema s, char *cod){
     for(int i = 0; i < s->qtdQuartos; i++){
         if(strcmp(daCodigoQuarto(s->quartos[i]), cod) == 0)
