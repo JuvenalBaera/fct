@@ -13,6 +13,6 @@ char * daResidenciaQuarto(quarto q);
 char * daLocalidadeQuarto(quarto q);
 int daAndarQuarto(quarto q);
 char * daDescricaoQuarto(quarto q);
-void ocuparDesocuparQuarto(quarto q, int oc_desc);
+void ocuparDesocuparQuarto(quarto q, char * oc_desc);
 char * daOcupadoQuarto(quarto q);
 #endif
