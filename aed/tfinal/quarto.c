@@ -11,7 +11,7 @@
 struct _quarto {
     char codigo[RESTANTE_DADOS];
     gerente gerenteQuarto;
-    // estudante estudanteQuarto; // (coleção);
+    // estudante estudanteQuarto; // (coleção); usar dicionário
     char universidade[TAM_DADOS];
     char residencia[TAM_DADOS];
     char localidade[TAM_DADOS];
