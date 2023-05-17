@@ -1,5 +1,6 @@
 #include "estudante.h"
 #include "sistema.h"
+#include "dicionario.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -258,23 +259,28 @@ void modificaEstadoDeQuarto(sistema s, char *linha){
             g=daGerentePorLoginDoSistema(s,loginGerente);
             if(g == NULL){
                 printf("Inexistencia do gerente referido\n\n");
-
+                // destroiQuarto(q);
             }
             else{
-                if(strcmp(estado,"ocupado")==0){
-                   //fix later
-                    /*
-                   if(haCandidaturasAQuarto(q)==0)
-                        printf("...") 
-                    
-                    */
+                if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
+                    if(strcmp(estado, "ocupado") == 0){
+                        if()
+                    }
+                }
+                else{
+                    printf("Operacao nao autorizada\n\n");
+                    // destroiGerente(g);
+                    // destroiQuarto(q);
                 }
             }
         }
         
     }
 }
-void remocaoDeQuarto(sistema s, char *linha){}
+
+void remocaoDeQuarto(sistema s, char *linha){
+
+}
 // TODO
 void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){}
 void aceitacaoDeCandidatura(sistema s, char *linha){}

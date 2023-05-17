@@ -1,0 +1,116 @@
+/* dicVector.c */
+#include <stdlib.h>
+#include "../iterador/iterador.h"
+#include "dicionario.h"
+#include "tuplo.h"
+#include "chaves.h"
+
+/*  Estrutura de dados do tipo de dados: dicionario ---> os elementos nao podem ser repetidos com base num identificador (chave) dos elementos */
+struct _dicionario{
+	tuplo * elems; // apontador para vector de tuplos - cada e' par (chave,elemento)
+	int numElems;
+	int capacidade;
+	int tipoCh; // 0-inteiro; 1-string
+};
+
+dicionario criaDicionario(int cap, int tipoChave){
+	dicionario d;
+	d = (dicionario) malloc(sizeof(struct _dicionario));
+	if (d == NULL) return NULL;
+	d->elems = (tuplo *) malloc(sizeof(tuplo) * cap);
+	if (d->elems == NULL){
+		free(d);
+		return NULL;
+	}
+	d->numElems = 0;
+	d->capacidade = cap;
+	d->tipoCh = tipoChave;
+	return d;
+}
+
+void destroiDicionario (dicionario d ){
+	for(int i = 0; i < d->numElems; i++)
+		destroiTuplo(d->elems[i]);
+	free(d->elems);
+	free(d);
+}
+
+void destroiDicEElems(dicionario d, void (*destroi)(void *) ){
+	for(int i = 0; i < d->numElems; i++){
+		destroi(segTuplo(d->elems[i]));
+		destroiTuplo(d->elems[i]);
+	}
+	free(d->elems);
+	free(d);
+}
+
+int vazioDicionario(dicionario d){
+	return d->numElems == 0;
+}
+
+int tamanhoDicionario(dicionario d){
+	return d->numElems;
+}
+
+int posElemDicionario(dicionario d, void * ch){
+	for (int i = 0; i < d->numElems; i++)
+		if (igualChaves(ch,priTuplo(d->elems[i]),d->tipoCh) == 1)
+			return i;
+	return -1;
+}
+int existeElemDicionario(dicionario d, void * ch){
+	return posElemDicionario(d,ch) != -1;
+}
+
+void * elementoDicionario(dicionario d, void * ch){
+	int pos = posElemDicionario(d,ch);
+	if (pos != -1)
+		return segTuplo(d->elems[pos]);
+	return NULL;
+}
+/* Aumenta o vector do dicionario */
+void incDicionario (dicionario d){
+	tuplo* aux = (tuplo *)malloc(sizeof(tuplo) * d->capacidade*2); // duplica
+	for (int i = 0; i < d->numElems; i++)
+		aux[i] = d->elems[i];
+	free(d->elems);
+	d->elems = aux;
+	d->capacidade = d->capacidade * 2;
+}
+
+int adicionaElemDicionario(dicionario d, void * ch, void * elem){
+	int pos = posElemDicionario(d,ch);
+	if (pos != -1)
+		return 0;
+	if (d->numElems == d->capacidade)
+		incDicionario(d);
+	d->elems[d->numElems++] = criaTuplo(d->tipoCh,ch,elem);
+	return 1;
+}
+
+void * removeElemDicionario(dicionario d, void * ch){
+	void * elem;
+	int pos = posElemDicionario(d,ch);
+	if (pos == -1)
+		return NULL;
+	elem = segTuplo(d->elems[pos]);
+	destroiTuplo(d->elems[pos]);
+	d->elems[pos] = d->elems[--d->numElems];
+	return elem;
+}
+
+iterador iteradorDicionario(dicionario d){
+	// vector com os elementos do dicionário
+	void * * aux = (void * *) malloc(sizeof(void *)* d->numElems);
+	for(int i = 0; i < d->numElem; i++)
+		aux[i]=segTuplo(d->elems[i]);
+	return criaIterador(aux,d->numElems);
+}
+
+iterador iteradorChaveDicionario(dicionario d){
+	// vector com as chaves dos elementos do dicionário
+	void * * aux = (void * *) malloc(sizeof(void *)* d->numElems);
+	for(int i = 0; i < d->numElems; i++)
+		aux[i]=priTuplo(d->elems[i]);
+	return criaIterador(aux,d->numElems);
+}

@@ -12,6 +12,7 @@ struct _quarto {
     char codigo[RESTANTE_DADOS];
     gerente gerenteQuarto;
     // estudante estudanteQuarto; // (coleção); usar dicionário
+    dicionario candidaturasAQuarto;
     char universidade[TAM_DADOS];
     char residencia[TAM_DADOS];
     char localidade[TAM_DADOS];
@@ -67,4 +68,12 @@ void ocuparDesocuparQuarto(quarto q, char * oc_desc){
 
 char *  daOcupadoQuarto(quarto q){
     return q->ocupado;
+}
+
+gerente daGerenteQuarto(quarto q){
+    return q->gerenteQuarto;
+}
+
+dicionario daCanditadurasDoQuarto(quarto q){
+    return q->candidaturasAQuarto;
 }
