@@ -5,12 +5,12 @@
 #include <string.h>
 #include <stdio.h>
 
-
+#define MAX_CANDIDATURA 10
 struct _estudante{
     comum dados;
     int idade;
-    char localidade[30];
-    quarto candidaturasQuartos[10];
+    char localidade[TAM_DADOS];
+    quarto candidaturasQuartos[MAX_CANDIDATURA];
     int numCandidaturas;
 };
 
@@ -34,7 +34,7 @@ void destroiEstudante(estudante e){
 }
 
 int existeCandidaturaQuartoEstudante(estudante e, quarto q){
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < MAX_CANDIDATURA; i++){
         if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0){
             return 1;
         }

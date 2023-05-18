@@ -5,19 +5,18 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define RESTANTE_DADOS 20
-#define TAM_DADOS 50
+#define MAX_DESCRICAO 200
 
 struct _quarto {
     char codigo[RESTANTE_DADOS];
     gerente gerenteQuarto;
     // estudante estudanteQuarto; // (coleção); usar dicionário
-    dicionario candidaturasAQuarto;
+    dicionario candidaturasAQuarto; // sequencia
     char universidade[TAM_DADOS];
     char residencia[TAM_DADOS];
     char localidade[TAM_DADOS];
     int andar;
-    char descricao[200];
+    char descricao[MAX_DESCRICAO];
     char ocupado[RESTANTE_DADOS];
 };
 

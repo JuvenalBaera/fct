@@ -2,9 +2,6 @@
 #include <string.h>
 #include "comun.h"
 
-#define TAM_DADOS 50
-#define RESTANTE_DADOS 20
-
 struct _comum
 {
     char login[RESTANTE_DADOS];

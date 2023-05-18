@@ -12,7 +12,7 @@
 #define MAX_QUARTOS 10000
 
 struct _sistema{
-    estudante estudantes[MAX_ESTUDANTE];
+    estudante estudantes[MAX_ESTUDANTE]; //dicionario
     gerente gerentes[MAX_GERENTE];
     quarto quartos[MAX_QUARTOS];
     int qtdEstudantes;
@@ -63,6 +63,10 @@ int existeEstudanteNoSistema(sistema s, estudante e){
         if(strcmp(daLogin(daDadosEstudante(s->estudantes[i])), daLogin(daDadosEstudante(e))) == 0)
             return 1;
     }
+    for(int i = 0; i < s->qtdGerentes; i++){
+        if(strcmp(daLogin(daDadosGerente(s->gerentes[i])), daLogin(daDadosEstudante(e))) == 0)
+            return 1;
+    }
     return 0;
 }
 
@@ -79,6 +83,10 @@ estudante daEstudantePorLoginDoSistema(sistema s, char *login){
 int existeGerenteNoSistema(sistema s, gerente g){
     for(int i = 0; i < s->qtdGerentes; i++){
         if(strcmp(daLogin(daDadosGerente(s->gerentes[i])), daLogin(daDadosGerente(g))) == 0)
+            return 1;
+    }
+    for(int i = 0; i < s->qtdEstudantes; i++){
+        if(strcmp(daLogin(daDadosEstudante(s->estudantes[i])), daLogin(daDadosGerente(g))) == 0)
             return 1;
     }
     return 0;
