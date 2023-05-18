@@ -14,23 +14,21 @@
 #define RESTANTE_DADOS 20
 
 // ################## AUXILIARES ##################
-void lerDados(char *linha, int numLinhasALer);
-void daNomeCompleto(char pnome[], char apelido[], char nome[]);
 
 /* protótipos das funções usadas no main */
 void interpretador(sistema s);
 
 // ################## ESTUDANTE ##################
-void inserirNovoEstudante(sistema s, char *linha);
-void informacaoDoEstudante(sistema s, char *linha);
+void inserirNovoEstudante(sistema s);
+void informacaoDoEstudante(sistema s, char *login);
 
 // ################## GERENTE ##################
-void inserirNovoGerente(sistema s, char *linha);
-void informacaoDoGerente(sistema s, char *linha);
+void inserirNovoGerente(sistema s);
+void informacaoDoGerente(sistema s, char *login);
 
 // ################## QUARTO ##################
-void inserirNovoQuarto(sistema s, char *linha);
-void informacaoDoQuarto(sistema s, char *linha);
+void inserirNovoQuarto(sistema s);
+void informacaoDoQuarto(sistema s, char *codigo); // TODO
 void modificaEstadoDeQuarto(sistema s, char *linha);
 void remocaoDeQuarto(sistema s, char *linha);
 
@@ -54,23 +52,30 @@ void interpretador(sistema s){
     char linha[MAXL], cmd[TAMANHO_CMD];
     do {
         printf("> ");
-        fgets(linha,MAXL,stdin);
-        cmd[0] = toupper(linha[0]);
-        cmd[1] = toupper(linha[1]);
+        // fgets(linha,MAXL,stdin);
+        scanf("%s", cmd);
+        cmd[0] = toupper(cmd[0]);
+        cmd[1] = toupper(cmd[1]);
         cmd[2] = '\0';
         if (strcmp(cmd,"IE")==0){
-            lerDados(linha,2);
-            inserirNovoEstudante(s, linha);
+            getchar();
+            inserirNovoEstudante(s);
         }else if(strcmp(cmd,"DE")==0){
-            informacaoDoEstudante(s, linha);
+            getchar();
+            if(scanf("%s", linha) == 1)
+                informacaoDoEstudante(s, linha);
         }else if(strcmp(cmd,"IG")==0){
-            lerDados(linha, 1);
-            inserirNovoGerente(s, linha);
+            getchar();
+            inserirNovoGerente(s);
         }else if(strcmp(cmd,"DG")==0){
-            informacaoDoGerente(s, linha);
+            getchar();
+            if(scanf("%s", linha) == 1){
+                informacaoDoGerente(s, linha);
+            }
         }else if(strcmp(cmd,"IQ")==0){
-            lerDados(linha, 5);
-            inserirNovoQuarto(s, linha);
+            // lerDados(linha, 5);
+            getchar();
+            inserirNovoQuarto(s);
         }else if(strcmp(cmd,"DQ")==0){
             informacaoDoQuarto(s, linha);
         }else if(strcmp(cmd,"MQ")==0){
@@ -90,12 +95,11 @@ void interpretador(sistema s){
         }else if(strcmp(cmd,"LT")==0){
 
         }else if(strcmp(cmd, "XS")==0){
-            printf("Adeus\n\n");
+            printf("%s\n\n", MSG_SAIR);
         }else if(strcmp(cmd,"#")==0){
             printf("\n");
         }
         else {
-            // printf("Dados invalidos\n\n");
             printf("%s\n\n", MSG_COMANDO_INVALIDO);
         } 
     }while (strcmp(cmd, "XS") != 0);
@@ -104,31 +108,23 @@ void interpretador(sistema s){
 
 
 // ################## AUXILIARES ##################
-void lerDados(char *linha, int numLinhasALer){
-    char aux[TAMANHO_DADOS];
-    for(int i = 0; i < numLinhasALer; i++){
-        fgets(aux, 50, stdin);
-        strcat(linha, aux);
-    }
-}
 
-void daNomeCompleto(char pnome[], char apelido[], char nome[]){
-    nome[0] = '\0';
-    strcat(nome, pnome);
-    strcat(nome, " ");
-    strcat(nome, apelido); 
-}
 
 
 // ################## ESTUDANTE ##################
-void inserirNovoEstudante(sistema s, char *linha){
+void inserirNovoEstudante(sistema s){
     estudante e;
-    char cmd[TAMANHO_CMD], login[RESTANTE_DADOS], pnome[RESTANTE_DADOS], apelido[RESTANTE_DADOS];
-    char local[TAMANHO_DADOS], uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
-    int idade;
-    // TODO Espaço (universidade e localidade) está a nos foder
-    if(sscanf(linha, "%s %s %s %s\n%d %s\n%s\n", cmd, login, pnome, apelido, &idade, local, uni) == 7){
-        daNomeCompleto(pnome, apelido, nome);
+    char  login[RESTANTE_DADOS], local[TAMANHO_DADOS], uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
+    int idade, lido=0;
+
+    lido += scanf("%s ", login);
+    lido += scanf("%50[^\n]", nome);
+    lido += scanf("%d ", &idade);
+    lido += scanf("%50[^\n] ", local);
+    lido += scanf("%50[^\n]", uni);
+
+    if(lido == 5){
+        // daNomeCompleto(pnome, apelido, nome);
         e = criaEstudante(login, nome, idade, local, uni);
         if(e != NULL){
             if(existeEstudanteNoSistema(s, e) == 1){
@@ -145,37 +141,34 @@ void inserirNovoEstudante(sistema s, char *linha){
     }
 }
 
-void informacaoDoEstudante(sistema s, char *linha){
-    char cmd[TAMANHO_CMD], login[30];
-    estudante e;
-
-    if(sscanf(linha, "%s %s\n", cmd, login) == 2){
-        e = daEstudantePorLoginDoSistema(s, login);
-        if(e == NULL){
-            // printf("Inexistencia do estudante referido.\n\n");
-            printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
-        }
-        else{
-            printf("%s, %s, %d anos, %s\n%s\n\n", daLogin(daDadosEstudante(e)),
-                                                daNome(daDadosEstudante(e)),
-                                                daIdadeEstudante(e),
-                                                daLocalidadeEstudante(e),
-                                                daUniversidade(daDadosEstudante(e))
-            );
-        }
+void informacaoDoEstudante(sistema s, char *login){
+    estudante e = daEstudantePorLoginDoSistema(s, login);
+    if(e == NULL){
+        // printf("Inexistencia do estudante referido.\n\n");
+        printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
+    }
+    else{
+        printf("%s, %s, %d anos, %s\n%s\n\n", daLogin(daDadosEstudante(e)),
+                                            daNome(daDadosEstudante(e)),
+                                            daIdadeEstudante(e),
+                                            daLocalidadeEstudante(e),
+                                            daUniversidade(daDadosEstudante(e))
+        );
     }
 }
 
 
 // ################## GERENTE ##################
-void inserirNovoGerente(sistema s, char *linha){
+void inserirNovoGerente(sistema s){
     gerente g;
 
-    char cmd[TAMANHO_CMD], login[RESTANTE_DADOS], pnome[RESTANTE_DADOS], apelido[RESTANTE_DADOS];
-    char uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
-    
-    if(sscanf(linha, "%s %s %s %s\n%s\n",cmd, login, pnome, apelido, uni)==5){
-        daNomeCompleto(pnome, apelido, nome);
+    char login[RESTANTE_DADOS], uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
+    int lido = 0;
+    lido += scanf("%s ", login);
+    lido += scanf("%50[^\n] ", nome);
+    lido += scanf("%50[^\n]", uni);
+
+    if(lido == 3){
         g = criaGerente(login, nome, uni);
         if(g != NULL){
             if(existeGerenteNoSistema(s, g)==1){
@@ -193,35 +186,36 @@ void inserirNovoGerente(sistema s, char *linha){
     }
 }
 
-void informacaoDoGerente(sistema s, char *linha){
-    char cmd[TAMANHO_CMD], login[30];
-    gerente g;
-
-    if(sscanf(linha, "%s %s\n", cmd, login) == 2){
-        g = daGerentePorLoginDoSistema(s, login);
-        if( g == NULL){
-            // printf("Inexistencia do gerente referido\n\n");
-            printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
-        }
-        else{
-            printf("%s, %s\n%s\n\n",daLogin(daDadosGerente(g)), 
-                                    daNome(daDadosGerente(g)),
-                                    daUniversidade(daDadosGerente(g)));
-        }
+void informacaoDoGerente(sistema s, char *login){
+    gerente g = daGerentePorLoginDoSistema(s, login);
+    if( g == NULL){
+        // printf("Inexistencia do gerente referido\n\n");
+        printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
+    }
+    else{
+        printf("%s, %s\n%s\n\n",daLogin(daDadosGerente(g)), 
+                                daNome(daDadosGerente(g)),
+                                daUniversidade(daDadosGerente(g)));
     }
 }
 
 
 // ################## QUARTO ##################
-void inserirNovoQuarto(sistema s, char *linha){
+void inserirNovoQuarto(sistema s){
     quarto q;
     gerente g;
-    char cmd[TAMANHO_CMD], codigoQuarto[RESTANTE_DADOS],  loginGerente[RESTANTE_DADOS], residencia[TAMANHO_DADOS];
+    char codigoQuarto[RESTANTE_DADOS],  loginGerente[RESTANTE_DADOS], residencia[TAMANHO_DADOS];
     char uni[TAMANHO_DADOS], localidade[TAMANHO_DADOS], descricao[200];
     int andar;
-    
-    if(sscanf(linha, "%s %s %s\n%s\n%s\n%s\n%d\n%s\n",cmd, codigoQuarto, loginGerente,
-                                                     residencia, uni, localidade, &andar, descricao)==8){
+    int lido = 0;
+    lido += scanf("%s ",codigoQuarto);
+    lido += scanf("%50[^\n] ",loginGerente);
+    lido += scanf("%50[^\n] ",residencia);
+    lido += scanf("%50[^\n] ",uni);
+    lido += scanf("%50[^\n] ",localidade);
+    lido += scanf("%d ", &andar);
+    lido += scanf("%200[^\n]",descricao);
+    if(lido == 7){
         g = daGerentePorLoginDoSistema(s, loginGerente);
         if( g == NULL){
             // printf("Inexistencia do gerente referido\n\n");
