@@ -71,15 +71,15 @@ void interpretador(sistema s){
         }else if(strcmp(cmd,"DQ")==0){
             informacaoDoQuarto(s, linha);
         }else if(strcmp(cmd,"MQ")==0){
-
+            modificaEstadoDeQuarto(s, linha);
         }else if(strcmp(cmd,"RQ")==0){
-
+            remocaoDeQuarto(s, linha);
         }else if(strcmp(cmd,"IC")==0){
-
+            inserirCandidaturaDeEstudanteQuarto(s, linha);
         }else if(strcmp(cmd,"AC")==0){
-
+            aceitacaoDeCandidatura(s, linha);
         }else if(strcmp(cmd,"LC")==0){
-
+            listagemDeCandidaturaAQuarto(s, linha);
         }else if(strcmp(cmd,"LQ")==0){
 
         }else if(strcmp(cmd,"LL")==0){
@@ -259,27 +259,60 @@ void modificaEstadoDeQuarto(sistema s, char *linha){
             g=daGerentePorLoginDoSistema(s,loginGerente);
             if(g == NULL){
                 printf("Inexistencia do gerente referido\n\n");
-                // destroiQuarto(q);
             }
             else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
                     if(strcmp(estado, "ocupado") == 0){
-                        if()
+                        if(vazioDicionario(daCanditadurasDoQuarto(q)) == 1){
+                            ocuparDesocuparQuarto(q, estado);
+                            printf("Estado de quarto atualizado\n\n");
+                        }
+                        else
+                            printf("Candidaturas activas\n\n");
+                    }
+                    else{
+                        ocuparDesocuparQuarto(q, estado);
+                        printf("Estado de quarto atualizado\n\n");
                     }
                 }
                 else{
                     printf("Operacao nao autorizada\n\n");
-                    // destroiGerente(g);
-                    // destroiQuarto(q);
                 }
             }
         }
-        
     }
 }
 
 void remocaoDeQuarto(sistema s, char *linha){
-
+    char cmd[3], codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS];
+    quarto q;
+    gerente g;
+    if(sscanf(linha, "%s %s %s\n", cmd, codigo, loginGerente) == 3){
+        q = daQuartoPorCodigoDoSistema(s, codigo);
+        if(q == NULL)
+            printf("Inexistencia do quarto referido\n\n");
+        else{
+            g = daGerentePorLoginDoSistema(s, loginGerente);
+            if(g == NULL){
+                printf("Inexistencia do gerente referido\n\n");
+            }
+             else{
+                if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
+                    if(vazioDicionario(daCanditadurasDoQuarto(q)) == 1){
+                        if(remocaoDoQuartoNoSistema(s, q) == 1){
+                            printf("Remocao de quarto executada\n\n");
+                        }
+                    }
+                    else{
+                        printf("Candidaturas activas\n\n");
+                    }
+                }
+                else{
+                    printf("Operacao nao autorizada\n\n");
+                }
+            }
+        }
+    }
 }
 // TODO
 void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){}

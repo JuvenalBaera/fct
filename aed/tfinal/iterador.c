@@ -1,7 +1,7 @@
 #include "iterador.h"
 #include <stdlib.h>
 
-typedef struct _iterador{
+struct _iterador{
 	void **vector;
 	int capacidade;
 	int atual;

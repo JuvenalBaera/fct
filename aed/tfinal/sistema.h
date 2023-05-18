@@ -21,5 +21,6 @@ int existeQuartoNoSistema(sistema s, quarto q);
 void inserirQuartoSistema(sistema s, quarto q);
 quarto daQuartoPorCodigoDoSistema(sistema s, char *cod);
 int existeCodigoDoQuartoNoSistema(sistema s, char * codigo);
+int remocaoDoQuartoNoSistema(sistema s, quarto q);
 
 #endif

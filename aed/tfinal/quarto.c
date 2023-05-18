@@ -24,6 +24,8 @@ struct _quarto {
 quarto criaQuarto(char *cod, gerente g, char *uni, char *res, char *local, int andar, char *desc){
     quarto q = (quarto) malloc(sizeof(struct _quarto));
     if(q == NULL) return NULL;
+    q->candidaturasAQuarto = criaDicionario(1, 1);
+    if(q->candidaturasAQuarto == NULL) return NULL;
     strcpy(q->codigo,  cod);
     strcpy(q->localidade, local);
     strcpy(q->universidade, uni);
@@ -32,6 +34,7 @@ quarto criaQuarto(char *cod, gerente g, char *uni, char *res, char *local, int a
     q->andar = andar;
     strcpy(q->ocupado, "livre");
     q->gerenteQuarto = g;
+
 }
 
 void destroiQuarto( quarto q){

@@ -1,6 +1,6 @@
 /* dicVector.c */
 #include <stdlib.h>
-#include "../iterador/iterador.h"
+#include "iterador.h"
 #include "dicionario.h"
 #include "tuplo.h"
 #include "chaves.h"
@@ -102,7 +102,7 @@ void * removeElemDicionario(dicionario d, void * ch){
 iterador iteradorDicionario(dicionario d){
 	// vector com os elementos do dicionário
 	void * * aux = (void * *) malloc(sizeof(void *)* d->numElems);
-	for(int i = 0; i < d->numElem; i++)
+	for(int i = 0; i < d->numElems; i++)
 		aux[i]=segTuplo(d->elems[i]);
 	return criaIterador(aux,d->numElems);
 }

@@ -12,9 +12,9 @@
 #define MAX_QUARTOS 10000
 
 struct _sistema{
-    estudante estudantes[20000];
-    gerente gerentes[1000];
-    quarto quartos[10000];
+    estudante estudantes[MAX_ESTUDANTE];
+    gerente gerentes[MAX_GERENTE];
+    quarto quartos[MAX_QUARTOS];
     int qtdEstudantes;
     int qtdGerentes;
     int qtdQuartos;
@@ -116,4 +116,17 @@ quarto daQuartoPorCodigoDoSistema(sistema s, char *cod){
             return s->quartos[i];
     }
     return NULL;
+}
+
+int remocaoDoQuartoNoSistema(sistema s, quarto q){
+    for(int i = 0; i < s->qtdQuartos; i++){
+        if(strcmp(daCodigoQuarto(s->quartos[i]), daCodigoQuarto(q)) == 0){
+            destroiQuarto(s->quartos[i]);
+            for(int j = i; j < s->qtdQuartos - 1; j++){
+                s->quartos[j] = s->quartos[j+1];
+            }
+            return 1;
+        }
+    }
+    return 0;
 }

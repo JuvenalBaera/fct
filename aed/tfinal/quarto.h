@@ -17,4 +17,5 @@ char * daDescricaoQuarto(quarto q);
 void ocuparDesocuparQuarto(quarto q, char * oc_desc);
 char * daOcupadoQuarto(quarto q);
 gerente daGerenteQuarto(quarto q);
+dicionario daCanditadurasDoQuarto(quarto q);
 #endif
