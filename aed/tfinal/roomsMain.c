@@ -29,8 +29,8 @@ void informacaoDoGerente(sistema s, char *login);
 // ################## QUARTO ##################
 void inserirNovoQuarto(sistema s);
 void informacaoDoQuarto(sistema s, char *codigo); // TODO
-void modificaEstadoDeQuarto(sistema s, char *linha);
-void remocaoDeQuarto(sistema s, char *linha);
+void modificaEstadoDeQuarto(sistema s);
+void remocaoDeQuarto(sistema s);
 
 // ################## OUTRAS ##################
 void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha);
@@ -78,12 +78,12 @@ void interpretador(sistema s){
             inserirNovoQuarto(s);
         }else if(strcmp(cmd,"DQ")==0){
             if("%s", linha){
-            informacaoDoQuarto(s, linha);
+             informacaoDoQuarto(s, linha);
             }
         }else if(strcmp(cmd,"MQ")==0){
-            modificaEstadoDeQuarto(s, linha);
-        }else if(strcmp(cmd,"RQ")==0){
-            remocaoDeQuarto(s, linha);
+            modificaEstadoDeQuarto(s);
+        }else if(strcmp(cmd,"RQ")==0){ 
+            remocaoDeQuarto(s);
         }else if(strcmp(cmd,"IC")==0){
             inserirCandidaturaDeEstudanteQuarto(s, linha);
         }else if(strcmp(cmd,"AC")==0){
@@ -251,7 +251,7 @@ void informacaoDoQuarto(sistema s, char *codigo){
     
 }
 
-void modificaEstadoDeQuarto(sistema s, char *linha){
+void modificaEstadoDeQuarto(sistema s){
     char codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS], estado[RESTANTE_DADOS];
     quarto q;
     gerente g;
@@ -289,7 +289,7 @@ void modificaEstadoDeQuarto(sistema s, char *linha){
     }
 }
 
-void remocaoDeQuarto(sistema s, char *linha){
+void remocaoDeQuarto(sistema s){
     char codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS];
     quarto q;
     gerente g;
