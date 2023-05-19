@@ -3,9 +3,7 @@
 #include "quarto.h"
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
-#define MAX_CANDIDATURA 10
 struct _estudante{
     comum dados;
     int idade;
@@ -48,8 +46,12 @@ int existeCandidaturaQuartoEstudante(estudante e, quarto q){
     return 0;
 }
 
-void adicionaCandidaturaEstudante(estudante e, quarto q){
-    e->candidaturasQuartos[e->numCandidaturas++] = q;
+int adicionaCandidaturaEstudante(estudante e, quarto q){
+    if(e->numCandidaturas < MAX_CANDIDATURA){
+        e->candidaturasQuartos[e->numCandidaturas++] = q;
+        return 1;
+    }
+    return 0;
 }
 
 char* daLocalidadeEstudante(estudante e){

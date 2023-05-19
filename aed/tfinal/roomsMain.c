@@ -327,7 +327,7 @@ void remocaoDeQuarto(sistema s){
             }
              else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
-                    if(vaziaSequencia(daCanditadurasDoQuarto(q)) == 1){
+                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) == 0){
                         if(remocaoDoQuartoNoSistema(s, q) != NULL){
                             printf("%s\n\n", MSG_REMOCAO_QUARTO_OK);
                         }
@@ -343,7 +343,7 @@ void remocaoDeQuarto(sistema s){
         }
     }
 }
-// TODO
+
 void inserirCandidaturaDeEstudanteQuarto(sistema s){
     char login[RESTANTE_DADOS], codigo[RESTANTE_DADOS];
     estudante e;
@@ -354,7 +354,7 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s){
         if(e == NULL)
             printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
         else{
-            if(daQuantidadeDeCandidaturaEstudante(e) <= 10){
+            if(daQuantidadeDeCandidaturaEstudante(e) <= MAX_CANDIDATURA){
                 q = daQuartoPorCodigoDoSistema(s, codigo);
                 if(q == NULL)
                     printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
@@ -364,12 +364,13 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s){
                     else{
                         if(candidaturaExisteEstudante(e, q) == 0){
                             int tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
-                            if(tam == 0){
+                            if(adicionaCandidaturaEstudante(e, q) == 1){
                                 adicionaPosSequencia(daCanditadurasDoQuarto(q),e,tam);
                                 printf("%s\n\n", MSG_REGISTO_CANDIDATURA_OK);
                             }
-                            else
-                                printf("%s\n\n", MSG_CANDIDATURA_EXISTENTE);
+                            else{
+                                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+                            }
                         }
                         else
                             printf("%s\n\n", MSG_CANDIDATURA_EXISTENTE);

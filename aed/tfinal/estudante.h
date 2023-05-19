@@ -5,6 +5,8 @@
 #include "quarto.h"
 #include "estudante.h"
 
+#define MAX_CANDIDATURA 1
+
 typedef struct _estudante *estudante;
 
 estudante criaEstudante(char *login, char *nome, int idade, char *local, char *uni);
@@ -13,7 +15,7 @@ void destroiGenEstudante(void* e);
 char* daLocalidadeEstudante(estudante e);
 int daIdadeEstudante(estudante e);
 int existeCandidaturaQuartoEstudante(estudante e, quarto q);
-void adicionaCandidaturaEstudante(estudante e, quarto q);
+int adicionaCandidaturaEstudante(estudante e, quarto q);
 comum daDadosEstudante(estudante e);
 int daQuantidadeDeCandidaturaEstudante(estudante e);
 int candidaturaExisteEstudante(estudante e, quarto q);
