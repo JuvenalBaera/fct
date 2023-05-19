@@ -7,7 +7,7 @@ typedef struct _quarto *quarto;
 
 quarto criaQuarto(char *cod, gerente g, char *uni, char *res, char *local, int andar, char *desc);
 void destroiQuarto(quarto q);
-
+void destroiGenQuarto(void* q);
 char * daCodigoQuarto(quarto q);
 char * daUniversidadeQuarto(quarto q);
 char * daResidenciaQuarto(quarto q);

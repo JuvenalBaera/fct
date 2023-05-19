@@ -33,6 +33,10 @@ void destroiEstudante(estudante e){
     free(e);
 }
 
+void destroiGenEstudante(void* e){
+    destroiEstudante((estudante) e);
+}
+
 int existeCandidaturaQuartoEstudante(estudante e, quarto q){
     for(int i = 0; i < MAX_CANDIDATURA; i++){
         if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0){

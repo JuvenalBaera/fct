@@ -1,7 +1,7 @@
 #include "comun.h"
-// #include "estudante.h"
-// #include "quarto.h"
-// #include "gerente.h"
+#include "estudante.h"
+#include "quarto.h"
+#include "gerente.h"
 #include "sistema.h"
 
 #include <stdlib.h>
@@ -50,13 +50,13 @@ int inserirQuartoSistema(sistema s, quarto q){
 }
 
 void destroiSistema(sistema s){
-    destroiDicEElems(s->estudantes, destroiEstudante);
+    destroiDicEElems(s->estudantes, destroiGenEstudante);
     destroiDicionario(s->estudantes);
     
-    destroiDicEElems(s->gerentes, destroiGerente);
+    destroiDicEElems(s->gerentes, destroiGenGerente);
     destroiDicionario(s->gerentes);
 
-    destroiDicEElems(s->quartos, destroiQuarto);
+    destroiDicEElems(s->quartos, destroiGenQuarto);
     destroiDicionario(s->quartos);
     free(s);
 }
@@ -94,6 +94,12 @@ gerente daGerentePorLoginDoSistema(sistema s, char *login){
 
 
 //########################## HANDLE QUARTO ##########################
+int existeCodigoDoQuartoNoSistema(sistema s, char * codigo){
+    if(existeElemDicionario(s->quartos, codigo) == 1)
+        return 1;
+    return 0;
+}
+
 int existeQuartoNoSistema(sistema s, quarto q){
     if(existeElemDicionario(s->quartos, daCodigoQuarto(q)) == 1)
         return 1;
@@ -106,6 +112,8 @@ quarto daQuartoPorCodigoDoSistema(sistema s, char *cod){
     return q;
 }
 
-int remocaoDoQuartoNoSistema(sistema s, quarto q){
-    
+quarto remocaoDoQuartoNoSistema(sistema s, quarto q){
+    quarto q = removeElemDicionario(s->quartos, daCodigoQuarto(q));
+    if(q == NULL) return NULL;
+    return q;
 }

@@ -20,6 +20,10 @@ void destroiGerente(gerente g){
     free(g);
 }
 
+void destroiGenGerente(void* g){
+    destroiGerente((gerente) g);
+}
+
 comum daDadosGerente(gerente g){
     return g->dados;
 }

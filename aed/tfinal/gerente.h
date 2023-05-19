@@ -7,6 +7,7 @@ typedef struct _gerente *gerente;
 
 gerente criaGerente(char *login, char *nome, char *uni);
 void destroiGerente(gerente g);
+void destroiGenGerente(void* g);
 comum daDadosGerente(gerente g);
 
 #endif

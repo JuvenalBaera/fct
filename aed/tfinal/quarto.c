@@ -40,6 +40,10 @@ void destroiQuarto( quarto q){
     free(q);
 }
 
+void destroiGenQuarto(void* q){
+    destroiQuarto((quarto) q);
+}
+
 char * daCodigoQuarto(quarto q){
     return q->codigo;
 }
