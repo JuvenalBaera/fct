@@ -12,6 +12,7 @@
 
 #define TAMANHO_DADOS 50
 #define RESTANTE_DADOS 20
+#define MAX_DESCRICAO 200
 
 // ################## AUXILIARES ##################
 
@@ -52,7 +53,6 @@ void interpretador(sistema s){
     char linha[MAXL], cmd[TAMANHO_CMD];
     do {
         printf("> ");
-        // fgets(linha,MAXL,stdin);
         scanf("%s", cmd);
         cmd[0] = toupper(cmd[0]);
         cmd[1] = toupper(cmd[1]);
@@ -77,8 +77,8 @@ void interpretador(sistema s){
             getchar();
             inserirNovoQuarto(s);
         }else if(strcmp(cmd,"DQ")==0){
-            if("%s", linha){
-             informacaoDoQuarto(s, linha);
+            if(scanf("%s", linha)){
+                informacaoDoQuarto(s, linha);
             }
         }else if(strcmp(cmd,"MQ")==0){
             modificaEstadoDeQuarto(s);
@@ -110,7 +110,14 @@ void interpretador(sistema s){
 
 
 // ################## AUXILIARES ##################
-
+char* formatacaoLeitura(int tamanho){
+    char str[10];
+    char *format = malloc(sizeof(char) * 10);
+    strcpy(format, "%");
+    sprintf(str, "%d[^\n]", tamanho);
+    strcat(format, str);
+    return format;
+}
 
 
 // ################## ESTUDANTE ##################
@@ -119,11 +126,13 @@ void inserirNovoEstudante(sistema s){
     char  login[RESTANTE_DADOS], local[TAMANHO_DADOS], uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
     int idade, lido=0;
 
-    lido += scanf("%s ", login);
-    lido += scanf("%50[^\n]", nome);
+    char *formatacao = formatacaoLeitura(TAM_DADOS);
+
+    lido += scanf("%s ", login); // Nome Estudante
+    lido += scanf(formatacao, nome); // 19\n
     lido += scanf("%d ", &idade);
-    lido += scanf("%50[^\n] ", local);
-    lido += scanf("%50[^\n]", uni);
+    lido += scanf(formatacao, local); getchar();
+    lido += scanf(formatacao, uni);
 
     if(lido == 5){
         e = criaEstudante(login, nome, idade, local, uni);
@@ -133,11 +142,12 @@ void inserirNovoEstudante(sistema s){
                 destroiEstudante(e);
             }
             else{
-                inserirEstudanteSistema(s, e);
-                printf("%s\n\n", MSG_REGISTO_ESTUDANTE_OK);
+                if(inserirEstudanteSistema(s, e) == 1)
+                    printf("%s\n\n", MSG_REGISTO_ESTUDANTE_OK);
             }
         }
     }
+    free(formatacao);
 }
 
 void informacaoDoEstudante(sistema s, char *login){
@@ -162,9 +172,12 @@ void inserirNovoGerente(sistema s){
 
     char login[RESTANTE_DADOS], uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
     int lido = 0;
+
+    char *formatacao = formatacaoLeitura(TAM_DADOS);
+
     lido += scanf("%s ", login);
-    lido += scanf("%50[^\n] ", nome);
-    lido += scanf("%50[^\n]", uni);
+    lido += scanf(formatacao, nome); getchar();
+    lido += scanf(formatacao, uni);
 
     if(lido == 3){
         g = criaGerente(login, nome, uni);
@@ -200,16 +213,22 @@ void inserirNovoQuarto(sistema s){
     quarto q;
     gerente g;
     char codigoQuarto[RESTANTE_DADOS],  loginGerente[RESTANTE_DADOS], residencia[TAMANHO_DADOS];
-    char uni[TAMANHO_DADOS], localidade[TAMANHO_DADOS], descricao[200];
-    int andar;
-    int lido = 0;
+    char uni[TAMANHO_DADOS], localidade[TAMANHO_DADOS], descricao[MAX_DESCRICAO];
+    int andar, lido = 0;
+
+    char *formatacao = formatacaoLeitura(TAM_DADOS);
     lido += scanf("%s ",codigoQuarto);
-    lido += scanf("%50[^\n] ",loginGerente);
-    lido += scanf("%50[^\n] ",residencia);
-    lido += scanf("%50[^\n] ",uni);
-    lido += scanf("%50[^\n] ",localidade);
+    lido += scanf(formatacao,loginGerente); getchar();
+    lido += scanf(formatacao,residencia); getchar();
+    lido += scanf(formatacao,uni); getchar();
+    lido += scanf(formatacao,localidade); getchar();
     lido += scanf("%d ", &andar);
-    lido += scanf("%200[^\n]",descricao);
+
+    free(formatacao);
+    formatacao = formatacaoLeitura(MAX_DESCRICAO);
+
+    lido += scanf(formatacao,descricao);
+
     if(lido == 7){
         g = daGerentePorLoginDoSistema(s, loginGerente);
         if( g == NULL){
@@ -233,21 +252,21 @@ void inserirNovoQuarto(sistema s){
             }
         }
     }   
-    
+    free(formatacao);
 }
 
 void informacaoDoQuarto(sistema s, char *codigo){
     quarto q;
     
-        q = daQuartoPorCodigoDoSistema(s, codigo);
-        if(q == NULL){
-            printf("%s\n\n", MSG_INEXISTENCIA_QUARTOS);
-        }
-        else{
-            printf("%s, %s\n%s\n%s\n%d\n%s\n%s\n\n", daCodigoQuarto(q), daResidenciaQuarto(q),
-                                               daUniversidadeQuarto(q), daLocalidadeQuarto(q),
-                                               daAndarQuarto(q), daDescricaoQuarto(q),daOcupadoQuarto(q));
-        }
+    q = daQuartoPorCodigoDoSistema(s, codigo);
+    if(q == NULL){
+        printf("%s\n\n", MSG_INEXISTENCIA_QUARTOS);
+    }
+    else{
+        printf("%s, %s\n%s\n%s\n%d\n%s\n%s\n\n", daCodigoQuarto(q), daResidenciaQuarto(q),
+                                            daUniversidadeQuarto(q), daLocalidadeQuarto(q),
+                                            daAndarQuarto(q), daDescricaoQuarto(q),daOcupadoQuarto(q));
+    }
     
 }
 
@@ -256,7 +275,7 @@ void modificaEstadoDeQuarto(sistema s){
     quarto q;
     gerente g;
     if(scanf("%s %s %s\n", codigo, loginGerente, estado) == 3){
-        q =daQuartoPorCodigoDoSistema(s, codigo);
+        q = daQuartoPorCodigoDoSistema(s, codigo);
         if(q == NULL){
             printf("%s\n\n", MSG_INEXISTENCIA_QUARTOS);
         }

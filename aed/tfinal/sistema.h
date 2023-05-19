@@ -9,16 +9,16 @@ typedef struct _sistema *sistema;
 sistema criaSistema();
 void destroiSistema(sistema s);
 
-void inserirEstudanteSistema(sistema s, estudante e);
+int inserirEstudanteSistema(sistema s, estudante e);
 int existeEstudanteNoSistema(sistema s, estudante e);
 estudante daEstudantePorLoginDoSistema(sistema s, char *login);
 
-void inserirGerenteSistema(sistema s, gerente g);
+int inserirGerenteSistema(sistema s, gerente g);
 int existeGerenteNoSistema(sistema s, gerente g);
 gerente daGerentePorLoginDoSistema(sistema s, char *login);
 
+int inserirQuartoSistema(sistema s, quarto q);
 int existeQuartoNoSistema(sistema s, quarto q);
-void inserirQuartoSistema(sistema s, quarto q);
 quarto daQuartoPorCodigoDoSistema(sistema s, char *cod);
 int existeCodigoDoQuartoNoSistema(sistema s, char * codigo);
 int remocaoDoQuartoNoSistema(sistema s, quarto q);

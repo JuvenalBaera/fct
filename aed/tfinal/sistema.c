@@ -12,12 +12,9 @@
 #define MAX_QUARTOS 10000
 
 struct _sistema{
-    estudante estudantes[MAX_ESTUDANTE]; //dicionario
-    gerente gerentes[MAX_GERENTE];
-    quarto quartos[MAX_QUARTOS];
-    int qtdEstudantes;
-    int qtdGerentes;
-    int qtdQuartos;
+    dicionario estudantes;
+    dicionario gerentes;
+    dicionario quartos;
 };
 
 
@@ -25,116 +22,90 @@ sistema criaSistema(){
     sistema s = (sistema) malloc(sizeof(struct _sistema));
     if(s == NULL) return NULL;
 
-    s->qtdEstudantes = 0;
-    s->qtdGerentes = 0;
-    s->qtdQuartos = 0;
+    s->estudantes = criaDicionario(MAX_ESTUDANTE, 1);
+    if(s->estudantes == NULL) return NULL;
+    s->gerentes = criaDicionario(MAX_GERENTE, 1);
+    if(s->gerentes == NULL) return NULL;
+    s->quartos = criaDicionario(MAX_QUARTOS, 1);
+    if(s->quartos == NULL) return NULL;
     return s;
 }
 
-void inserirEstudanteSistema(sistema s, estudante e){
-    s->estudantes[s->qtdEstudantes++] = e;
+int inserirEstudanteSistema(sistema s, estudante e){
+    if(adicionaElemDicionario(s->estudantes, daLogin(daDadosEstudante(e)), e) == 1)
+        return 1;
+    return 0;
 }
 
-void inserirGerenteSistema(sistema s, gerente g){
-    s->gerentes[s->qtdGerentes++] = g;
+int inserirGerenteSistema(sistema s, gerente g){
+    if(adicionaElemDicionario(s->gerentes,daLogin(daDadosGerente(g)), g) == 1)
+        return 1;
+    return 0;
 }
 
-void inserirQuartoSistema(sistema s, quarto q){
-    s->quartos[s->qtdQuartos++] = q;
+int inserirQuartoSistema(sistema s, quarto q){
+    if(adicionaElemDicionario(s->quartos,daCodigoQuarto(q), q) == 1)
+        return 1;
+    return 0;
 }
 
 void destroiSistema(sistema s){
-    int i = 0;
-    for(i = 0; i < s->qtdEstudantes; i++)
-        destroiEstudante(s->estudantes[i]);
+    destroiDicEElems(s->estudantes, destroiEstudante);
+    destroiDicionario(s->estudantes);
     
-    for(i = 0; i < s->qtdGerentes; i++)
-        destroiGerente(s->gerentes[i]);
-    
-    for(i = 0; i < s->qtdQuartos; i++)
-        destroiQuarto(s->quartos[i]);
-    
+    destroiDicEElems(s->gerentes, destroiGerente);
+    destroiDicionario(s->gerentes);
+
+    destroiDicEElems(s->quartos, destroiQuarto);
+    destroiDicionario(s->quartos);
     free(s);
 }
 
 //########################## HANDLE ESTUDANTE ##########################
 int existeEstudanteNoSistema(sistema s, estudante e){
-    for(int i = 0; i < s->qtdEstudantes; i++){
-        if(strcmp(daLogin(daDadosEstudante(s->estudantes[i])), daLogin(daDadosEstudante(e))) == 0)
-            return 1;
-    }
-    for(int i = 0; i < s->qtdGerentes; i++){
-        if(strcmp(daLogin(daDadosGerente(s->gerentes[i])), daLogin(daDadosEstudante(e))) == 0)
-            return 1;
-    }
+    if(existeElemDicionario(s->estudantes, daLogin(daDadosEstudante(e))) == 1)
+        return 1;
+    if(existeElemDicionario(s->gerentes, daLogin(daDadosEstudante(e))) == 1)
+        return 1;
     return 0;
 }
 
 estudante daEstudantePorLoginDoSistema(sistema s, char *login){
-    for(int i = 0; i < s->qtdEstudantes; i++){
-        if(strcmp(daLogin(daDadosEstudante(s->estudantes[i])), login) == 0)
-            return s->estudantes[i];
-    }
-    return NULL;
+    estudante e = elementoDicionario(s->estudantes, login);
+    if(e == NULL) return NULL;
+    return e;
 }
 
 
 //########################## HANDLE GERENTE ##########################
 int existeGerenteNoSistema(sistema s, gerente g){
-    for(int i = 0; i < s->qtdGerentes; i++){
-        if(strcmp(daLogin(daDadosGerente(s->gerentes[i])), daLogin(daDadosGerente(g))) == 0)
-            return 1;
-    }
-    for(int i = 0; i < s->qtdEstudantes; i++){
-        if(strcmp(daLogin(daDadosEstudante(s->estudantes[i])), daLogin(daDadosGerente(g))) == 0)
-            return 1;
-    }
+    if(existeElemDicionario(s->gerentes, daLogin(daDadosGerente(g))) == 1)
+        return 1;
+    if(existeElemDicionario(s->estudantes, daLogin(daDadosGerente(g))) == 1)
+        return 1;
     return 0;
 }
 
 gerente daGerentePorLoginDoSistema(sistema s, char *login){
-    for(int i = 0; i < s->qtdGerentes; i++){
-        if(strcmp(daLogin(daDadosGerente(s->gerentes[i])), login) == 0)
-            return s->gerentes[i];
-    }
-    return NULL;
+    gerente g = elementoDicionario(s->gerentes, login);
+    if(g == NULL) return NULL;
+    return g;
 }
 
 
 //########################## HANDLE QUARTO ##########################
 int existeQuartoNoSistema(sistema s, quarto q){
-    for(int i = 0; i < s->qtdQuartos; i++){
-        if(strcmp(daCodigoQuarto(s->quartos[i]), daCodigoQuarto(q)) == 0)
-            return 1;
-    }
-    return 0;
-}
-
-int existeCodigoDoQuartoNoSistema(sistema s, char * codigo){
-    for(int i = 0; i < s->qtdQuartos; i++){
-        if(strcmp(daCodigoQuarto(s->quartos[i]), codigo) == 0)
-            return 1;
-    }
+    if(existeElemDicionario(s->quartos, daCodigoQuarto(q)) == 1)
+        return 1;
     return 0;
 }
 
 quarto daQuartoPorCodigoDoSistema(sistema s, char *cod){
-    for(int i = 0; i < s->qtdQuartos; i++){
-        if(strcmp(daCodigoQuarto(s->quartos[i]), cod) == 0)
-            return s->quartos[i];
-    }
-    return NULL;
+    quarto q = elementoDicionario(s->quartos, cod);
+    if(q == NULL) return NULL;
+    return q;
 }
 
 int remocaoDoQuartoNoSistema(sistema s, quarto q){
-    for(int i = 0; i < s->qtdQuartos; i++){
-        if(strcmp(daCodigoQuarto(s->quartos[i]), daCodigoQuarto(q)) == 0){
-            destroiQuarto(s->quartos[i]);
-            for(int j = i; j < s->qtdQuartos - 1; j++){
-                s->quartos[j] = s->quartos[j+1];
-            }
-            return 1;
-        }
-    }
-    return 0;
+    
 }
