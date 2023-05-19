@@ -1,7 +1,10 @@
 #include "messages.h"
 #include "estudante.h"
 #include "sistema.h"
+
+#include "sequencia.h"
 #include "dicionario.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -29,12 +32,12 @@ void informacaoDoGerente(sistema s, char *login);
 
 // ################## QUARTO ##################
 void inserirNovoQuarto(sistema s);
-void informacaoDoQuarto(sistema s, char *codigo); // TODO
+void informacaoDoQuarto(sistema s, char *codigo);
 void modificaEstadoDeQuarto(sistema s);
 void remocaoDeQuarto(sistema s);
 
 // ################## OUTRAS ##################
-void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha);
+void inserirCandidaturaDeEstudanteQuarto(sistema s);
 void aceitacaoDeCandidatura(sistema s, char *linha);
 void listagemDeCandidaturaAQuarto(sistema s, char *linha);
 
@@ -85,7 +88,7 @@ void interpretador(sistema s){
         }else if(strcmp(cmd,"RQ")==0){ 
             remocaoDeQuarto(s);
         }else if(strcmp(cmd,"IC")==0){
-            inserirCandidaturaDeEstudanteQuarto(s, linha);
+            inserirCandidaturaDeEstudanteQuarto(s);
         }else if(strcmp(cmd,"AC")==0){
             aceitacaoDeCandidatura(s, linha);
         }else if(strcmp(cmd,"LC")==0){
@@ -287,7 +290,7 @@ void modificaEstadoDeQuarto(sistema s){
             else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
                     if(strcmp(estado, "ocupado") == 0){
-                        if(vazioDicionario(daCanditadurasDoQuarto(q)) == 1){
+                        if(vaziaSequencia(daCanditadurasDoQuarto(q)) == 1){
                             ocuparDesocuparQuarto(q, estado);
                             printf("%s\n\n", MSG_QUARTO_ATUALIZADO);
                         }
@@ -324,7 +327,7 @@ void remocaoDeQuarto(sistema s){
             }
              else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
-                    if(vazioDicionario(daCanditadurasDoQuarto(q)) == 1){
+                    if(vaziaSequencia(daCanditadurasDoQuarto(q)) == 1){
                         if(remocaoDoQuartoNoSistema(s, q) != NULL){
                             printf("%s\n\n", MSG_REMOCAO_QUARTO_OK);
                         }
@@ -341,6 +344,42 @@ void remocaoDeQuarto(sistema s){
     }
 }
 // TODO
-void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){}
+void inserirCandidaturaDeEstudanteQuarto(sistema s){
+    char login[RESTANTE_DADOS], codigo[RESTANTE_DADOS];
+    estudante e;
+    quarto q;
+
+    if(scanf("%s %s", login, codigo) == 2){
+        e = daEstudantePorLoginDoSistema(s, login);
+        if(e == NULL)
+            printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
+        else{
+            if(daQuantidadeDeCandidaturaEstudante(e) <= 10){
+                q = daQuartoPorCodigoDoSistema(s, codigo);
+                if(q == NULL)
+                    printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
+                else{
+                    if(strcmp(daOcupadoQuarto(q), MSG_OCUPADO) == 0)
+                        printf("%s\n\n", MSG_QUARTO_OCUPADO);
+                    else{
+                        if(candidaturaExisteEstudante(e, q) == 0){
+                            int tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
+                            if(tam == 0){
+                                adicionaPosSequencia(daCanditadurasDoQuarto(q),e,tam);
+                                printf("%s\n\n", MSG_REGISTO_CANDIDATURA_OK);
+                            }
+                            else
+                                printf("%s\n\n", MSG_CANDIDATURA_EXISTENTE);
+                        }
+                        else
+                            printf("%s\n\n", MSG_CANDIDATURA_EXISTENTE);
+                    }
+                }
+            }
+            else
+                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+        }
+    }
+}
 void aceitacaoDeCandidatura(sistema s, char *linha){}
 void listagemDeCandidaturaAQuarto(sistema s, char *linha){}

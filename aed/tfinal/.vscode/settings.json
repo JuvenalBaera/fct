@@ -2,6 +2,8 @@
     "files.associations": {
         "stdlib.h": "c",
         "estudante.h": "c",
-        "gerente.h": "c"
+        "gerente.h": "c",
+        "comun.h": "c",
+        "ctype.h": "c"
     }
 }

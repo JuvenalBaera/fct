@@ -15,5 +15,7 @@ int daIdadeEstudante(estudante e);
 int existeCandidaturaQuartoEstudante(estudante e, quarto q);
 void adicionaCandidaturaEstudante(estudante e, quarto q);
 comum daDadosEstudante(estudante e);
+int daQuantidadeDeCandidaturaEstudante(estudante e);
+int candidaturaExisteEstudante(estudante e, quarto q);
 
 #endif

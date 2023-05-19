@@ -3,6 +3,7 @@
 #include "quarto.h"
 #include "gerente.h"
 #include "sistema.h"
+#include "sequencia.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -117,3 +118,8 @@ quarto remocaoDoQuartoNoSistema(sistema s, quarto q){
     if(q1 == NULL) return NULL;
     return q1;
 }
+
+/* void inserirCandidaturaAQuartoSistema(quarto q, estudante e){
+    int tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
+    adicionaPosSequencia(daCanditadurasDoQuarto(q),e,tam);
+} */ 

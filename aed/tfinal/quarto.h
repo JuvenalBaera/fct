@@ -1,6 +1,7 @@
 #ifndef _H_QUARTOS
 #define _H_QUARTOS
 #include "gerente.h"
+#include "sequencia.h"
 #include "dicionario.h"
 
 typedef struct _quarto *quarto;
@@ -17,5 +18,5 @@ char * daDescricaoQuarto(quarto q);
 void ocuparDesocuparQuarto(quarto q, char * oc_desc);
 char * daOcupadoQuarto(quarto q);
 gerente daGerenteQuarto(quarto q);
-dicionario daCanditadurasDoQuarto(quarto q);
+sequencia daCanditadurasDoQuarto(quarto q);
 #endif

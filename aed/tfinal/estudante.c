@@ -22,6 +22,8 @@ estudante criaEstudante(char *login, char *nome, int idade, char *local, char *u
         free(e);
         return NULL;
     }
+    for(int i = 0; i < MAX_CANDIDATURA; i++)
+        e->candidaturasQuartos[i] = NULL;
     e->idade = idade;
     strcpy(e->localidade, local);
     e->numCandidaturas = 0;
@@ -60,4 +62,23 @@ int daIdadeEstudante(estudante e){
 
 comum daDadosEstudante(estudante e){
     return e->dados;
+}
+
+int daQuantidadeDeCandidaturaEstudante(estudante e){
+    int total = 0;
+    for(int i = 0; i < MAX_CANDIDATURA; i++){
+        if(e->candidaturasQuartos[i] != NULL)
+            total++;
+    }
+    return total;
+}
+
+int candidaturaExisteEstudante(estudante e, quarto q){
+    for(int i = 0; i < MAX_CANDIDATURA; i++){
+        if(e->candidaturasQuartos[i] != NULL){
+            if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0)
+                return 1;
+        }
+    }
+    return 0;
 }
