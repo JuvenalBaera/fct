@@ -113,7 +113,7 @@ quarto daQuartoPorCodigoDoSistema(sistema s, char *cod){
 }
 
 quarto remocaoDoQuartoNoSistema(sistema s, quarto q){
-    quarto q = removeElemDicionario(s->quartos, daCodigoQuarto(q));
-    if(q == NULL) return NULL;
-    return q;
+    quarto q1 = (quarto) removeElemDicionario(s->quartos, daCodigoQuarto(q));
+    if(q1 == NULL) return NULL;
+    return q1;
 }

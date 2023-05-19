@@ -260,7 +260,7 @@ void informacaoDoQuarto(sistema s, char *codigo){
     
     q = daQuartoPorCodigoDoSistema(s, codigo);
     if(q == NULL){
-        printf("%s\n\n", MSG_INEXISTENCIA_QUARTOS);
+        printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
     }
     else{
         printf("%s, %s\n%s\n%s\n%d\n%s\n%s\n\n", daCodigoQuarto(q), daResidenciaQuarto(q),
@@ -274,10 +274,10 @@ void modificaEstadoDeQuarto(sistema s){
     char codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS], estado[RESTANTE_DADOS];
     quarto q;
     gerente g;
-    if(scanf("%s %s %s\n", codigo, loginGerente, estado) == 3){
+    if(scanf("%s %s %s", codigo, loginGerente, estado) == 3){
         q = daQuartoPorCodigoDoSistema(s, codigo);
         if(q == NULL){
-            printf("%s\n\n", MSG_INEXISTENCIA_QUARTOS);
+            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
         }
         else{
             g=daGerentePorLoginDoSistema(s,loginGerente);
@@ -312,10 +312,10 @@ void remocaoDeQuarto(sistema s){
     char codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS];
     quarto q;
     gerente g;
-    if(scanf("%s %s\n", codigo, loginGerente) == 2){
+    if(scanf("%s %s", codigo, loginGerente) == 2){
         q = daQuartoPorCodigoDoSistema(s, codigo);
         if(q == NULL){
-            printf("%s\n\n", MSG_INEXISTENCIA_QUARTOS);
+            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
         }
         else{
             g = daGerentePorLoginDoSistema(s, loginGerente);
@@ -325,7 +325,7 @@ void remocaoDeQuarto(sistema s){
              else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
                     if(vazioDicionario(daCanditadurasDoQuarto(q)) == 1){
-                        if(remocaoDoQuartoNoSistema(s, q) == 1){
+                        if(remocaoDoQuartoNoSistema(s, q) != NULL){
                             printf("%s\n\n", MSG_REMOCAO_QUARTO_OK);
                         }
                     }
