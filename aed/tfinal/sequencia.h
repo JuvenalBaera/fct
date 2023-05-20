@@ -1,6 +1,8 @@
 #ifndef _H_SEQUENCIA
 #define _H_SEQUENCIA
 
+#include "iterador.h"
+
 /* Tipo de dados: sequencia ---> s1, s2, s3 ....*/
 typedef struct _sequencia * sequencia;
 
