@@ -1,0 +1,12 @@
+# input 02
+#
+# Basic 02
+# 
+IE estudante1 nomeEstudante1
+19 localidade1
+universidade1
+DE estudante1
+IG gerente1 nomeGerente1
+universidade1
+DE gerente1
+XS

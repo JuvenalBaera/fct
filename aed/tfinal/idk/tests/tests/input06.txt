@@ -1,0 +1,52 @@
+# input 6
+#
+# TESTE 1****************************************************
+# 
+IE estudante1 nomeEstudante1
+19 localidade1
+universidade1
+IE estudante2 nomeEstudante2
+20 localidade2
+universidade2
+IE estudante3 nomeEstudante3
+21 localidade1
+universidade1
+IE estudante4 nomeEstudante1
+19 localidade2
+universidade2
+IE estudante1 nomeEstudante5
+19 localidade1
+universidade1
+IE estudante5 nomeEstudante5
+19 localidade1
+universidade1
+IG gerente1 nomeGerente1
+universidade1
+IG gerente2 nomeEstudante2
+universidade2
+IG gerente3 nomeGerente3
+universidade3
+IG gerente4 nomeGerente4
+universidade2
+IG gerente2 nomeGerente2
+universidade1
+IG estudante5 nomeGerente5
+universidade1
+IE gerente1 nomeGerente6
+10 localidade1
+universidade1
+DE estudante1
+DE estudante2
+DE estudante3
+DE estudante4
+DE estudante5
+DE gerente1
+DG gerente1
+DG gerente2
+DG gerente3
+DG gerente4
+DG estudante5
+DG estudante2
+DE user-nao-existe
+DG user-nao-existe
+XS

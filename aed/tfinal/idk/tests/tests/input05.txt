@@ -1,0 +1,61 @@
+# input 05
+#
+# Basic 05
+# 
+teste
+IE aalmeida Antonio Almeida
+19 Leiria
+Universidade Nova de Lisboa
+IE aalmeida Antonio A 
+19 Leiria
+UNL
+DE aalmeida
+DE ccorreia
+IG rgomes Raquel Gomes
+Universidade Nova de Lisboa
+IG rgomes Raquel Gomes
+Universidade Nova de Lisboa
+DG rgomes
+DG aantunes
+IQ NOVA-RFS-Q101 rgomes
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a poente.
+IQ NOVA-RFS-Q101 rgomes
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual repetido.
+IQ NOVA-RFS-Q102 aantunes
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Gerente falso
+IQ NOVA-RFS-Q102 rgomes
+Residencia Frausto da Silva
+Universidade de Evora
+Caparica
+1
+Universidade errada
+DQ NOVA-RFS-Q101
+DQ NOVA-RFS-Q102
+MQ NOVA-RFS-Q101 rgomes ocupado
+MQ NOVA-RFS-Q101 aantunes livre
+MQ NOVA-RFS-Q101 rgomes livre
+RQ NOVA-RFS-Q901 jpsousa
+RQ NOVA-RFS-Q901
+RQ NOVA-RFS-Q101 aantunes
+IC aalmeida
+IC aalmeida NOVA-RFS-Q101
+IC aalmeida NOVA-RFS-Q101
+LC NOVA-RFS-Q101
+LC NOVA-RFS-Q101 rgomes
+LC NOVA-RFS-Q901 aantunes
+AC NOVA-RFS-Q101 rgomes aalmeida
+AC NOVA-RFS-Q901 aantunes ccorreia
+LC NOVA-RFS-Q101 rgomes
+XS

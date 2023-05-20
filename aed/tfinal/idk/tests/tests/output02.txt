@@ -1,0 +1,19 @@
+> 
+
+> 
+
+> 
+
+> 
+
+> Registo de estudante executado.
+
+> estudante1, nomeEstudante1, 19 anos, localidade1
+universidade1
+
+> Registo de gerente executado.
+
+> Inexistencia do estudante referido.
+
+> Obrigado. Ate a proxima.
+

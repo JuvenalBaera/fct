@@ -1,0 +1,208 @@
+# input 15
+#
+# COMPLETE
+# 
+IE aalmeida Antonio Almeida
+19 Leiria
+Universidade Nova de Lisboa
+IE bMadeira Bruno Madeira
+20 Castelo Branco
+Universidade de Evora
+IE bmoreira Barbara Moreira
+20 Faro
+Universidade Nova de Lisboa
+DE aAlmeida
+DE bmadeira
+DE bmoreira
+DE ccorreia
+IG rgomes Raquel Gomes
+Universidade Nova de Lisboa
+IG jpsousa Jose Paulo Sousa
+Universidade Nova de Lisboa
+IG tPaiva Teresa Paiva
+Universidade de Evora
+DG RGOMES
+DG JPSousa
+DG tPaiva
+DG aantunes
+IQ NOVA-RFS-Q101 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a poente.
+IQ NOVA-RFS-Q101 aantunes
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a poente.
+IQ NOVA-RFS-Q102 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a nascente.
+IQ NOVA-RFS-Q103 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual. Janela orientada a nascente.
+IQ NOVA-RFS-Q201 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual. 
+IQ NOVA-RFS-Q202 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual. 
+IQ NOVA-RFS-Q203 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual. 
+IQ NOVA-RFS-Q204 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual. Janela orientada a nascente.
+IQ NOVA-RFS-Q205 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+IQ NOVA-RFS-Q206 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto partilhado.
+IQ NOVA-RFS-Q207 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto partilhado.
+IQ NOVA-RFS-Q208 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+IQ NOVA-RFS-Q209 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+IQ NOVA-RFS-Q210 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+IQ NOVA-RFS-Q211 jpsousa
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+MQ nova-rfs-q102 jpsousa ocupado
+IQ NOVA-RFS-Q901 aantunes
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+9
+Quarto individual com casa de banho privada. Janela orientada a poente.
+IQ NOVA-RFS-Q901 tpaiva
+Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a poente.
+DQ NOVA-RFS-Q101
+DQ NOVA-RFS-Q102
+DQ NOVA-RFS-Q901
+MQ NOVA-RFS-Q901 jpsousa livre
+MQ NOVA-RFS-Q101 aantunes ocupado
+IC aalmeida NOVA-RFS-Q103
+MQ NOVA-RFS-Q103 jpsousa ocupado
+RQ NOVA-RFS-Q901 jpsousa
+RQ NOVA-RFS-Q101 aantunes
+RQ NOVA-RFS-Q103 jpsousa
+IC bmoreira NOVA-RFS-Q202
+IC bmoreira NOVA-RFS-Q203
+IC bmoreira NOVA-RFS-Q204
+IC bmoreira NOVA-RFS-Q205
+IC bmoreira NOVA-RFS-Q206
+IC bmoreira NOVA-RFS-Q207
+IC bmoreira NOVA-RFS-Q208
+IC bmoreira NOVA-RFS-Q209
+IC bmoreira NOVA-RFS-Q210
+IC bmoreira NOVA-RFS-Q211
+IC ccorreia NOVA-RFS-Q101
+IC bmoreira NOVA-RFS-Q101
+IC bmadeira NOVA-RFS-Q901
+IC bmadeira NOVA-RFS-Q102
+IC bmadeira NOVA-RFS-Q101
+IC bmadeira NOVA-RFS-Q101
+AC NOVA-RFS-Q901 aantunes ccorreia
+AC NOVA-RFS-Q101 aantunes ccorreia
+AC NOVA-RFS-Q101 jpsousa ccorreia
+LC NOVA-RFS-Q901 jpsousa
+LC NOVA-RFS-Q101 aantunes
+LC NOVA-RFS-Q201 jpsousa
+DQ NOVA-RFS-Q101 
+DQ NOVA-RFS-Q102
+DQ NOVA-RFS-Q201
+DQ NOVA-RFS-Q201
+DQ NOVA-RFS-Q202
+DQ NOVA-RFS-Q203
+DQ NOVA-RFS-Q204
+DQ NOVA-RFS-Q205
+DQ NOVA-RFS-Q206
+DQ NOVA-RFS-Q207
+DQ NOVA-RFS-Q209
+DQ NOVA-RFS-Q209
+DQ nova-rfs-Q210
+DQ nova-rfs-Q211
+LC NOVA-RFS-Q101 jpsousa
+LC NOVA-RFS-Q102 jpsousa
+LC NOVA-RFS-Q201 jpsousa
+LC NOVA-RFS-Q201 jpsousa
+LC NOVA-RFS-Q202 jpsousa
+LC NOVA-RFS-Q203 jpsousa
+LC NOVA-RFS-Q204 jpsousa
+LC NOVA-RFS-Q205 jpsousa
+LC NOVA-RFS-Q206 jpsousa
+LC NOVA-RFS-Q207 jpsousa
+LC NOVA-RFS-Q209 jpsousa
+LC NOVA-RFS-Q209 jpsousa
+LC nova-rfs-Q210 jpsousa
+LC nova-rfs-Q211 jpsousa
+IC bmadeira nova-rfs-q210
+LC nova-rfs-q210 jpsousa
+AC nova-rfs-q210 jpsousa bmadeira
+LC NOVA-RFS-Q101 jpsousa
+LC NOVA-RFS-Q102 jpsousa
+LC NOVA-RFS-Q201 jpsousa
+LC NOVA-RFS-Q201 jpsousa
+LC NOVA-RFS-Q202 jpsousa
+LC NOVA-RFS-Q203 jpsousa
+LC NOVA-RFS-Q204 jpsousa
+LC NOVA-RFS-Q205 jpsousa
+LC NOVA-RFS-Q206 jpsousa
+LC NOVA-RFS-Q207 jpsousa
+LC NOVA-RFS-Q209 jpsousa
+LC NOVA-RFS-Q209 jpsousa
+LC nova-rfs-Q210 jpsousa
+LC nova-rfs-Q211 jpsousa
+XS

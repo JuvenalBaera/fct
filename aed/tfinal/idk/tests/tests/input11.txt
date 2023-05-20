@@ -1,0 +1,340 @@
+# Input 11
+#
+# TESTE 1+2+3+4+5+6****************************************************
+# 
+IE estudante1 nomeEstudante1
+19 localidade1
+universidade1
+IE estudante2 nomeEstudante2
+20 localidade2
+universidade2
+IE estudante3 nomeEstudante3
+21 localidade1
+universidade1
+IE estudante4 nomeEstudante1
+19 localidade2
+universidade2
+IE estudante1 nomeEstudante5
+19 localidade1
+universidade1
+IE estudante5 nomeEstudante5
+19 localidade1
+universidade1
+IG gerente1 nomeGerente1
+universidade1
+IG gerente2 nomeEstudante2
+universidade2
+IG gerente3 nomeGerente3
+universidade3
+IG gerente4 nomeGerente4
+universidade2
+IG gerente2 nomeGerente2
+universidade1
+IG estudante5 nomeGerente5
+universidade1
+IE gerente1 nomeGerente6
+10 localidade1
+universidade1
+DE estudante1
+DE estudante2
+DE estudante3
+DE estudante4
+DE estudante5
+DE gerente1
+DG gerente1
+DG gerente2
+DG gerente3
+DG gerente4
+DG estudante5
+DG estudante2
+DE user-nao-existe
+DG user-nao-existe
+#
+# TESTE 2****************************************************
+# 
+IQ quarto-g1-1 gerente1
+residencia do gerente1
+universidade1
+localidade da residencia1
+1
+quarto na residencia do gerente1
+IQ quarto-g1-2 gerente1
+residencia do gerente1
+universidade1
+localidade da residencia1
+2
+quarto na residencia do gerente1
+IQ quarto-g1-3 gerente1
+residencia do gerente1
+universidade1
+localidade da residencia1
+1
+quarto na residencia do gerente1
+IQ quarto-g1-4 gerente1
+residencia do gerente1
+universidade2
+localidade da residencia1
+1
+quarto na residencia do gerente1
+IQ quarto-g2-1 gerente2
+residencia do gerente2
+universidade2
+localidade da residencia2
+10
+quarto na residencia do gerente2
+IQ quarto-g2-2 gerente2
+residencia do gerente2
+universidade1
+localidade da residencia2
+1
+quarto na residencia do gerente2
+IQ quarto-g2-2 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g2-2 gerente2
+residencia do gerente2
+universidade2
+localidade da residencia2
+1
+quarto na residencia do gerente2
+IQ quarto-g4-1 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g4-2 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+2
+quarto na residencia do gerente4
+IQ quarto-g4-3 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+3
+quarto na residencia do gerente4
+IQ quarto-g4-4 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+4
+quarto na residencia do gerente4
+IQ quarto-g4-5 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g4-6 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g4-7 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g4-8 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g4-9 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g4-10 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g4-11 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-g2-2 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IQ quarto-falha1 estudante1
+residencia 5 estrelas
+universidade1
+localidade 5 estrelas
+1
+quarto na residencia 5 estrelas
+IQ quarto-falha2 gerente5
+residencia 5 estrelas
+universidade1
+localidade 5 estrelas
+1
+quarto na residencia 5 estrelas
+#
+# TESTE 3****************************************************
+# 
+IC estudante1 quarto-g4-1
+IC estudante1 quarto-g4-2
+IC estudante1 quarto-g4-3
+IC estudante1 quarto-g4-4
+IC estudante1 quarto-g4-5
+IC estudante1 quarto-g4-6
+IC estudante1 quarto-g4-7
+IC estudante2 quarto-g2-2
+IC estudante1 quarto-g1-1
+IC estudante1 quarto-g1-2
+IC estudante1 quarto-g1-3
+IC estudante1 quarto-g4-8
+IC estudante2 quarto-g4-8
+IC estudante2 quarto-g2-2
+IC gerente3 quarto-g4-9
+IC estudante0 quarto-g4-10
+IC estudante5 quarto-falha2
+#
+# TESTE 4****************************************************
+# 
+DQ quarto-g4-10
+DQ quarto-g4-11
+RQ quarto-g4-10 gerente4
+DQ quarto-g4-10
+DQ quarto-g4-11
+RQ quarto-g4-11 gerente4
+DQ quarto-g4-9
+DQ quarto-g4-10
+DQ quarto-g4-11
+MQ quarto-g4-9 gerente4 ocupado
+IQ quarto-g4-11 gerente4
+residencia do gerente4
+universidade2
+localidade da residencia4
+1
+quarto na residencia do gerente4
+IC estudante3 quarto-g4-10
+DQ quarto-g4-9
+DQ quarto-g4-10
+DQ quarto-g4-11
+IC estudante3 quarto-g4-9
+IC estudante2 quarto-g1-1
+IC estudante2 quarto-g1-2
+IC estudante2 quarto-g1-3
+IC estudante5 quarto-g2-1
+AC quarto-g2-1 gerente2 estudante1
+AC quarto-g2-1 gerente4 estudante5
+AC quarto-falha2 gerente5 estudante5
+AC quarto-g2-1 gerente2 estudante5
+IC estudante3 quarto-g2-1
+AC quarto-g2-1 gerente2 estudante1
+AC quarto-g4-1 gerente0 estudante1
+AC quarto-g4-1 estudante1 estudante1
+IC estudante5 quarto-g2-1
+AC quarto-g2-1 gerente2 estudante5
+LC quarto-g1-1 gerente1
+LC quarto-g1-2 gerente1
+LC quarto-g1-3 gerente1
+LC quarto-g2-1 gerente2
+LC quarto-g2-2 gerente4
+LC quarto-g4-1 gerente4
+LC quarto-g4-2 gerente4
+LC quarto-g4-3 gerente4
+LC quarto-g4-4 gerente4
+LC quarto-g4-5 gerente4
+LC quarto-g4-6 gerente4
+LC quarto-g4-7 gerente4
+LC quarto-g4-8 gerente4
+LC quarto-g4-9 gerente4
+LC quarto-g4-10 gerente4
+LC quarto-g4-11 gerente4
+LC quarto-nao-existe gerente4
+LC quarto-falha2 gerente5
+LC quarto-g1-1 gerente4
+LC quarto-g1-1 gerente3
+#
+# TESTE 5****************************************************
+# 
+MQ quarto-falha2 gerente5 livre
+MQ quarto-nao-existe gerente4 livre
+MQ quarto-g4-11 gerente1 livre
+MQ quarto-g4-11 gerente4 livre
+DQ quarto-g4-11
+MQ quarto-g4-11 gerente4 ocupado
+DQ quarto-g4-11
+MQ quarto-g4-11 gerente4 livre
+MQ quarto-g1-1 gerente1 livre
+DQ quarto-g1-1
+MQ quarto-g1-1 gerente1 ocupado
+MQ quarto-g2-1 gerente2 ocupado
+DQ quarto-g2-1
+MQ quarto-g2-1 gerente2 livre
+DQ quarto-g2-1
+MQ quarto-g4-11 gerente4 ocupado
+DQ quarto-g1-1
+DQ quarto-g1-2
+DQ quarto-g1-3
+DQ quarto-g2-1
+DQ quarto-g2-2
+DQ quarto-g4-1
+DQ quarto-g4-2
+DQ quarto-g4-3
+DQ quarto-g4-4
+DQ quarto-g4-5
+DQ quarto-g4-6
+DQ quarto-g4-7
+DQ quarto-g4-8
+DQ quarto-g4-9
+DQ quarto-g4-10
+DQ quarto-g4-11
+DQ quarto-nao-existe
+DQ quarto-falha2
+#
+# TESTE 6****************************************************
+# 
+IC estudante5 quarto-g1-1
+IC estudante4 quarto-g1-1
+LC quarto-g1-1 gerente1
+AC quarto-g1-1 gerente1 estudante3
+AC quarto-g1-1 gerente1 gerente1
+AC quarto-g1-1 gerente1 estudante0
+AC quarto-g1-1 gerente0 estudante1
+AC quarto-falha2 gerente5 estudante5
+AC quarto-g4-10 gerente4 estudante3
+AC quarto-nao-existe gerente4 estudante3
+AC quarto-g1-1 gerente2 estudante5
+DQ quarto-g1-1
+IC estudante5 quarto-g1-1
+MQ quarto-g1-1 gerente1 livre
+IC estudante5 quarto-g1-1
+DQ quarto-g1-1
+LC quarto-g1-1 gerente1
+LC quarto-g1-2 gerente1
+LC quarto-g1-3 gerente1
+LC quarto-g2-1 gerente2
+LC quarto-g2-2 gerente4
+LC quarto-g4-1 gerente4
+LC quarto-g4-2 gerente4
+LC quarto-g4-3 gerente4
+LC quarto-g4-4 gerente4
+LC quarto-g4-5 gerente4
+LC quarto-g4-6 gerente4
+LC quarto-g4-7 gerente4
+LC quarto-g4-8 gerente4
+LC quarto-g4-9 gerente4
+LC quarto-g4-10 gerente4
+LC quarto-g4-11 gerente4
+AC quarto-g1-1 gerente1 estudante2
+LC quarto-g4-8 gerente4
+IC estudante1 quarto-g4-8
+XS

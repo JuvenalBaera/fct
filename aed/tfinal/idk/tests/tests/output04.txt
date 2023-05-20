@@ -1,0 +1,61 @@
+> 
+
+> 
+
+> 
+
+> 
+
+> Comando invalido.
+
+> Registo de estudante executado.
+
+> Utilizador ja existente.
+
+> aalmeida, Antonio Almeida, 19 anos, Leiria
+Universidade Nova de Lisboa
+
+> Inexistencia do estudante referido.
+
+> Registo de gerente executado.
+
+> Utilizador ja existente.
+
+> rgomes, Raquel Gomes
+Universidade Nova de Lisboa
+
+> Inexistencia do gerente referido.
+
+> Registo de quarto executado.
+
+> Quarto existente.
+
+> Inexistencia do gerente referido.
+
+> Operacao nao autorizada.
+
+> NOVA-RFS-Q101, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a poente.
+livre
+
+> Inexistencia do quarto referido.
+
+> Estado de quarto atualizado.
+
+> Operacao nao autorizada.
+
+> Estado de quarto atualizado.
+
+> Inexistencia do quarto referido.
+
+> Operacao nao autorizada.
+
+> Registo de candidatura executado.
+
+> Candidatura existente.
+
+> Obrigado. Ate a proxima.
+

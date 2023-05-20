@@ -1,0 +1,123 @@
+> 
+
+> 
+
+> 
+
+> 
+
+> Registo de estudante executado.
+
+> Registo de estudante executado.
+
+> Registo de estudante executado.
+
+> Registo de estudante executado.
+
+> Utilizador ja existente.
+
+> Registo de estudante executado.
+
+> Registo de gerente executado.
+
+> Registo de gerente executado.
+
+> Registo de gerente executado.
+
+> Registo de gerente executado.
+
+> Utilizador ja existente.
+
+> Utilizador ja existente.
+
+> Utilizador ja existente.
+
+> estudante1, nomeEstudante1, 19 anos, localidade1
+universidade1
+
+> estudante2, nomeEstudante2, 20 anos, localidade2
+universidade2
+
+> estudante3, nomeEstudante3, 21 anos, localidade1
+universidade1
+
+> estudante4, nomeEstudante1, 19 anos, localidade2
+universidade2
+
+> estudante5, nomeEstudante5, 19 anos, localidade1
+universidade1
+
+> Inexistencia do estudante referido.
+
+> gerente1, nomeGerente1
+universidade1
+
+> gerente2, nomeEstudante2
+universidade2
+
+> gerente3, nomeGerente3
+universidade3
+
+> gerente4, nomeGerente4
+universidade2
+
+> Inexistencia do gerente referido.
+
+> Inexistencia do gerente referido.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do gerente referido.
+
+> 
+
+> 
+
+> 
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Operacao nao autorizada.
+
+> Registo de quarto executado.
+
+> Operacao nao autorizada.
+
+> Registo de quarto executado.
+
+> Quarto existente.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Quarto existente.
+
+> Inexistencia do gerente referido.
+
+> Inexistencia do gerente referido.
+
+> Obrigado. Ate a proxima.
+

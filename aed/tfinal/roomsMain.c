@@ -53,7 +53,7 @@ int main(){
 
 
 void interpretador(sistema s){
-    char linha[MAXL], cmd[TAMANHO_CMD];
+    char linha[MAXL], cmd[TAMANHO_CMD], comentario[MAX_DESCRICAO];
     do {
         printf("> ");
         scanf("%s", cmd);
@@ -102,9 +102,11 @@ void interpretador(sistema s){
         }else if(strcmp(cmd, "XS")==0){
             printf("%s\n\n", MSG_SAIR);
         }else if(strcmp(cmd,"#")==0){
+            fgets(comentario, MAX_DESCRICAO, stdin);
             printf("\n");
         }
         else {
+            fgets(comentario, MAX_DESCRICAO, stdin);
             printf("%s\n\n", MSG_COMANDO_INVALIDO);
         } 
     }while (strcmp(cmd, "XS") != 0);
