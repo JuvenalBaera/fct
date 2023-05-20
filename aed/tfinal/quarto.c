@@ -12,7 +12,6 @@
 struct _quarto {
     char codigo[RESTANTE_DADOS];
     gerente gerenteQuarto;
-    // estudante estudanteQuarto; // (coleção); usar dicionário
     sequencia candidaturasAQuarto; // sequencia
     char universidade[TAM_DADOS];
     char residencia[TAM_DADOS];
@@ -25,7 +24,7 @@ struct _quarto {
 quarto criaQuarto(char *cod, gerente g, char *uni, char *res, char *local, int andar, char *desc){
     quarto q = (quarto) malloc(sizeof(struct _quarto));
     if(q == NULL) return NULL;
-    q->candidaturasAQuarto = criaSequencia(1);
+    q->candidaturasAQuarto = criaSequencia(5);
     if(q->candidaturasAQuarto == NULL) return NULL;
     strcpy(q->codigo,  cod);
     strcpy(q->localidade, local);

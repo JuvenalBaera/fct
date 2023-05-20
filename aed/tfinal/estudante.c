@@ -39,8 +39,10 @@ void destroiGenEstudante(void* e){
 
 int existeCandidaturaQuartoEstudante(estudante e, quarto q){
     for(int i = 0; i < MAX_CANDIDATURA; i++){
-        if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0){
-            return 1;
+        if(e->candidaturasQuartos[i] != NULL){
+            if(strcmp(daCodigoQuarto(e->candidaturasQuartos[i]), daCodigoQuarto(q)) == 0){
+                return 1;
+            }
         }
     }
     return 0;

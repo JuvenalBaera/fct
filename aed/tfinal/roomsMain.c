@@ -94,8 +94,10 @@ void interpretador(sistema s){
             fgets(linha, MAXL, stdin);
             inserirCandidaturaDeEstudanteQuarto(s, linha);
         }else if(strcmp(cmd,"AC")==0){
+            fgets(linha, MAXL, stdin);
             aceitacaoDeCandidatura(s, linha);
         }else if(strcmp(cmd,"LC")==0){
+            fgets(linha, MAXL, stdin);
             listagemDeCandidaturaAQuarto(s, linha);
         }else if(strcmp(cmd,"LQ")==0){
 
@@ -362,6 +364,7 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
     char login[RESTANTE_DADOS], codigo[RESTANTE_DADOS];
     estudante e;
     quarto q;
+    int tam;
 
     if(sscanf(linha, "%s %s", login, codigo) == 2){
         e = daEstudantePorLoginDoSistema(s, login);
@@ -377,9 +380,9 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
                         printf("%s\n\n", MSG_QUARTO_OCUPADO);
                     else{
                         if(candidaturaExisteEstudante(e, q) == 0){
-                            int tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
                             if(adicionaCandidaturaEstudante(e, q) == 1){
-                                adicionaPosSequencia(daCanditadurasDoQuarto(q),e,tam);
+                                // tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
+                                adicionaPosSequencia(daCanditadurasDoQuarto(q), e, 1);
                                 printf("%s\n\n", MSG_REGISTO_CANDIDATURA_OK);
                             }
                             else{
@@ -404,7 +407,7 @@ void aceitacaoDeCandidatura(sistema s, char *linha){
     quarto q;
     gerente g;
     estudante e;
-    if(scanf("%s %s %s", codigoQ, loginG, loginE) == 3){
+    if(sscanf(linha, "%s %s %s", codigoQ, loginG, loginE) == 3){
         q = daQuartoPorCodigoDoSistema(s, codigoQ);
         if(q == NULL){
             printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
@@ -425,6 +428,7 @@ void aceitacaoDeCandidatura(sistema s, char *linha){
                             apagaCandidaturasDoQuarto(q);
                           //  apagaTodasCandidaturasDosEstudantesNoSistema(s, q);
                             ocuparDesocuparQuarto(q, MSG_OCUPADO);
+                            printf("%s\n\n", MSG_ACEITAR_CANDIDATURA);
                         }
                         else
                             printf("%s\n\n", MSG_CANDIDATURA_INEXISTENTE);
@@ -445,7 +449,7 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha){
     gerente g;
     iterador it;
     estudante e;
-    if(scanf("%s %s", codigoQ, loginG) == 2){
+    if(sscanf(linha, "%s %s", codigoQ, loginG) == 2){
         q = daQuartoPorCodigoDoSistema(s, codigoQ);
         if(q == NULL){
             printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
@@ -461,7 +465,7 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha){
                         it = iteradorSequencia(daCanditadurasDoQuarto(q));
                         while(temSeguinteIterador(it)){
                             e = seguinteIterador(it);
-                            printf("%s, %s, %s\n", daLogin(daDadosEstudante(e)),
+                            printf("%s, %s, %s\n\n", daLogin(daDadosEstudante(e)),
                                                     daNome(daDadosEstudante(e)),
                                                     daUniversidade(daDadosEstudante(e))
                                                     );

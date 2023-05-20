@@ -5,7 +5,7 @@
 #include "quarto.h"
 #include "estudante.h"
 
-#define MAX_CANDIDATURA 1
+#define MAX_CANDIDATURA 10
 
 typedef struct _estudante *estudante;
 
