@@ -3,6 +3,7 @@
 #include "gerente.h"
 #include "estudante.h"
 #include "sequencia.h"
+#include "messages.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -82,4 +83,13 @@ gerente daGerenteQuarto(quarto q){
 
 sequencia daCanditadurasDoQuarto(quarto q){
     return q->candidaturasAQuarto;
+}
+
+void apagaCandidaturasDoQuarto(quarto q){
+    iterador it = iteradorSequencia(q->candidaturasAQuarto);
+    estudante e;
+    while(temSeguinteIterador(it)){
+        e = seguinteIterador(it);
+        e = NULL;
+    }
 }

@@ -4,6 +4,7 @@
         "estudante.h": "c",
         "gerente.h": "c",
         "comun.h": "c",
-        "ctype.h": "c"
+        "ctype.h": "c",
+        "sequencia.h": "c"
     }
 }

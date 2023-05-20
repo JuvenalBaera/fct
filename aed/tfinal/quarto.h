@@ -19,4 +19,5 @@ void ocuparDesocuparQuarto(quarto q, char * oc_desc);
 char * daOcupadoQuarto(quarto q);
 gerente daGerenteQuarto(quarto q);
 sequencia daCanditadurasDoQuarto(quarto q);
+void apagaCandidaturasDoQuarto(quarto q);
 #endif

@@ -122,4 +122,19 @@ quarto remocaoDoQuartoNoSistema(sistema s, quarto q){
 /* void inserirCandidaturaAQuartoSistema(quarto q, estudante e){
     int tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
     adicionaPosSequencia(daCanditadurasDoQuarto(q),e,tam);
-} */ 
+} */
+
+/* void apagaTodasCandidaturasDosEstudantesNoSistema(sistema s, quarto q){
+    iterador itE = iteradorDicionario(s->estudantes);
+    iterador itEQ = iteradorSequencia(daCanditadurasDoQuarto(q));
+    estudante e, e1;
+    while (temSeguinteIterador(itE)){
+        e = seguinteIterador(itE);
+        while(temSeguinteIterador(itEQ)){
+            e1 = seguinteIterador(itEQ);
+            if(e == e1){
+                e1 = NULL;
+            }
+        }
+    }
+} */

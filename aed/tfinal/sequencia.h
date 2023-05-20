@@ -85,4 +85,6 @@ void destroiSeqEElems(sequencia s, void (*destroi)(void *) );
 
 void incSequencia(sequencia q); 
 
+iterador iteradorSequencia(sequencia s);
+
 #endif

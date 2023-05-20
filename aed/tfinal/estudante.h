@@ -19,5 +19,6 @@ int adicionaCandidaturaEstudante(estudante e, quarto q);
 comum daDadosEstudante(estudante e);
 int daQuantidadeDeCandidaturaEstudante(estudante e);
 int candidaturaExisteEstudante(estudante e, quarto q);
+void apagaCanditadurasDoEstudante(estudante e);
 
 #endif

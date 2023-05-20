@@ -382,5 +382,80 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s){
         }
     }
 }
-void aceitacaoDeCandidatura(sistema s, char *linha){}
-void listagemDeCandidaturaAQuarto(sistema s, char *linha){}
+
+void aceitacaoDeCandidatura(sistema s, char *linha){
+    char codigoQ[RESTANTE_DADOS], loginE[RESTANTE_DADOS], loginG[RESTANTE_DADOS];
+    quarto q;
+    gerente g;
+    estudante e;
+    if(scanf("%s %s %s", codigoQ, loginG, loginE) == 3){
+        q = daQuartoPorCodigoDoSistema(s, codigoQ);
+        if(q == NULL){
+            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
+        }
+        else{
+            g = daGerentePorLoginDoSistema(s, loginG);
+            if(g == NULL){
+                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
+            }
+            else{
+                e = daEstudantePorLoginDoSistema(s, loginE);
+                if(e == NULL)
+                    printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
+                else{
+                    if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
+                        if(existeCandidaturaQuartoEstudante(e, q) == 1){
+                            apagaCanditadurasDoEstudante(e);
+                            apagaCandidaturasDoQuarto(q);
+                          //  apagaTodasCandidaturasDosEstudantesNoSistema(s, q);
+                            ocuparDesocuparQuarto(q, MSG_OCUPADO);
+                        }
+                        else
+                            printf("%s\n\n", MSG_CANDIDATURA_INEXISTENTE);
+                    }
+                    else
+                        printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+                }
+            }
+        }
+    }
+}
+
+void listagemDeCandidaturaAQuarto(sistema s, char *linha){
+    char codigoQ[RESTANTE_DADOS], loginG[RESTANTE_DADOS];
+    quarto q;
+    gerente g;
+    iterador it;
+    estudante e;
+    if(scanf("%s %s", codigoQ, loginG) == 2){
+        q = daQuartoPorCodigoDoSistema(s, codigoQ);
+        if(q == NULL){
+            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
+        }
+        else{
+            g = daGerentePorLoginDoSistema(s, loginG);
+            if(g == NULL){
+                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
+            }
+             else{
+                if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
+                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) > 0){
+                        it = iteradorSequencia(daCanditadurasDoQuarto(q));
+                        while(temSeguinteIterador(it)){
+                            e = seguinteIterador(it);
+                            printf("%s, %s, %s\n", daLogin(daDadosEstudante(e)),
+                                                    daNome(daDadosEstudante(e)),
+                                                    daUniversidade(daDadosEstudante(e))
+                                                    );
+                        }
+                    }
+                    else
+                        printf("%s\n\n", MSG_INEXISTENCIA_CANDIDATURAS);
+                }
+                else{
+                    printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+                }
+            }
+        }
+    }
+}
