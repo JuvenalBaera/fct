@@ -34,10 +34,10 @@ void informacaoDoGerente(sistema s, char *login);
 void inserirNovoQuarto(sistema s);
 void informacaoDoQuarto(sistema s, char *codigo);
 void modificaEstadoDeQuarto(sistema s);
-void remocaoDeQuarto(sistema s);
+void remocaoDeQuarto(sistema s, char *linha);
 
 // ################## OUTRAS ##################
-void inserirCandidaturaDeEstudanteQuarto(sistema s);
+void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha);
 void aceitacaoDeCandidatura(sistema s, char *linha);
 void listagemDeCandidaturaAQuarto(sistema s, char *linha);
 
@@ -67,16 +67,18 @@ void interpretador(sistema s){
             getchar();
             if(scanf("%s", linha) == 1)
                 informacaoDoEstudante(s, linha);
+            else
+                printf("%s\n\n", MSG_COMANDO_INVALIDO);
         }else if(strcmp(cmd,"IG")==0){
             getchar();
             inserirNovoGerente(s);
         }else if(strcmp(cmd,"DG")==0){
             getchar();
-            if(scanf("%s", linha) == 1){
+            if(scanf("%s", linha) == 1)
                 informacaoDoGerente(s, linha);
-            }
+            else
+                printf("%s\n\n", MSG_COMANDO_INVALIDO);
         }else if(strcmp(cmd,"IQ")==0){
-            // lerDados(linha, 5);
             getchar();
             inserirNovoQuarto(s);
         }else if(strcmp(cmd,"DQ")==0){
@@ -86,9 +88,11 @@ void interpretador(sistema s){
         }else if(strcmp(cmd,"MQ")==0){
             modificaEstadoDeQuarto(s);
         }else if(strcmp(cmd,"RQ")==0){ 
-            remocaoDeQuarto(s);
+            fgets(linha, MAXL, stdin);
+            remocaoDeQuarto(s, linha);
         }else if(strcmp(cmd,"IC")==0){
-            inserirCandidaturaDeEstudanteQuarto(s);
+            fgets(linha, MAXL, stdin);
+            inserirCandidaturaDeEstudanteQuarto(s, linha);
         }else if(strcmp(cmd,"AC")==0){
             aceitacaoDeCandidatura(s, linha);
         }else if(strcmp(cmd,"LC")==0){
@@ -110,7 +114,6 @@ void interpretador(sistema s){
             printf("%s\n\n", MSG_COMANDO_INVALIDO);
         } 
     }while (strcmp(cmd, "XS") != 0);
-
 }
 
 
@@ -152,6 +155,8 @@ void inserirNovoEstudante(sistema s){
             }
         }
     }
+    else
+        printf("%s\n\n", MSG_COMANDO_INVALIDO);
     free(formatacao);
 }
 
@@ -198,6 +203,8 @@ void inserirNovoGerente(sistema s){
 
         }
     }
+    else
+        printf("%s\n\n", MSG_COMANDO_INVALIDO);
 }
 
 void informacaoDoGerente(sistema s, char *login){
@@ -257,6 +264,8 @@ void inserirNovoQuarto(sistema s){
             }
         }
     }   
+    else
+        printf("%s\n\n", MSG_COMANDO_INVALIDO);
     free(formatacao);
 }
 
@@ -313,11 +322,12 @@ void modificaEstadoDeQuarto(sistema s){
     }
 }
 
-void remocaoDeQuarto(sistema s){
+void remocaoDeQuarto(sistema s, char *linha){
     char codigo[RESTANTE_DADOS], loginGerente[RESTANTE_DADOS];
     quarto q;
     gerente g;
-    if(scanf("%s %s", codigo, loginGerente) == 2){
+    
+    if(sscanf(linha, "%s %s", codigo, loginGerente) == 2){
         q = daQuartoPorCodigoDoSistema(s, codigo);
         if(q == NULL){
             printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
@@ -344,14 +354,16 @@ void remocaoDeQuarto(sistema s){
             }
         }
     }
+    else
+        printf("%s\n\n", MSG_COMANDO_INVALIDO);
 }
 
-void inserirCandidaturaDeEstudanteQuarto(sistema s){
+void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
     char login[RESTANTE_DADOS], codigo[RESTANTE_DADOS];
     estudante e;
     quarto q;
 
-    if(scanf("%s %s", login, codigo) == 2){
+    if(sscanf(linha, "%s %s", login, codigo) == 2){
         e = daEstudantePorLoginDoSistema(s, login);
         if(e == NULL)
             printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
@@ -383,6 +395,8 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s){
                 printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
         }
     }
+    else
+        printf("%s\n\n", MSG_COMANDO_INVALIDO);
 }
 
 void aceitacaoDeCandidatura(sistema s, char *linha){
@@ -421,6 +435,8 @@ void aceitacaoDeCandidatura(sistema s, char *linha){
             }
         }
     }
+    else
+        printf("%s\n\n", MSG_COMANDO_INVALIDO);
 }
 
 void listagemDeCandidaturaAQuarto(sistema s, char *linha){
@@ -460,4 +476,6 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha){
             }
         }
     }
+    else
+        printf("%s\n\n", MSG_COMANDO_INVALIDO);
 }
