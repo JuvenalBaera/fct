@@ -1,0 +1,103 @@
+gcc -o roomsMain *.c
+.\roomsMain
+IE login nomeEstudante
+19 localidade
+universidade
+IE login2 Antonio Almeida
+19 Leiria 
+Universidade Nova de Lisboa
+#
+# Estudante
+#
+IG loginG1 nome
+universidade
+IG loginG2 nome
+Universidade Nova de Lisboa
+#
+# gerente
+#
+IQ codigo loginG1
+resi
+universidade
+caparica
+1
+descricao do quarto codigo
+IQ codigo2 loginG2
+resi
+Universidade Nova de Lisboa
+cabeca
+1
+descricao do quarto codigo2
+IQ codigo3 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo3
+IQ codigo4 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo4
+IQ codigo5 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo5
+IQ codigo6 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo6
+IQ codigo7 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo7
+IQ codigo8 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo8
+IQ codigo9 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo9
+IQ codigo10 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo10
+IQ codigo11 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo11
+#
+# Quarto
+#
+IC login codigo
+IC login codigo2
+IC login codigo3
+IC login codigo4
+IC login codigo5
+IC login codigo6
+IC login codigo7
+IC login codigo8
+IC login codigo9
+IC login codigo10
+IC loginNExiste codigo
+IC login2 codigo
+IC login2 codigo2
+#
+#   Total de Mooshak: 15
+#

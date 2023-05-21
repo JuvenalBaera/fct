@@ -244,21 +244,18 @@ void inserirNovoQuarto(sistema s){
     lido += scanf(formatacao,descricao);
 
     if(lido == 7){
-        g = daGerentePorLoginDoSistema(s, loginGerente);
-        if( g == NULL){
-            printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
-        }
-        else {
-            if(existeCodigoDoQuartoNoSistema(s, codigoQuarto)){
-              printf("%s\n\n", MSG_QUARTO_EXISTENTE);
+        if(existeCodigoDoQuartoNoSistema(s, codigoQuarto) == 1)
+            printf("%s\n\n", MSG_QUARTO_EXISTENTE);
+        else{
+            g = daGerentePorLoginDoSistema(s, loginGerente);
+            if(g == NULL){
+                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
             }
-            else{
+            else {  
                 if(strcmp(daUniversidade(daDadosGerente(g)), uni) == 0){
                     q = criaQuarto(codigoQuarto, g, uni, residencia, localidade, andar, descricao);
-                    if(q != NULL){
-                        inserirQuartoSistema(s, q);
-                        printf("%s\n\n", MSG_REGISTO_QUARTO_OK);
-                    }
+                    inserirQuartoSistema(s, q);
+                    printf("%s\n\n", MSG_REGISTO_QUARTO_OK);
                 }
                 else{
                     printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
@@ -298,7 +295,7 @@ void modificaEstadoDeQuarto(sistema s){
         else{
             g=daGerentePorLoginDoSistema(s,loginGerente);
             if(g == NULL){
-                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
+                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
             }
             else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
@@ -337,7 +334,7 @@ void remocaoDeQuarto(sistema s, char *linha){
         else{
             g = daGerentePorLoginDoSistema(s, loginGerente);
             if(g == NULL){
-                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
+                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
             }
              else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
@@ -364,7 +361,6 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
     char login[RESTANTE_DADOS], codigo[RESTANTE_DADOS];
     estudante e;
     quarto q;
-    int tam;
 
     if(sscanf(linha, "%s %s", login, codigo) == 2){
         e = daEstudantePorLoginDoSistema(s, login);
@@ -415,7 +411,7 @@ void aceitacaoDeCandidatura(sistema s, char *linha){
         else{
             g = daGerentePorLoginDoSistema(s, loginG);
             if(g == NULL){
-                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
+                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
             }
             else{
                 e = daEstudantePorLoginDoSistema(s, loginE);
@@ -457,18 +453,22 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha){
         else{
             g = daGerentePorLoginDoSistema(s, loginG);
             if(g == NULL){
-                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
+                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
             }
              else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
-                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) > 0){
+                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) > 1){
+                        // printf("\n\nEntrei 1\n\n");
                         it = iteradorSequencia(daCanditadurasDoQuarto(q));
-                        while(temSeguinteIterador(it)){
-                            e = seguinteIterador(it);
-                            printf("%s, %s, %s\n\n", daLogin(daDadosEstudante(e)),
-                                                    daNome(daDadosEstudante(e)),
-                                                    daUniversidade(daDadosEstudante(e))
-                                                    );
+                        if(it != NULL){
+                            while(temSeguinteIterador(it)){
+                                e = (estudante) seguinteIterador(it);
+                                printf("%s, %s, %s\n", daLogin(daDadosEstudante(e)),
+                                                        daNome(daDadosEstudante(e)),
+                                                        daUniversidade(daDadosEstudante(e))
+                                                        );
+                            }
+                            printf("\n");
                         }
                     }
                     else

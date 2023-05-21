@@ -1,0 +1,55 @@
+gcc -o roomsMain *.c
+.\roomsMain
+IE login nomeEstudante
+19 localidade
+universidade
+IE aalmeida Antonio Almeida
+19 Leiria 
+Universidade Nova de Lisboa
+#
+# Estudante
+#
+IG loginG1 nome
+universidade
+IG loginG2 nome
+Universidade Nova de Lisboa
+#
+# gerente
+#
+IQ codigo loginG1
+resi
+universidade
+caparica
+1
+descricao do quarto codigo
+IQ codigo2 loginG2
+resi
+Universidade Nova de Lisboa
+cabeca
+1
+descricao do quarto codigo2
+IQ codigo3 loginG1
+resi
+universidade
+caparica
+4
+descricao do quarto codigo3
+#
+# Quarto
+#
+IC login codigo
+IC login codigo
+IC aalmeida codigo
+IC aalmeida codigo2
+#
+# Inserir
+#
+LC codigo loginG1
+LC codigoQNExiste loginG1
+LC codigoQNExiste loginNExiste
+LC codigo login2
+LC codigo loginG2
+#
+# Listar
+#
+XS

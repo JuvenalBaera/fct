@@ -7,6 +7,7 @@
         "ctype.h": "c",
         "sequencia.h": "c",
         "quarto.h": "c",
-        "sistema.h": "c"
+        "sistema.h": "c",
+        "iterador.h": "c"
     }
 }
