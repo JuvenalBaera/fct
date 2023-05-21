@@ -1,0 +1,296 @@
+> 
+> 
+> 
+> 
+> Registo de estudante executado.
+
+> Registo de estudante executado.
+
+> Registo de estudante executado.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do estudante referido.
+
+> bmoreira, Barbara Moreira, 20 anos, Faro
+Universidade Nova de Lisboa
+
+> Inexistencia do estudante referido.
+
+> Registo de gerente executado.
+
+> Registo de gerente executado.
+
+> Registo de gerente executado.
+
+> Inexistencia do gerente referido.
+
+> Inexistencia do gerente referido.
+
+> tPaiva, Teresa Paiva
+Universidade de Evora
+
+> Inexistencia do gerente referido.
+
+> Registo de quarto executado.
+
+> Quarto existente.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Registo de quarto executado.
+
+> Inexistencia do quarto referido.
+
+> Inexistencia do gerente referido.
+
+> Inexistencia do gerente referido.
+
+> NOVA-RFS-Q101, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a poente.
+livre
+
+> NOVA-RFS-Q102, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a nascente.
+livre
+
+> Inexistencia do quarto referido.
+
+> Inexistencia do quarto referido.
+
+> Operacao nao autorizada.
+
+> Registo de candidatura executado.
+
+> Candidaturas activas.
+
+> Inexistencia do quarto referido.
+
+> Operacao nao autorizada.
+
+> Candidaturas activas.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Registo de candidatura executado.
+
+> Inexistencia do estudante referido.
+
+> Operacao nao autorizada.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do quarto referido.
+
+> Operacao nao autorizada.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do quarto referido.
+
+> Operacao nao autorizada.
+
+> Inexistencia de candidaturas.
+
+> NOVA-RFS-Q101, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a poente.
+livre
+
+> NOVA-RFS-Q102, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+1
+Quarto individual com casa de banho privada. Janela orientada a nascente.
+livre
+
+> NOVA-RFS-Q201, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+livre
+
+> NOVA-RFS-Q201, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+livre
+
+> NOVA-RFS-Q202, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+livre
+
+> NOVA-RFS-Q203, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+livre
+
+> NOVA-RFS-Q204, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual. Janela orientada a nascente.
+livre
+
+> NOVA-RFS-Q205, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+livre
+
+> NOVA-RFS-Q206, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto partilhado.
+livre
+
+> NOVA-RFS-Q207, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto partilhado.
+livre
+
+> NOVA-RFS-Q209, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+livre
+
+> NOVA-RFS-Q209, Residencia Frausto da Silva
+Universidade Nova de Lisboa
+Caparica
+2
+Quarto individual.
+livre
+
+> Inexistencia do quarto referido.
+
+> Inexistencia do quarto referido.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia do quarto referido.
+
+> Inexistencia do quarto referido.
+
+> Inexistencia do estudante referido.
+
+> Inexistencia do quarto referido.
+
+> Inexistencia do quarto referido.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia de candidaturas.
+
+> Inexistencia do quarto referido.
+
+> Inexistencia do quarto referido.
+
+> Obrigado. Ate a proxima.
+

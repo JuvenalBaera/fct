@@ -299,9 +299,9 @@ void modificaEstadoDeQuarto(sistema s){
             }
             else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
-                    if(strcmp(estado, "ocupado") == 0){
+                    if(strcmp(estado, MSG_OCUPADO) == 0){
                         if(vaziaSequencia(daCanditadurasDoQuarto(q)) == 1){
-                            ocuparDesocuparQuarto(q, estado);
+                            ocuparDesocuparQuarto(q, MSG_OCUPADO);
                             printf("%s\n\n", MSG_QUARTO_ATUALIZADO);
                         }
                         else{
@@ -309,7 +309,7 @@ void modificaEstadoDeQuarto(sistema s){
                         }
                     }
                     else{
-                        ocuparDesocuparQuarto(q, estado);
+                        ocuparDesocuparQuarto(q, MSG_LIVRE);
                         printf("%s\n\n", MSG_QUARTO_ATUALIZADO);
                     }
                 }
@@ -341,6 +341,7 @@ void remocaoDeQuarto(sistema s, char *linha){
                     if(tamanhoSequencia(daCanditadurasDoQuarto(q)) == 0){
                         if(remocaoDoQuartoNoSistema(s, q) != NULL){
                             printf("%s\n\n", MSG_REMOCAO_QUARTO_OK);
+                            destroiQuarto(q);
                         }
                     }
                     else{
@@ -361,6 +362,7 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
     char login[RESTANTE_DADOS], codigo[RESTANTE_DADOS];
     estudante e;
     quarto q;
+    int tam;
 
     if(sscanf(linha, "%s %s", login, codigo) == 2){
         e = daEstudantePorLoginDoSistema(s, login);
@@ -377,8 +379,8 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
                     else{
                         if(candidaturaExisteEstudante(e, q) == 0){
                             if(adicionaCandidaturaEstudante(e, q) == 1){
-                                // tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
-                                adicionaPosSequencia(daCanditadurasDoQuarto(q), e, 1);
+                                tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
+                                adicionaPosSequencia(daCanditadurasDoQuarto(q), e, tam+1);
                                 printf("%s\n\n", MSG_REGISTO_CANDIDATURA_OK);
                             }
                             else{
@@ -457,16 +459,18 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha){
             }
              else{
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
-                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) > 1){
+                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) >= 1){
                         // printf("\n\nEntrei 1\n\n");
                         it = iteradorSequencia(daCanditadurasDoQuarto(q));
                         if(it != NULL){
                             while(temSeguinteIterador(it)){
                                 e = (estudante) seguinteIterador(it);
+                                if(e != NULL){
                                 printf("%s, %s, %s\n", daLogin(daDadosEstudante(e)),
                                                         daNome(daDadosEstudante(e)),
                                                         daUniversidade(daDadosEstudante(e))
                                                         );
+                                }
                             }
                             printf("\n");
                         }
