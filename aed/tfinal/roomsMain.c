@@ -66,39 +66,49 @@ void interpretador(sistema s){
         if (strcmp(cmd,"IE")==0){
             getchar();
             inserirNovoEstudante(s);
+            printf("\n");
         }else if(strcmp(cmd,"DE")==0){
             getchar();
             if(scanf("%s", linha) == 1)
                 informacaoDoEstudante(s, linha);
             else
                 printf("%s", MSG_COMANDO_INVALIDO);
+            printf("\n");
         }else if(strcmp(cmd,"IG")==0){
             getchar();
             inserirNovoGerente(s);
+            printf("\n");
         }else if(strcmp(cmd,"DG")==0){
             getchar();
             if(scanf("%s", linha) == 1)
                 informacaoDoGerente(s, linha);
             else
                 printf("%s", MSG_COMANDO_INVALIDO);
+            printf("\n");
         }else if(strcmp(cmd,"IQ")==0){
             getchar();
             inserirNovoQuarto(s);
+            printf("\n");
         }else if(strcmp(cmd,"DQ")==0){
             if(scanf("%s", linha)){
                 informacaoDoQuarto(s, linha);
             }
+            printf("\n");
         }else if(strcmp(cmd,"MQ")==0){
             modificaEstadoDeQuarto(s);
+            printf("\n");
         }else if(strcmp(cmd,"RQ")==0){ 
             fgets(linha, MAXL, stdin);
             remocaoDeQuarto(s, linha);
+            printf("\n");
         }else if(strcmp(cmd,"IC")==0){
             fgets(linha, MAXL, stdin);
             inserirCandidaturaDeEstudanteQuarto(s, linha);
+            printf("\n");
         }else if(strcmp(cmd,"AC")==0){
             fgets(linha, MAXL, stdin);
             aceitacaoDeCandidatura(s, linha);
+            printf("\n");
         }else if(strcmp(cmd,"LC")==0){
             fgets(linha, MAXL, stdin);
             listagemDeCandidaturaAQuarto(s, linha);
@@ -110,14 +120,17 @@ void interpretador(sistema s){
 
         }else if(strcmp(cmd, "XS")==0){
             printf("%s", MSG_SAIR);
+            printf("\n");
         }else if(strcmp(cmd,"#")==0){
             fgets(comentario, MAX_DESCRICAO, stdin);
+            printf("\n");
         }
         else {
             fgets(comentario, MAX_DESCRICAO, stdin);
             printf("%s", MSG_COMANDO_INVALIDO);
+            printf("\n");
         }
-        printf("\n\n");
+        printf("\n");
     }while (strcmp(cmd, "XS") != 0);
 }
 
@@ -262,8 +275,8 @@ void inserirNovoQuarto(sistema s){
             if(g != NULL){ 
                 if(strcmp(daUniversidade(daDadosGerente(g)), uni) == 0){
                     q = criaQuarto(codigoQuarto, g, uni, residencia, localidade, andar, descricao);
-                    inserirQuartoSistema(s, q);
-                    printf("%s", MSG_REGISTO_QUARTO_OK);
+                    if(inserirQuartoSistema(s, q) == 1)
+                        printf("%s", MSG_REGISTO_QUARTO_OK);
                 }
                 else
                     printf("%s", MSG_OP_NAO_AUTORIZADA);
@@ -335,7 +348,7 @@ void remocaoDeQuarto(sistema s, char *linha){
             g = daGerentePorLoginDoSistema(s, loginGerente);
             if(g != NULL){
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
-                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) > 0){
+                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) == 0){
                         if(remocaoDoQuartoNoSistema(s, q) != NULL){
                             printf("%s", MSG_REMOCAO_QUARTO_OK);
                             destroiQuarto(q);
@@ -409,12 +422,14 @@ void aceitacaoDeCandidatura(sistema s, char *linha){
         if(q != NULL){
             g = daGerentePorLoginDoSistema(s, loginG);
             if(g != NULL){
+                // printf("\n\nAC --> %s\n\n", loginE);
                 e = daEstudantePorLoginDoSistema(s, loginE);
                 if(e != NULL){
                     if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
                         if(existeCandidaturaQuartoEstudante(e, q) == 1){
                             apagaCanditadurasDoEstudante(e);
                             apagaCandidaturasDoQuarto(q);
+                            apagaTodasCandidaturasDoEstudanteNoSistema(s, q, e);
                             ocuparDesocuparQuarto(q, MSG_OCUPADO);
                             printf("%s", MSG_ACEITAR_CANDIDATURA);
                         }
@@ -425,7 +440,7 @@ void aceitacaoDeCandidatura(sistema s, char *linha){
                         printf("%s", MSG_OP_NAO_AUTORIZADA);
                 }
                 else
-                    printf("%s", MSG_ESTUDANTE_INEXISTENTE);
+                    printf("%s", MSG_CANDIDATURA_INEXISTENTE);
             }
             else
                 printf("%s", MSG_OP_NAO_AUTORIZADA);
@@ -449,31 +464,27 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha){
             g = daGerentePorLoginDoSistema(s, loginG);
             if(g != NULL){
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
-                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) >= 1){
+                    if(vaziaSequencia(daCanditadurasDoQuarto(q)) == 0){
                         it = iteradorSequencia(daCanditadurasDoQuarto(q));
-                        if(it != NULL){
-                            while(temSeguinteIterador(it)){
-                                e = (estudante) seguinteIterador(it);
-                                if(e != NULL){
-                                    printf("%s, ", daLogin(daDadosEstudante(e)));
-                                    printf("%s, ", daNome(daDadosEstudante(e)));
-                                    printf("%s\n", daUniversidade(daDadosEstudante(e)));
-                                }
-                            }
+                        while(temSeguinteIterador(it)){
+                            e = (estudante) seguinteIterador(it);
+                            printf("%s, ", daLogin(daDadosEstudante(e)));
+                            printf("%s, ", daNome(daDadosEstudante(e)));
+                            printf("%s\n", daUniversidade(daDadosEstudante(e)));
                         }
                     }
                     else
-                        printf("%s", MSG_INEXISTENCIA_CANDIDATURAS);
+                        printf("%s\n", MSG_INEXISTENCIA_CANDIDATURAS);
                 }
                 else{
-                    printf("%s", MSG_OP_NAO_AUTORIZADA);
+                    printf("%s\n", MSG_OP_NAO_AUTORIZADA);
                 }
             }
             else
-                printf("%s", MSG_OP_NAO_AUTORIZADA);
+                printf("%s\n", MSG_OP_NAO_AUTORIZADA);
         }
         else
-            printf("%s", MSG_QUARTO_INEXISTENTE);
+            printf("%s\n", MSG_QUARTO_INEXISTENTE);
     }
     else
         printf("%s", MSG_COMANDO_INVALIDO);

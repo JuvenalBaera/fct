@@ -22,6 +22,6 @@ int existeQuartoNoSistema(sistema s, quarto q);
 quarto daQuartoPorCodigoDoSistema(sistema s, char *cod);
 int existeCodigoDoQuartoNoSistema(sistema s, char * codigo);
 quarto remocaoDoQuartoNoSistema(sistema s, quarto q);
-void inserirCandidaturaAQuartoSistema(sistema s, quarto q, estudante e);
-
+// void inserirCandidaturaAQuartoSistema(sistema s, quarto q, estudante e);
+void apagaTodasCandidaturasDoEstudanteNoSistema(sistema s, quarto q, estudante e);
 #endif

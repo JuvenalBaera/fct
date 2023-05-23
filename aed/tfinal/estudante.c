@@ -88,6 +88,10 @@ int candidaturaExisteEstudante(estudante e, quarto q){
     return 0;
 }
 
+int daNumeroDeCandidaturaEstudante(estudante e){
+    return e->numCandidaturas;
+}
+
 void apagaCanditadurasDoEstudante(estudante e){
     for(int i = 0; i < MAX_CANDIDATURA; i++)
         e->candidaturasQuartos[i] = NULL;

@@ -20,4 +20,5 @@ char * daOcupadoQuarto(quarto q);
 gerente daGerenteQuarto(quarto q);
 sequencia daCanditadurasDoQuarto(quarto q);
 void apagaCandidaturasDoQuarto(quarto q);
+
 #endif

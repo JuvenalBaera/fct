@@ -45,7 +45,7 @@ int inserirGerenteSistema(sistema s, gerente g){
 }
 
 int inserirQuartoSistema(sistema s, quarto q){
-    if(adicionaElemDicionario(s->quartos,daCodigoQuarto(q), q) == 1)
+    if(adicionaElemDicionario(s->quartos, daCodigoQuarto(q), q) == 1)
         return 1;
     return 0;
 }
@@ -124,17 +124,51 @@ quarto remocaoDoQuartoNoSistema(sistema s, quarto q){
     adicionaPosSequencia(daCanditadurasDoQuarto(q),e,tam);
 } */
 
-/* void apagaTodasCandidaturasDosEstudantesNoSistema(sistema s, quarto q){
+void apagaTodasCandidaturasDoEstudanteNoSistema(sistema s, quarto q, estudante e){
     iterador itE = iteradorDicionario(s->estudantes);
-    iterador itEQ = iteradorSequencia(daCanditadurasDoQuarto(q));
-    estudante e, e1;
-    while (temSeguinteIterador(itE)){
-        e = seguinteIterador(itE);
-        while(temSeguinteIterador(itEQ)){
-            e1 = seguinteIterador(itEQ);
-            if(e == e1){
-                e1 = NULL;
-            }
+    iterador itS;
+    int i=0, j=0;
+    quarto auxQuarto;
+    estudante auxEstudante;
+
+     iterador it = iteradorDicionario(s->quartos);
+     sequencia sAux;
+     while(temSeguinteIterador(it)){
+        auxQuarto = seguinteIterador(it);
+        // iterador itS = iteradorSequencia(daCanditadurasDoQuarto(auxQuarto));
+        if(existeCandidaturaQuartoEstudante(e, auxQuarto)){
+           sAux= daCanditadurasDoQuarto(auxQuarto);
+           itS = iteradorSequencia(sAux);
+           while(temSeguinteIterador(itS)){
+                auxEstudante = seguinteIterador(itS);
+                if(strcmp(daLogin(daDadosEstudante(auxEstudante)),  daLogin(daDadosEstudante(e))) == 0){
+                    removePosSequencia(daCanditadurasDoQuarto((quarto)elementoDicionario(s->quartos,daCodigoQuarto(auxQuarto))), j);
+                }
+                j++;
+           }
+           // removeCandidaturaEstudanteNoQuarto(auxQuarto, e);
+
         }
-    }
-} */
+        i++;
+     }
+
+
+ // iterador itEQ = iteradorSequencia(daCanditadurasDoQuarto(q));
+    // estudante e, e1;
+    // while (temSeguinteIterador(itE)){
+    //     e = seguinteIterador(itE);
+    //     while(temSeguinteIterador(itEQ)){
+    //         e1 = seguinteIterador(itEQ);
+    //         if(e == e1){
+    //             e1 = NULL;
+    //         }
+    //     }
+    // }
+    // int i;
+    //   for(i=0; i < tamanhoDicionario(s->quartos); i++){
+    //    aux = elementoDicionario(s->quartos, daCodigoQuarto(q));
+
+
+    //     }
+    //   }
+}

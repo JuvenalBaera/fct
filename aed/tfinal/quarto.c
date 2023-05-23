@@ -86,10 +86,6 @@ sequencia daCanditadurasDoQuarto(quarto q){
 }
 
 void apagaCandidaturasDoQuarto(quarto q){
-    iterador it = iteradorSequencia(q->candidaturasAQuarto);
-    estudante e;
-    while(temSeguinteIterador(it)){
-        e = seguinteIterador(it);
-        e = NULL;
-    }
+    destroiSequencia(daCanditadurasDoQuarto(q));
+    q->candidaturasAQuarto = criaSequencia(1);
 }
