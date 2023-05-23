@@ -34,7 +34,8 @@ void destroiEstudante(estudante e){
 }
 
 void destroiGenEstudante(void* e){
-    destroiEstudante((estudante) e);
+    if(e != NULL)
+        destroiEstudante((estudante) e);
 }
 
 int existeCandidaturaQuartoEstudante(estudante e, quarto q){

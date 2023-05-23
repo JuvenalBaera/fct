@@ -52,13 +52,13 @@ int inserirQuartoSistema(sistema s, quarto q){
 
 void destroiSistema(sistema s){
     destroiDicEElems(s->estudantes, destroiGenEstudante);
-    destroiDicionario(s->estudantes);
+    // destroiDicionario(s->estudantes);
     
     destroiDicEElems(s->gerentes, destroiGenGerente);
-    destroiDicionario(s->gerentes);
+    // destroiDicionario(s->gerentes);
 
     destroiDicEElems(s->quartos, destroiGenQuarto);
-    destroiDicionario(s->quartos);
+    // destroiDicionario(s->quartos);
     free(s);
 }
 

@@ -41,7 +41,8 @@ void destroiQuarto( quarto q){
 }
 
 void destroiGenQuarto(void* q){
-    destroiQuarto((quarto) q);
+    if(q != NULL)
+        destroiQuarto((quarto) q);
 }
 
 char * daCodigoQuarto(quarto q){

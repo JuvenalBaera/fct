@@ -25,12 +25,15 @@ void interpretador(sistema s);
 // ################## ESTUDANTE ##################
 void inserirNovoEstudante(sistema s);
 void informacaoDoEstudante(sistema s, char *login);
+void mostrarEstudante(estudante e);
 
 // ################## GERENTE ##################
+void mostrarGerente(gerente g);
 void inserirNovoGerente(sistema s);
 void informacaoDoGerente(sistema s, char *login);
 
 // ################## QUARTO ##################
+void mostrarQuarto(quarto q);
 void inserirNovoQuarto(sistema s);
 void informacaoDoQuarto(sistema s, char *codigo);
 void modificaEstadoDeQuarto(sistema s);
@@ -46,8 +49,8 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha);
 int main(){
     sistema s = criaSistema();
     interpretador(s);
-    // destroiSistemaCompleto(s);
     destroiSistema(s);
+    printf("Fim\n");
     return 0;
 }
 
@@ -68,7 +71,7 @@ void interpretador(sistema s){
             if(scanf("%s", linha) == 1)
                 informacaoDoEstudante(s, linha);
             else
-                printf("%s\n\n", MSG_COMANDO_INVALIDO);
+                printf("%s", MSG_COMANDO_INVALIDO);
         }else if(strcmp(cmd,"IG")==0){
             getchar();
             inserirNovoGerente(s);
@@ -77,7 +80,7 @@ void interpretador(sistema s){
             if(scanf("%s", linha) == 1)
                 informacaoDoGerente(s, linha);
             else
-                printf("%s\n\n", MSG_COMANDO_INVALIDO);
+                printf("%s", MSG_COMANDO_INVALIDO);
         }else if(strcmp(cmd,"IQ")==0){
             getchar();
             inserirNovoQuarto(s);
@@ -106,15 +109,15 @@ void interpretador(sistema s){
         }else if(strcmp(cmd,"LT")==0){
 
         }else if(strcmp(cmd, "XS")==0){
-            printf("%s\n\n", MSG_SAIR);
+            printf("%s", MSG_SAIR);
         }else if(strcmp(cmd,"#")==0){
             fgets(comentario, MAX_DESCRICAO, stdin);
-            printf("\n");
         }
         else {
             fgets(comentario, MAX_DESCRICAO, stdin);
-            printf("%s\n\n", MSG_COMANDO_INVALIDO);
-        } 
+            printf("%s", MSG_COMANDO_INVALIDO);
+        }
+        printf("\n\n");
     }while (strcmp(cmd, "XS") != 0);
 }
 
@@ -131,6 +134,14 @@ char* formatacaoLeitura(int tamanho){
 
 
 // ################## ESTUDANTE ##################
+void mostrarEstudante(estudante e){
+    printf("%s, ", daLogin(daDadosEstudante(e)));
+    printf("%s, ", daNome(daDadosEstudante(e)));
+    printf("%d anos, ", daIdadeEstudante(e));
+    printf("%s\n", daLocalidadeEstudante(e));
+    printf("%s", daUniversidade(daDadosEstudante(e)));
+}
+
 void inserirNovoEstudante(sistema s){
     estudante e;
     char  login[RESTANTE_DADOS], local[TAMANHO_DADOS], uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
@@ -138,8 +149,8 @@ void inserirNovoEstudante(sistema s){
 
     char *formatacao = formatacaoLeitura(TAM_DADOS);
 
-    lido += scanf("%s ", login); // Nome Estudante
-    lido += scanf(formatacao, nome); // 19\n
+    lido += scanf("%s ", login);
+    lido += scanf(formatacao, nome);
     lido += scanf("%d ", &idade);
     lido += scanf(formatacao, local); getchar();
     lido += scanf(formatacao, uni);
@@ -147,44 +158,41 @@ void inserirNovoEstudante(sistema s){
     if(lido == 5){
         e = criaEstudante(login, nome, idade, local, uni);
         if(e != NULL){
-            if(existeEstudanteNoSistema(s, e) == 1){
-                printf("%s\n\n", MSG_UTILIZADOR_EXISTENTE);
-                destroiEstudante(e);
+            if(existeEstudanteNoSistema(s, e) == 0){
+                if(inserirEstudanteSistema(s, e) == 1)
+                    printf("%s", MSG_REGISTO_ESTUDANTE_OK);
             }
             else{
-                if(inserirEstudanteSistema(s, e) == 1)
-                    printf("%s\n\n", MSG_REGISTO_ESTUDANTE_OK);
+                printf("%s", MSG_UTILIZADOR_EXISTENTE);
+                destroiEstudante(e);
             }
         }
     }
     else
-        printf("%s\n\n", MSG_COMANDO_INVALIDO);
+        printf("%s", MSG_COMANDO_INVALIDO);
     free(formatacao);
 }
 
 void informacaoDoEstudante(sistema s, char *login){
     estudante e = daEstudantePorLoginDoSistema(s, login);
-    if(e == NULL){
-        printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
-    }
-    else{
-        printf("%s, %s, %d anos, %s\n%s\n\n", daLogin(daDadosEstudante(e)),
-                                            daNome(daDadosEstudante(e)),
-                                            daIdadeEstudante(e),
-                                            daLocalidadeEstudante(e),
-                                            daUniversidade(daDadosEstudante(e))
-        );
-    }
+    if(e != NULL)
+        mostrarEstudante(e);
+    else
+        printf("%s", MSG_ESTUDANTE_INEXISTENTE);
 }
 
 
 // ################## GERENTE ##################
+void mostrarGerente(gerente g){
+    printf("%s, ", daLogin(daDadosGerente(g)));
+    printf("%s\n", daNome(daDadosGerente(g)));
+    printf("%s", daUniversidade(daDadosGerente(g)));
+}
+
 void inserirNovoGerente(sistema s){
-    gerente g;
-
     char login[RESTANTE_DADOS], uni[TAMANHO_DADOS], nome[TAMANHO_DADOS];
+    gerente g;
     int lido = 0;
-
     char *formatacao = formatacaoLeitura(TAM_DADOS);
 
     lido += scanf("%s ", login);
@@ -194,35 +202,40 @@ void inserirNovoGerente(sistema s){
     if(lido == 3){
         g = criaGerente(login, nome, uni);
         if(g != NULL){
-            if(existeGerenteNoSistema(s, g)==1){
-                printf("%s\n\n", MSG_UTILIZADOR_EXISTENTE);
-                destroiGerente(g);
+            if(existeGerenteNoSistema(s, g)==0){
+                inserirGerenteSistema(s, g);
+                printf("%s", MSG_REGISTO_GERENTE_OK);
             }
             else{
-                inserirGerenteSistema(s, g);
-                printf("%s\n\n", MSG_REGISTO_GERENTE_OK);
+                printf("%s", MSG_UTILIZADOR_EXISTENTE);
+                destroiGerente(g);
             }
-
         }
     }
     else
-        printf("%s\n\n", MSG_COMANDO_INVALIDO);
+        printf("%s", MSG_COMANDO_INVALIDO);
 }
 
 void informacaoDoGerente(sistema s, char *login){
     gerente g = daGerentePorLoginDoSistema(s, login);
-    if( g == NULL){
-        printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
-    }
-    else{
-        printf("%s, %s\n%s\n\n",daLogin(daDadosGerente(g)), 
-                                daNome(daDadosGerente(g)),
-                                daUniversidade(daDadosGerente(g)));
-    }
+    if( g != NULL)
+        mostrarGerente(g);
+    else
+        printf("%s", MSG_GERENTE_INEXISTENTE);
 }
 
 
 // ################## QUARTO ##################
+void mostrarQuarto(quarto q){
+    printf("%s, ", daCodigoQuarto(q));
+    printf("%s\n", daResidenciaQuarto(q));
+    printf("%s\n", daUniversidadeQuarto(q));
+    printf("%s\n", daLocalidadeQuarto(q));
+    printf("%d\n", daAndarQuarto(q));
+    printf("%s\n", daDescricaoQuarto(q));
+    printf("%s", daOcupadoQuarto(q));
+}
+
 void inserirNovoQuarto(sistema s){
     quarto q;
     gerente g;
@@ -244,43 +257,35 @@ void inserirNovoQuarto(sistema s){
     lido += scanf(formatacao,descricao);
 
     if(lido == 7){
-        if(existeCodigoDoQuartoNoSistema(s, codigoQuarto) == 1)
-            printf("%s\n\n", MSG_QUARTO_EXISTENTE);
-        else{
+        if(existeCodigoDoQuartoNoSistema(s, codigoQuarto) == 0){
             g = daGerentePorLoginDoSistema(s, loginGerente);
-            if(g == NULL){
-                printf("%s\n\n", MSG_GERENTE_INEXISTENTE);
-            }
-            else {  
+            if(g != NULL){ 
                 if(strcmp(daUniversidade(daDadosGerente(g)), uni) == 0){
                     q = criaQuarto(codigoQuarto, g, uni, residencia, localidade, andar, descricao);
                     inserirQuartoSistema(s, q);
-                    printf("%s\n\n", MSG_REGISTO_QUARTO_OK);
+                    printf("%s", MSG_REGISTO_QUARTO_OK);
                 }
-                else{
-                    printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
-                }
+                else
+                    printf("%s", MSG_OP_NAO_AUTORIZADA);
             }
+            else
+                printf("%s", MSG_GERENTE_INEXISTENTE);
         }
+        else
+            printf("%s", MSG_QUARTO_EXISTENTE);
     }   
     else
-        printf("%s\n\n", MSG_COMANDO_INVALIDO);
+        printf("%s", MSG_COMANDO_INVALIDO);
     free(formatacao);
 }
 
 void informacaoDoQuarto(sistema s, char *codigo){
     quarto q;
-    
     q = daQuartoPorCodigoDoSistema(s, codigo);
-    if(q == NULL){
-        printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
-    }
-    else{
-        printf("%s, %s\n%s\n%s\n%d\n%s\n%s\n\n", daCodigoQuarto(q), daResidenciaQuarto(q),
-                                            daUniversidadeQuarto(q), daLocalidadeQuarto(q),
-                                            daAndarQuarto(q), daDescricaoQuarto(q),daOcupadoQuarto(q));
-    }
-    
+    if(q != NULL)
+        mostrarQuarto(q);
+    else
+        printf("%s", MSG_QUARTO_INEXISTENTE);
 }
 
 void modificaEstadoDeQuarto(sistema s){
@@ -289,36 +294,34 @@ void modificaEstadoDeQuarto(sistema s){
     gerente g;
     if(scanf("%s %s %s", codigo, loginGerente, estado) == 3){
         q = daQuartoPorCodigoDoSistema(s, codigo);
-        if(q == NULL){
-            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
-        }
-        else{
+        if(q != NULL){
             g=daGerentePorLoginDoSistema(s,loginGerente);
-            if(g == NULL){
-                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
-            }
-            else{
+            if(g != NULL){
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
                     if(strcmp(estado, MSG_OCUPADO) == 0){
                         if(vaziaSequencia(daCanditadurasDoQuarto(q)) == 1){
                             ocuparDesocuparQuarto(q, MSG_OCUPADO);
-                            printf("%s\n\n", MSG_QUARTO_ATUALIZADO);
+                            printf("%s", MSG_QUARTO_ATUALIZADO);
                         }
-                        else{
-                            printf("%s\n\n", MSG_CANDIDATURAS_ACTIVAS);
-                        }
+                        else
+                            printf("%s", MSG_CANDIDATURAS_ACTIVAS);
                     }
                     else{
                         ocuparDesocuparQuarto(q, MSG_LIVRE);
-                        printf("%s\n\n", MSG_QUARTO_ATUALIZADO);
+                        printf("%s", MSG_QUARTO_ATUALIZADO);
                     }
                 }
-                else{
-                    printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
-                }
+                else
+                    printf("%s", MSG_OP_NAO_AUTORIZADA);
             }
+            else
+                printf("%s", MSG_OP_NAO_AUTORIZADA);
         }
+        else
+            printf("%s", MSG_QUARTO_INEXISTENTE);
     }
+    else
+        printf("%s", MSG_COMANDO_INVALIDO);
 }
 
 void remocaoDeQuarto(sistema s, char *linha){
@@ -328,34 +331,30 @@ void remocaoDeQuarto(sistema s, char *linha){
     
     if(sscanf(linha, "%s %s", codigo, loginGerente) == 2){
         q = daQuartoPorCodigoDoSistema(s, codigo);
-        if(q == NULL){
-            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
-        }
-        else{
+        if(q != NULL){
             g = daGerentePorLoginDoSistema(s, loginGerente);
-            if(g == NULL){
-                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
-            }
-             else{
+            if(g != NULL){
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginGerente) == 0){
-                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) == 0){
+                    if(tamanhoSequencia(daCanditadurasDoQuarto(q)) > 0){
                         if(remocaoDoQuartoNoSistema(s, q) != NULL){
-                            printf("%s\n\n", MSG_REMOCAO_QUARTO_OK);
+                            printf("%s", MSG_REMOCAO_QUARTO_OK);
                             destroiQuarto(q);
                         }
                     }
-                    else{
-                        printf("%s\n\n", MSG_CANDIDATURAS_ACTIVAS);
-                    }
+                    else
+                        printf("%s", MSG_CANDIDATURAS_ACTIVAS);
                 }
-                else{
-                    printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
-                }
+                else
+                    printf("%s", MSG_OP_NAO_AUTORIZADA);
             }
+            else
+                printf("%s", MSG_OP_NAO_AUTORIZADA);
         }
+        else
+            printf("%s", MSG_QUARTO_INEXISTENTE);
     }
     else
-        printf("%s\n\n", MSG_COMANDO_INVALIDO);
+        printf("%s", MSG_COMANDO_INVALIDO);
 }
 
 void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
@@ -366,38 +365,38 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
 
     if(sscanf(linha, "%s %s", login, codigo) == 2){
         e = daEstudantePorLoginDoSistema(s, login);
-        if(e == NULL)
-            printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
-        else{
+        if(e != NULL){
             if(daQuantidadeDeCandidaturaEstudante(e) <= MAX_CANDIDATURA){
                 q = daQuartoPorCodigoDoSistema(s, codigo);
-                if(q == NULL)
-                    printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
-                else{
-                    if(strcmp(daOcupadoQuarto(q), MSG_OCUPADO) == 0)
-                        printf("%s\n\n", MSG_QUARTO_OCUPADO);
-                    else{
+                if(q != NULL){
+                    if(strcmp(daOcupadoQuarto(q), MSG_LIVRE) == 0){
                         if(candidaturaExisteEstudante(e, q) == 0){
                             if(adicionaCandidaturaEstudante(e, q) == 1){
                                 tam = tamanhoSequencia(daCanditadurasDoQuarto(q));
                                 adicionaPosSequencia(daCanditadurasDoQuarto(q), e, tam+1);
-                                printf("%s\n\n", MSG_REGISTO_CANDIDATURA_OK);
+                                printf("%s", MSG_REGISTO_CANDIDATURA_OK);
                             }
                             else{
-                                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+                                printf("%s", MSG_OP_NAO_AUTORIZADA);
                             }
                         }
                         else
-                            printf("%s\n\n", MSG_CANDIDATURA_EXISTENTE);
+                            printf("%s", MSG_CANDIDATURA_EXISTENTE);
                     }
+                    else
+                        printf("%s", MSG_QUARTO_OCUPADO);
                 }
+                else
+                    printf("%s", MSG_QUARTO_INEXISTENTE);
             }
             else
-                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+                printf("%s", MSG_OP_NAO_AUTORIZADA);
         }
+        else
+            printf("%s", MSG_ESTUDANTE_INEXISTENTE);
     }
     else
-        printf("%s\n\n", MSG_COMANDO_INVALIDO);
+        printf("%s", MSG_COMANDO_INVALIDO);
 }
 
 void aceitacaoDeCandidatura(sistema s, char *linha){
@@ -407,38 +406,35 @@ void aceitacaoDeCandidatura(sistema s, char *linha){
     estudante e;
     if(sscanf(linha, "%s %s %s", codigoQ, loginG, loginE) == 3){
         q = daQuartoPorCodigoDoSistema(s, codigoQ);
-        if(q == NULL){
-            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
-        }
-        else{
+        if(q != NULL){
             g = daGerentePorLoginDoSistema(s, loginG);
-            if(g == NULL){
-                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
-            }
-            else{
+            if(g != NULL){
                 e = daEstudantePorLoginDoSistema(s, loginE);
-                if(e == NULL)
-                    printf("%s\n\n", MSG_ESTUDANTE_INEXISTENTE);
-                else{
+                if(e != NULL){
                     if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
                         if(existeCandidaturaQuartoEstudante(e, q) == 1){
                             apagaCanditadurasDoEstudante(e);
                             apagaCandidaturasDoQuarto(q);
-                          //  apagaTodasCandidaturasDosEstudantesNoSistema(s, q);
                             ocuparDesocuparQuarto(q, MSG_OCUPADO);
-                            printf("%s\n\n", MSG_ACEITAR_CANDIDATURA);
+                            printf("%s", MSG_ACEITAR_CANDIDATURA);
                         }
                         else
-                            printf("%s\n\n", MSG_CANDIDATURA_INEXISTENTE);
+                            printf("%s", MSG_CANDIDATURA_INEXISTENTE);
                     }
                     else
-                        printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+                        printf("%s", MSG_OP_NAO_AUTORIZADA);
                 }
+                else
+                    printf("%s", MSG_ESTUDANTE_INEXISTENTE);
             }
+            else
+                printf("%s", MSG_OP_NAO_AUTORIZADA);
         }
+        else
+            printf("%s", MSG_QUARTO_INEXISTENTE);
     }
     else
-        printf("%s\n\n", MSG_COMANDO_INVALIDO);
+        printf("%s", MSG_COMANDO_INVALIDO);
 }
 
 void listagemDeCandidaturaAQuarto(sistema s, char *linha){
@@ -449,41 +445,36 @@ void listagemDeCandidaturaAQuarto(sistema s, char *linha){
     estudante e;
     if(sscanf(linha, "%s %s", codigoQ, loginG) == 2){
         q = daQuartoPorCodigoDoSistema(s, codigoQ);
-        if(q == NULL){
-            printf("%s\n\n", MSG_QUARTO_INEXISTENTE);
-        }
-        else{
+        if(q != NULL){
             g = daGerentePorLoginDoSistema(s, loginG);
-            if(g == NULL){
-                printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
-            }
-             else{
+            if(g != NULL){
                 if(strcmp(daLogin(daDadosGerente(daGerenteQuarto(q))), loginG) == 0){
                     if(tamanhoSequencia(daCanditadurasDoQuarto(q)) >= 1){
-                        // printf("\n\nEntrei 1\n\n");
                         it = iteradorSequencia(daCanditadurasDoQuarto(q));
                         if(it != NULL){
                             while(temSeguinteIterador(it)){
                                 e = (estudante) seguinteIterador(it);
                                 if(e != NULL){
-                                printf("%s, %s, %s\n", daLogin(daDadosEstudante(e)),
-                                                        daNome(daDadosEstudante(e)),
-                                                        daUniversidade(daDadosEstudante(e))
-                                                        );
+                                    printf("%s, ", daLogin(daDadosEstudante(e)));
+                                    printf("%s, ", daNome(daDadosEstudante(e)));
+                                    printf("%s\n", daUniversidade(daDadosEstudante(e)));
                                 }
                             }
-                            printf("\n");
                         }
                     }
                     else
-                        printf("%s\n\n", MSG_INEXISTENCIA_CANDIDATURAS);
+                        printf("%s", MSG_INEXISTENCIA_CANDIDATURAS);
                 }
                 else{
-                    printf("%s\n\n", MSG_OP_NAO_AUTORIZADA);
+                    printf("%s", MSG_OP_NAO_AUTORIZADA);
                 }
             }
+            else
+                printf("%s", MSG_OP_NAO_AUTORIZADA);
         }
+        else
+            printf("%s", MSG_QUARTO_INEXISTENTE);
     }
     else
-        printf("%s\n\n", MSG_COMANDO_INVALIDO);
+        printf("%s", MSG_COMANDO_INVALIDO);
 }

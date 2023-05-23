@@ -21,7 +21,8 @@ void destroiGerente(gerente g){
 }
 
 void destroiGenGerente(void* g){
-    destroiGerente((gerente) g);
+    if(g != NULL)
+        destroiGerente((gerente) g);
 }
 
 comum daDadosGerente(gerente g){

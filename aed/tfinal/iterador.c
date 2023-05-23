@@ -14,6 +14,7 @@ iterador criaIterador(void **vector, int n){
 	iter->vector = vector;
 	iter->capacidade = n;
 	iter->atual = 0;
+	return iter;
 }
 
 void destroiIterador(iterador it){
