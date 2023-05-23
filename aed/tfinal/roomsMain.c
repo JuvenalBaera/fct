@@ -379,7 +379,7 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
     if(sscanf(linha, "%s %s", login, codigo) == 2){
         e = daEstudantePorLoginDoSistema(s, login);
         if(e != NULL){
-            if(daQuantidadeDeCandidaturaEstudante(e) <= MAX_CANDIDATURA){
+            if(daQuantidadeDeCandidaturaEstudante(e) < MAX_CANDIDATURA){
                 q = daQuartoPorCodigoDoSistema(s, codigo);
                 if(q != NULL){
                     if(strcmp(daOcupadoQuarto(q), MSG_LIVRE) == 0){
@@ -389,9 +389,9 @@ void inserirCandidaturaDeEstudanteQuarto(sistema s, char *linha){
                                 adicionaPosSequencia(daCanditadurasDoQuarto(q), e, tam+1);
                                 printf("%s", MSG_REGISTO_CANDIDATURA_OK);
                             }
-                            else{
+                           /* else{
                                 printf("%s", MSG_OP_NAO_AUTORIZADA);
-                            }
+                            } */
                         }
                         else
                             printf("%s", MSG_CANDIDATURA_EXISTENTE);
