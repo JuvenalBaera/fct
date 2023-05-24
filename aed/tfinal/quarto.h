@@ -1,6 +1,7 @@
 #ifndef _H_QUARTOS
 #define _H_QUARTOS
 #include "gerente.h"
+#include "estudante.h"
 #include "sequencia.h"
 #include "dicionario.h"
 

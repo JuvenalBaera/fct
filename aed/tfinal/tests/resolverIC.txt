@@ -1,0 +1,135 @@
+gcc -o roomMain *.c
+.\roomsMain
+IE estudante1 nomeEstudante1
+19 localidade1
+Universidade Nova de Lisboa
+IE estudante2 nomeEstudante2
+20 localidade2
+Universidade Nova de Lisboa
+IE estudante3 nomeEstudante3
+21 localidade3
+Universidade Nova de Lisboa
+IE estudante4 nomeEstudante4
+19 localidade4
+Universidade Nova de Lisboa
+IE estudante5 nomeEstudante5
+19 localidade5
+Universidade Nova de Lisboa
+IE estudante6 nomeEstudante6
+19 localidade6
+Universidade Nova de Lisboa
+IE estudante7 nomeEstudante7
+19 localidade7
+Universidade Nova de Lisboa
+IE estudante8 nomeEstudante8
+19 localidade8
+Universidade Nova de Lisboa
+IE estudante9 nomeEstudante9
+19 localidade9
+Universidade Nova de Lisboa
+IE estudante9 nomeEstudante9
+19 localidade9
+Universidade Nova de Lisboa
+IE estudante10 nomeEstudante10
+19 localidade10
+Universidade Nova de Lisboa
+IG gerente1 nomeGerente1
+Universidade Nova de Lisboa
+IQ quarto-g1-1 gerente1
+residencia do gerente1
+Universidade Nova de Lisboa
+localidade da residencia1
+1
+quarto na residencia do gerente1
+IG gerente2 nomeEstudante2
+Universidade Nova de Lisboa
+IQ quarto-g2-1 gerente2
+residencia do gerente2
+Universidade Nova de Lisboa
+localidade da residencia2
+2
+quarto na residencia do gerente2
+IG gerente3 nomeEstudante3
+Universidade Nova de Lisboa
+IQ quarto-g3-1 gerente3
+residencia do gerente3
+Universidade Nova de Lisboa
+localidade da residencia3
+3
+quarto na residencia do gerente3
+IG gerente4 nomeEstudante4
+Universidade Nova de Lisboa
+IQ quarto-g4-1 gerente4
+residencia do gerente4
+Universidade Nova de Lisboa
+localidade da residencia4
+4
+quarto na residencia do gerente5
+IG gerente5 nomeEstudante5
+Universidade Nova de Lisboa
+IQ quarto-g5-1 gerente5
+residencia do gerente5
+Universidade Nova de Lisboa
+localidade da residencia5
+5
+quarto na residencia do nomeGerente5
+IG gerente6 nomeEstudante6
+Universidade Nova de Lisboa
+IQ quarto-g6-1 gerente6
+residencia do gerente6
+Universidade Nova de Lisboa
+localidade da residencia6
+6
+quarto na residencia do gerente6
+IG gerente7 nomeEstudante7
+Universidade Nova de Lisboa
+IQ quarto-g7-1 gerente7
+residencia do gerente7
+Universidade Nova de Lisboa
+localidade da residencia7
+7
+quarto na residencia do gerente7
+IG gerente8 nomeEstudante8
+Universidade Nova de Lisboa
+IQ quarto-g8-1 gerente8
+residencia do gerente8
+Universidade Nova de Lisboa
+localidade da residencia8
+8
+quarto na residencia do gerente8
+IG gerente9 nomeEstudante9
+Universidade Nova de Lisboa
+IQ quarto-g9-1 gerente9
+residencia do gerente9
+Universidade Nova de Lisboa
+localidade da residencia9
+9
+quarto na residencia do gerente9
+IG gerente10 nomeEstudante10
+Universidade Nova de Lisboa
+IQ quarto-g10-1 gerente10
+residencia do gerente10
+Universidade Nova de Lisboa
+localidade da residencia10
+10
+quarto na residencia do gerente10
+IG gerente11 nomeEstudante11
+Universidade Nova de Lisboa
+IQ quarto-g11-1 gerente11
+residencia do gerente11
+Universidade Nova de Lisboa
+localidade da residencia11
+11
+quarto na residencia do gerente11
+IC estudante1 quarto-g1-1
+IC estudante1 quarto-g2-1
+IC estudante1 quarto-g3-1
+IC estudante1 quarto-g4-1
+IC estudante1 quarto-g5-1
+IC estudante1 quarto-g6-1
+IC estudante1 quarto-g7-1
+IC estudante1 quarto-g8-1
+IC estudante1 quarto-g9-1
+IC estudante1 quarto-g10-1
+IC estudante1 quarto-g11-1
+

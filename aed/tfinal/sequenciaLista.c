@@ -6,9 +6,9 @@
 
 // Estrutura de dados: sequencia implementada em lista ligada simples
 struct  _sequencia{
-	noSimples cabeca;
-	noSimples cauda; 	//mais conveniente em lista ligada dupla
-	int nroElem; 	 // conveni�ncia
+         noSimples cabeca;
+         noSimples cauda; 	//mais conveniente em lista ligada dupla
+         int nroElem; 	 // conveni�ncia
 };
 
 // Prototipos das funcoes associadas a uma sequencia
@@ -147,10 +147,10 @@ void * removePosSequencia(sequencia s, int i){
 iterador iteradorSequencia(sequencia s){
 	int i=0;
 	noSimples tmp= s->cabeca;
-	void ** aux = malloc(sizeof(void * ) * s->nroElem);
-	for (;i<s->nroElem;i++){
-		aux[i] = elemNoSimples(tmp);
-		tmp = segNoSimples(tmp);
-	}
-	return criaIterador(aux,s->nroElem);
+		void ** aux = malloc(sizeof(void * ) * s->nroElem);
+		for (;i<s->nroElem;i++){
+			aux[i] = elemNoSimples(tmp);
+			tmp = segNoSimples(tmp);
+		}
+		return criaIterador(aux,s->nroElem);
 }

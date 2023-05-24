@@ -24,11 +24,20 @@ sistema criaSistema(){
     if(s == NULL) return NULL;
 
     s->estudantes = criaDicionario(MAX_ESTUDANTE, 1);
-    if(s->estudantes == NULL) return NULL;
+    if(s->estudantes == NULL){
+        free(s);
+        return NULL;
+    }
     s->gerentes = criaDicionario(MAX_GERENTE, 1);
-    if(s->gerentes == NULL) return NULL;
+    if(s->gerentes == NULL){
+        free(s);
+        return NULL;
+    }
     s->quartos = criaDicionario(MAX_QUARTOS, 1);
-    if(s->quartos == NULL) return NULL;
+    if(s->quartos == NULL){
+        free(s);
+        return NULL;
+    }
     return s;
 }
 

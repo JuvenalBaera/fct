@@ -20,5 +20,6 @@ comum daDadosEstudante(estudante e);
 int daQuantidadeDeCandidaturaEstudante(estudante e);
 int candidaturaExisteEstudante(estudante e, quarto q);
 void apagaCanditadurasDoEstudante(estudante e);
+quarto daQuartosQueCandidatouEstudante(estudante e, int indice);
 
 #endif

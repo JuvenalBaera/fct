@@ -1,8 +1,9 @@
-#include "quarto.h"
+
 #include "comun.h"
 #include "gerente.h"
 #include "estudante.h"
 #include "sequencia.h"
+#include "quarto.h"
 #include "messages.h"
 #include <stdlib.h>
 #include <string.h>
@@ -24,7 +25,7 @@ struct _quarto {
 quarto criaQuarto(char *cod, gerente g, char *uni, char *res, char *local, int andar, char *desc){
     quarto q = (quarto) malloc(sizeof(struct _quarto));
     if(q == NULL) return NULL;
-    q->candidaturasAQuarto = criaSequencia(1);
+    q->candidaturasAQuarto = criaSequencia(0);
     if(q->candidaturasAQuarto == NULL) return NULL;
     strcpy(q->codigo,  cod);
     strcpy(q->localidade, local);

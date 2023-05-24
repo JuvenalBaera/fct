@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <stdio.h>
+
 struct _estudante{
     comum dados;
     int idade;
@@ -50,11 +52,8 @@ int existeCandidaturaQuartoEstudante(estudante e, quarto q){
 }
 
 int adicionaCandidaturaEstudante(estudante e, quarto q){
-    if(e->numCandidaturas < MAX_CANDIDATURA){
-        e->candidaturasQuartos[e->numCandidaturas++] = q;
-        return 1;
-    }
-    return 0;
+    
+    e->candidaturasQuartos[e->numCandidaturas++] = q;
 }
 
 char* daLocalidadeEstudante(estudante e){
@@ -72,8 +71,9 @@ comum daDadosEstudante(estudante e){
 int daQuantidadeDeCandidaturaEstudante(estudante e){
     int total = 0;
     for(int i = 0; i < MAX_CANDIDATURA; i++){
-        if(e->candidaturasQuartos[i] != NULL)
+        if(e->candidaturasQuartos[i] != NULL){
             total++;
+        }
     }
     return total;
 }
@@ -96,4 +96,9 @@ void apagaCanditadurasDoEstudante(estudante e){
     for(int i = 0; i < MAX_CANDIDATURA; i++)
         e->candidaturasQuartos[i] = NULL;
     e->numCandidaturas = 0;
+}
+
+//funcao da candidaturas a quartos???
+quarto daQuartosQueCandidatouEstudante(estudante e, int indice){
+    return e->candidaturasQuartos[indice];
 }
