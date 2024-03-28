@@ -1,0 +1,10 @@
+insert into cliente (id, nome, endereco, nif, telefone) values (15, 'Belia Fearns', '4 Reinke Pass', '003870806', '971122162');
+insert into cliente (id, nome, endereco, nif, telefone) values (22, 'Cybill Steffans', '4 Monument Center', '826569618', '928067426');
+insert into cliente (id, nome, endereco, nif, telefone) values (3, 'Haley Wigg', '500 Harbort Alley', '782400370', '969454413');
+insert into cliente (id, nome, endereco, nif, telefone) values (4, 'Harrietta McCarrison', '85871 Graceland Way', '508343813', '947866692');
+insert into cliente (id, nome, endereco, nif, telefone) values (5, 'Chic Lindenfeld', '728 Summit Trail', '287166781', '915420717');
+insert into cliente (id, nome, endereco, nif, telefone) values (6, 'Erma Dougill', '1606 Hoard Junction', '123989373', '935610431');
+insert into cliente (id, nome, endereco, nif, telefone) values (7, 'Aubry Rochford', '12461 Westerfield Plaza', '564696051', '948121630');
+insert into cliente (id, nome, endereco, nif, telefone) values (8, 'Amberly Schimon', '172 Kipling Circle', '563463360', '961506057');
+insert into cliente (id, nome, endereco, nif, telefone) values (9, 'Brendon Bortoloni', '8027 Barnett Hill', '355257298', '977257972');
+insert into cliente (id, nome, endereco, nif, telefone) values (10, 'Willard Millson', '1 Grim Alley', '887705036', '976089102');

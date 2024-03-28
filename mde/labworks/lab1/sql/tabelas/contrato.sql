@@ -1,0 +1,10 @@
+insert into contrato (id, data_inicio, duracao) values (1, '2023/06/29', '1');
+insert into contrato (id, data_inicio, duracao) values (2, '2023/06/18', '1');
+insert into contrato (id, data_inicio, duracao) values (3, '2024/01/19', '0');
+insert into contrato (id, data_inicio, duracao) values (4, '2023/07/09', '4');
+insert into contrato (id, data_inicio, duracao) values (5, '2023/08/06', '6');
+insert into contrato (id, data_inicio, duracao) values (6, '2024/03/18', '1');
+insert into contrato (id, data_inicio, duracao) values (7, '2023/04/11', '1');
+insert into contrato (id, data_inicio, duracao) values (8, '2023/12/22', '7');
+insert into contrato (id, data_inicio, duracao) values (9, '2023/04/02', '6');
+insert into contrato (id, data_inicio, duracao) values (10, '2023/11/27', '2');

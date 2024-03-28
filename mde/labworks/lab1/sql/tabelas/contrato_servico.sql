@@ -1,0 +1,10 @@
+insert into contrato_servico (contrato_id, servico_id) values (7, 8);
+insert into contrato_servico (contrato_id, servico_id) values (8, 6);
+insert into contrato_servico (contrato_id, servico_id) values (3, 10);
+insert into contrato_servico (contrato_id, servico_id) values (4, 9);
+insert into contrato_servico (contrato_id, servico_id) values (5, 2);
+insert into contrato_servico (contrato_id, servico_id) values (8, 3);
+insert into contrato_servico (contrato_id, servico_id) values (2, 10);
+insert into contrato_servico (contrato_id, servico_id) values (8, 7);
+insert into contrato_servico (contrato_id, servico_id) values (7, 4);
+insert into contrato_servico (contrato_id, servico_id) values (9, 10);

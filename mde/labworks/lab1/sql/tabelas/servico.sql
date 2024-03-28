@@ -1,0 +1,10 @@
+insert into servico (id, nivel) values (1, 'Profissional');
+insert into servico (id, nivel) values (2, 'Lowcost');
+insert into servico (id, nivel) values (3, 'Normal');
+insert into servico (id, nivel) values (4, 'Lowcost');
+insert into servico (id, nivel) values (5, 'Profissional');
+insert into servico (id, nivel) values (6, 'Normal');
+insert into servico (id, nivel) values (7, 'Normal');
+insert into servico (id, nivel) values (8, 'Profissional');
+insert into servico (id, nivel) values (9, 'Normal');
+insert into servico (id, nivel) values (10, 'Profissional');

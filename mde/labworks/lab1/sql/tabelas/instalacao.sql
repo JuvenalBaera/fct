@@ -1,0 +1,10 @@
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (1, 'casa', '623 Schmedeman Circle', 3, 5);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (2, 'escritório', '91355 Dennis Center', 3, 8);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (3, 'apartamento', '7 Fulton Place', 1, 10);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (4, 'casa', '8 Becker Hill', 2, 1);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (5, 'casa', '74004 Goodland Road', 3, 2);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (6, 'apartamento', '29 Northland Drive', 10, 9);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (7, 'apartamento', '02998 Clyde Gallagher Pass', 1, 3);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (8, 'loja', '9 Blackbird Way', 8, 9);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (9, 'escritório', '5842 Randy Junction', 2, 10);
+insert into instalacao (id, tipo, endereco, cliente_id, contrato_id) values (10, 'escritório', '346 Eastwood Lane', 5, 10);
