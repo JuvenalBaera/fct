@@ -31,3 +31,42 @@ begin
 	on d.instalacao_id = i.id where i.id = id_instalacao and d.data_instalacao between d_inicio and d_fim;
 end $$
 delimiter ;
+
+
+-- RF7 
+delimiter $$
+create procedure media_faturacao_idintervalo(in c_id int, d_inicio date, d_fim date, estado tinyint)
+begin
+	select avg(f.preco) as media from cliente as c join instalacao as i 
+	on c.id = i.cliente_id join contrato as ct
+	on i.contrato_id = ct.id  join faturacao as f
+	on f.contrato_id = ct.id 
+	where c.id = c_id and f.estado = estado
+	and ct.data_inicio between d_inicio and d_fim;
+end $$
+delimiter ;
+
+
+-- RF10
+-- top 10 clientes com mais instalações (view)
+create view top_clientes as
+	select cliente.id, nome, count(*) as nr_instalacao 
+	from cliente join instalacao
+	on cliente.id = instalacao.cliente_id
+	group by cliente.id
+	order by nr_instalacao desc
+	limit 10;
+
+
+-- RF11
+delimiter $$
+create procedure numero_cliente_tipo_servico(nivel varchar(64))
+begin
+	select count(*) as "# clientes", s.nivel from cliente as c join instalacao as i 
+	on c.id = i.cliente_id join contrato as ct
+	on i.contrato_id = ct.id join contrato_servico as cs
+	on ct.id = cs.contrato_id join servico as s
+	on cs.servico_id = s.id
+	where s.nivel = nivel;
+end $$
+delimiter ;

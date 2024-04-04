@@ -5,20 +5,6 @@ select * from dispositivo;
 select * from faturacao;
 
 
--- CLIENTES QUE NÃO TEM INSTALAÇÃO 
-select * from cliente left join instalacao on cliente.id = instalacao.cliente_id where instalacao.cliente_id is null;
-
--- INSTALAÇÃO COM CLIENTE
-select * from cliente join instalacao on cliente.id = instalacao.cliente_id;
-
--- contrato com # faturações
-select contrato.id as contrato, count(*) as "# faturas" from contrato 
-join faturacao on contrato.id = faturacao.contrato_id group by faturacao.contrato_id;
-
--- quantos dispositivos há numa instalação
-select instalacao.id as instalacao, count(*) as "# dispositivo" from instalacao join dispositivo
-on instalacao.id = dispositivo.instalacao_id
-group by dispositivo.instalacao_id;
 
 -- RF4:
 call cliente_tipo_instalacao("loja");
@@ -34,7 +20,28 @@ call cliente_tipo_servico("Profissional");
 
 
 -- RF6
-select i.id, d.data_instalacao, d.modelo from dispositivo as d join instalacao as i
-on d.instalacao_id = i.id where i.id = 2 and d.data_instalacao between "2023-01-01" and "2023-12-31";
+call dispositivo_instalacao_intervalo(7, "2023-01-01", "2024-12-31");
 
-call dispositivo_instalacao_intervalo(2, "2023-01-01", "2023-12-31");
+-- RF7 
+call  media_faturacao_idintervalo(22, "2022-06-02", "2026-05-02", 1);
+
+-- RF8
+
+-- RF9
+-- viualizar as datas de instalação de um dispositivo numa instalação
+select d.instalacao_id, d.id, d.tipo, d.data_instalacao from instalacao as i join dispositivo as d
+on i.id = d.instalacao_id
+where d.instalacao_id = 15;
+
+-- RF10
+-- top 10 clientes com mais instalações
+select * from top_clientes;
+
+-- RF11
+call numero_cliente_tipo_servico("Lowcost");
+call numero_cliente_tipo_servico("Normal");
+call numero_cliente_tipo_servico("Profissional");
+
+-- RF12
+-- RF13
+-- RF14
