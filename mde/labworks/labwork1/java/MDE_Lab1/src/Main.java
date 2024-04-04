@@ -23,11 +23,13 @@ public class Main {
             //Start Connection
             Connection conn = MySQL_Integration.createConnection(url,username,password);
 
-            // requisito_funcional4(conn, "escritório");
-            // requisito_funcional5(conn, "Normal");
-            // "2022-01-01", "2028-12-31"
-            requisito_funcional6(conn, 22,  LocalDate.of(2022, 01, 10), 
-                                            LocalDate.of(2028, 12, 31));
+            /* 
+            requisito_funcional4(conn, "escritório");
+            requisito_funcional5(conn, "Normal");
+            requisito_funcional6(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31));
+            */
+
+            requisito_funcional7(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31), true);
 
             //Close Connection
             MySQL_Integration.closeConnection(conn);
@@ -54,34 +56,37 @@ public class Main {
 
 
     public static void requisito_funcional4(Connection conn, String tipo_instalacao){
-        String sql = """
-            SELECT c.nome, c.endereco, c.nif, c.telefone, i.tipo  
-            FROM cliente as c 
-            JOIN instalacao AS i ON c.id = i.cliente_id WHERE i.tipo = ?
-        """;
+        String sql;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
 
         try{
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            sql = """
+                SELECT c.nome, c.endereco, c.nif, c.telefone, i.tipo  
+                FROM cliente AS c 
+                JOIN instalacao AS i ON c.id = i.cliente_id WHERE i.tipo = ?
+            """;
+
+            preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, tipo_instalacao);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
-            String nome, endereco, nif, telefone, tipo;
+            resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.isBeforeFirst()){
                 System.out.printf("Não existe instalação do tipo: %s\n", tipo_instalacao);
             }
             else{
                 linha(100, '-');
-                System.out.printf("%-20s  %-10s \t %-10s \t %s \t %-10s\n", "nome", "telefone", "nif", "tipo", "endereco");
+                System.out.printf("%-20s \t %-10s \t %-10s \t %-10s \t %-10s\n", "nome", "telefone", "nif", "tipo", "endereco");
                 linha(100, '-');
                 
                 while(resultSet.next()){
-                    nome = resultSet.getString("nome");
-                    endereco = resultSet.getString("endereco");
-                    telefone = resultSet.getString("telefone");
-                    nif = resultSet.getString("nif");
-                    tipo = resultSet.getString("tipo");
-                    System.out.printf("%-20s \t %s \t %s \t %s \t %s\n", nome, telefone, nif, tipo, endereco);
+                    System.out.printf("%-20s \t %s \t %s \t %s \t %s\n", resultSet.getString("nome"), 
+                                                                         resultSet.getString("telefone"),
+                                                                         resultSet.getString("nif"), 
+                                                                         resultSet.getString("tipo"), 
+                                                                         resultSet.getString("endereco") 
+                    );
                 }   
                 linha(100, '-');
             }
@@ -97,18 +102,18 @@ public class Main {
         PreparedStatement preparedStatement;
         ResultSet resultSet;
 
-        sql = """
-            SELECT c.id, c.nome, s.nivel, COUNT(*) AS qtd FROM cliente AS c JOIN instalacao AS i 
-            on c.id = i.cliente_id JOIN contrato AS ct
-            ON i.contrato_id = ct.id JOIN contrato_servico AS cs
-            ON ct.id = cs.contrato_id JOIN servico AS s
-            ON cs.servico_id = s.id
-            where s.nivel = ?
-            GROUP BY c.id
-            ORDER BY qtd DESC
-        """;
-
         try{
+            sql = """
+                SELECT c.id, c.nome, s.nivel, COUNT(*) AS qtd FROM cliente AS c JOIN instalacao AS i 
+                on c.id = i.cliente_id JOIN contrato AS ct
+                ON i.contrato_id = ct.id JOIN contrato_servico AS cs
+                ON ct.id = cs.contrato_id JOIN servico AS s
+                ON cs.servico_id = s.id
+                where s.nivel = ?
+                GROUP BY c.id
+                ORDER BY qtd DESC
+            """;
+
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, tipo_servico);
             resultSet = preparedStatement.executeQuery();
@@ -122,9 +127,10 @@ public class Main {
                 linha(60, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %-25s \t %s \t %d\n", resultSet.getInt("id"), 
-                    resultSet.getString("nome"), 
-                    resultSet.getString("nivel"),
-                    resultSet.getInt("qtd"));
+                                                                    resultSet.getString("nome"), 
+                                                                    resultSet.getString("nivel"),
+                                                                    resultSet.getInt("qtd")
+                    );
                 }
                 linha(60, '-');
             }
@@ -142,14 +148,13 @@ public class Main {
 
         try{
             sql = """
-                select i.id, d.data_instalacao, d.tipo from dispositivo as d join instalacao as i
-                on d.instalacao_id = i.id where i.id = ? and d.data_instalacao between ? and ?;
+                SELECT i.id, d.data_instalacao, d.tipo FROM dispositivo AS d JOIN instalacao AS i
+                ON d.instalacao_id = i.id WHERE i.id = ? AND d.data_instalacao BETWEEN ? AND ?;
             """;
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setInt(1, id_instalacao);
             preparedStatement.setDate(2, Date.valueOf(d_inicio));
-            preparedStatement.setDate(3, Date.valueOf(d_fim));
-            
+            preparedStatement.setDate(3, Date.valueOf(d_fim));   
 
             resultSet = preparedStatement.executeQuery();
 
@@ -175,6 +180,44 @@ public class Main {
         }
     }
 
+    //                                       in c_id int, d_inicio date, d_fim date, estado tinyint)
+    public static void requisito_funcional7(Connection conn, int cliente_id, LocalDate d_inicio, LocalDate d_fim, boolean estado){
+        String sql;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        try{
+            sql = """
+                SELECT c.nome, AVG(f.preco) AS media FROM cliente AS c JOIN instalacao AS i 
+                ON c.id = i.cliente_id JOIN contrato AS ct
+                ON i.contrato_id = ct.id  JOIN faturacao AS f
+                ON f.contrato_id = ct.id 
+                WHERE c.id = ? AND f.estado = ?
+                AND ct.data_inicio BETWEEN ? AND ?;
+            """;
+
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, cliente_id);
+            preparedStatement.setBoolean(2, estado);
+            preparedStatement.setDate(3, Date.valueOf(d_inicio));
+            preparedStatement.setDate(4, Date.valueOf(d_fim));
+
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.isBeforeFirst()){
+                System.out.println("Faturação não encontrado nesse intervalo");
+            }
+            else{
+                System.out.println("média \t nome");
+                while(resultSet.next()){
+                    System.out.printf("%.2f \t %s\n",  resultSet.getFloat("media"), resultSet.getString("nome"));
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
     // public static void messageReceived(String topic, MqttMessage message) {
     //     System.out.println("Message arrived. Topic: " + topic + " Message: " + message.toString());
     // }
