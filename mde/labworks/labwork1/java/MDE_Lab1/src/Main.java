@@ -208,10 +208,13 @@ public class Main {
                 System.out.println("Faturação não encontrado nesse intervalo");
             }
             else{
-                System.out.println("média \t nome");
+                linha(30, '-');
+                System.out.printf("média \t %20s\n", "nome");
+                linha(30, '-');
                 while(resultSet.next()){
-                    System.out.printf("%.2f \t %s\n",  resultSet.getFloat("media"), resultSet.getString("nome"));
+                    System.out.printf("%.2f \t %20s\n",  resultSet.getFloat("media"), resultSet.getString("nome"));
                 }
+                linha(30, '-');
             }
         }
         catch(SQLException e){
