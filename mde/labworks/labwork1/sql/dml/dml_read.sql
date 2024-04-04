@@ -20,7 +20,7 @@ call cliente_tipo_servico("Profissional");
 
 
 -- RF6
-call dispositivo_instalacao_intervalo(7, "2023-01-01", "2024-12-31");
+call dispositivo_instalacao_intervalo(22, "2022-01-01", "2028-12-31");
 
 -- RF7 
 call  media_faturacao_idintervalo(22, "2022-06-02", "2026-05-02", 1);

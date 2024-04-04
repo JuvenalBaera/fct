@@ -22,8 +22,12 @@ public class Main {
         try {
             //Start Connection
             Connection conn = MySQL_Integration.createConnection(url,username,password);
+
             // requisito_funcional4(conn, "escritório");
-            requisito_funcional5(conn, "Normal");
+            // requisito_funcional5(conn, "Normal");
+            // "2022-01-01", "2028-12-31"
+            requisito_funcional6(conn, 22,  LocalDate.of(2022, 01, 10), 
+                                            LocalDate.of(2028, 12, 31));
 
             //Close Connection
             MySQL_Integration.closeConnection(conn);
@@ -83,7 +87,7 @@ public class Main {
             }
         }
         catch(SQLException e){
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -103,6 +107,7 @@ public class Main {
             GROUP BY c.id
             ORDER BY qtd DESC
         """;
+
         try{
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, tipo_servico);
@@ -125,21 +130,50 @@ public class Main {
             }
         }
         catch(SQLException e){
-            e.getStackTrace();
+            e.printStackTrace();
         }
     }
 
-    // public static void requisito_funcional6(Connection conn, int id_instalacao, Date d_inicio, Date d_fim){
+    public static void requisito_funcional6(Connection conn, int id_instalacao, LocalDate d_inicio, LocalDate d_fim){
 
-    //     String sql = """
-    //         select i.id, d.data_instalacao, d.modelo from dispositivo as d join instalacao as i
-	//         on d.instalacao_id = i.id where i.id = ? and d.data_instalacao between ? and ?;
-    //         """;
-    //     PreparedStatement preparedStatement = conn.prepareStatement(sql);
-    //     preparedStatement.setInt(1, id_instalacao);
-    //     preparedStatement.setDate(2, d_inicio);
-    //     preparedStatement.setDate(3, d_fim);
-    // }
+        String sql;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        try{
+            sql = """
+                select i.id, d.data_instalacao, d.tipo from dispositivo as d join instalacao as i
+                on d.instalacao_id = i.id where i.id = ? and d.data_instalacao between ? and ?;
+            """;
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id_instalacao);
+            preparedStatement.setDate(2, Date.valueOf(d_inicio));
+            preparedStatement.setDate(3, Date.valueOf(d_fim));
+            
+
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.isBeforeFirst()){
+                System.out.printf("Nenhum dispositivo com id %d instalado nesse intervalo (%s - %s)\n", id_instalacao,
+                                                                                    String.valueOf(d_inicio),
+                                                                                    String.valueOf(d_fim));
+            }
+            else{
+                linha(32, '-');
+                System.out.printf("id \t d_Instalação \t tipo\n");
+                linha(32, '-');
+                while(resultSet.next()){
+                    System.out.printf("%d \t %s \t %s\n", resultSet.getInt("id"), 
+                    resultSet.getDate("data_instalacao").toString(),
+                    resultSet.getString("tipo"));
+                }
+                linha(32, '-');
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
 
     // public static void messageReceived(String topic, MqttMessage message) {
     //     System.out.println("Message arrived. Topic: " + topic + " Message: " + message.toString());
