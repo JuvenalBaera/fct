@@ -82,11 +82,12 @@ public class Main {
                 linha(100, '-');
                 
                 while(resultSet.next()){
-                    System.out.printf("%-20s \t %s \t %s \t %s \t %s\n", resultSet.getString("nome"), 
-                                                                         resultSet.getString("telefone"),
-                                                                         resultSet.getString("nif"), 
-                                                                         resultSet.getString("tipo"), 
-                                                                         resultSet.getString("endereco") 
+                    System.out.printf("%-20s \t %s \t %s \t %s \t %s\n", 
+                        resultSet.getString("nome"), 
+                        resultSet.getString("telefone"),
+                        resultSet.getString("nif"), 
+                        resultSet.getString("tipo"), 
+                        resultSet.getString("endereco") 
                     );
                 }   
                 linha(100, '-');
@@ -127,10 +128,11 @@ public class Main {
                 System.out.printf("id \t %-25s \t %s \t Qtd\n", "Nome", "Tipo Sercviço");
                 linha(60, '-');
                 while(resultSet.next()){
-                    System.out.printf("%d \t %-25s \t %s \t %d\n", resultSet.getInt("id"), 
-                                                                    resultSet.getString("nome"), 
-                                                                    resultSet.getString("nivel"),
-                                                                    resultSet.getInt("qtd")
+                    System.out.printf("%d \t %-25s \t %s \t %d\n", 
+                        resultSet.getInt("id"), 
+                        resultSet.getString("nome"), 
+                        resultSet.getString("nivel"),
+                        resultSet.getInt("qtd")
                     );
                 }
                 linha(60, '-');
@@ -159,9 +161,11 @@ public class Main {
             resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.isBeforeFirst()){
-                System.out.printf("Nenhum dispositivo com id %d instalado nesse intervalo (%s - %s)\n", id_instalacao,
-                                                                                    String.valueOf(d_inicio),
-                                                                                    String.valueOf(d_fim));
+                System.out.printf("Nenhum dispositivo com id %d instalado nesse intervalo (%s - %s)\n", 
+                    id_instalacao,
+                    String.valueOf(d_inicio),
+                    String.valueOf(d_fim)
+                );
             }
             else{
                 linha(32, '-');
@@ -210,7 +214,10 @@ public class Main {
                 System.out.printf("média \t %20s\n", "nome");
                 linha(30, '-');
                 while(resultSet.next()){
-                    System.out.printf("%.2f \t %20s\n",  resultSet.getFloat("media"), resultSet.getString("nome"));
+                    System.out.printf("%.2f \t %20s\n", 
+                        resultSet.getFloat("media"), 
+                        resultSet.getString("nome")
+                    );
                 }
                 linha(30, '-');
             }
@@ -246,10 +253,11 @@ public class Main {
                 linha(45, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %d \t %s \t %s\n",
-                    resultSet.getInt("instalacao_id"),
-                    resultSet.getInt("id"),
-                    resultSet.getString("tipo"),
-                    resultSet.getDate("data_instalacao").toString());
+                        resultSet.getInt("instalacao_id"),
+                        resultSet.getInt("id"),
+                        resultSet.getString("tipo"),
+                        resultSet.getDate("data_instalacao").toString()
+                    );
                 }
                 linha(45, '-');
             }
