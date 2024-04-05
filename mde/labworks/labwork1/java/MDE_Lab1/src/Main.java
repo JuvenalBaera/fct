@@ -30,9 +30,10 @@ public class Main {
             requisito_funcional5(conn, "Normal");
             requisito_funcional6(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31));
             requisito_funcional7(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31), true);
+            requisito_funcional9(conn, 15);
             */
 
-            requisito_funcional9(conn, 15);
+            requisito_funcional10(conn, 5);
 
             //Close Connection
             MySQL_Integration.closeConnection(conn);
@@ -260,6 +261,40 @@ public class Main {
                     );
                 }
                 linha(45, '-');
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void requisito_funcional10(Connection conn, int limite){
+        String sql;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        try{
+            sql = "SELECT * FROM top_clientes LIMIT ?;";
+
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, limite);
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.isBeforeFirst()){
+                System.out.println("Não foi encontrado cliente com instalação");
+            }
+            else{
+                linha(43, '-');
+                System.out.printf("Id \t %-20s \t Nr Inst.\n", "Nome Cliente");
+                linha(43, '-');
+                while(resultSet.next()){
+                    System.out.printf("%d \t %-20s \t %d\n",
+                    resultSet.getInt("id"),
+                    resultSet.getString("nome"),
+                    resultSet.getInt("nr_instalacao")
+                    );
+                }
+                linha(43, '-');
             }
         }
         catch(SQLException e){
