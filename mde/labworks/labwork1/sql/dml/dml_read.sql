@@ -24,7 +24,7 @@ call dispositivo_instalacao_intervalo(22, "2022-01-01", "2028-12-31");
 
 -- RF7 
 call  media_faturacao_idintervalo(22, "2022-06-02", "2026-05-02", 1);
-
+select media_faturacao_id_intervalo_fun(22, "2022-06-02", "2026-05-02", 1) as media;
 -- RF8
 
 -- RF9
@@ -35,7 +35,7 @@ where d.instalacao_id = 15;
 
 -- RF10
 -- top 10 clientes com mais instalações
-select * from top_clientes;
+select * from top_clientes limit 5;
 
 -- RF11
 call numero_cliente_tipo_servico("Lowcost");

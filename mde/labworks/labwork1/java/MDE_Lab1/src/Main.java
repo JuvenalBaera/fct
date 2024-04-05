@@ -3,6 +3,8 @@
 import java.sql.*;
 import java.time.LocalDate;
 
+import com.mysql.cj.protocol.Resultset;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -27,9 +29,10 @@ public class Main {
             requisito_funcional4(conn, "escritório");
             requisito_funcional5(conn, "Normal");
             requisito_funcional6(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31));
+            requisito_funcional7(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31), true);
             */
 
-            requisito_funcional7(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31), true);
+            requisito_funcional9(conn, 15);
 
             //Close Connection
             MySQL_Integration.closeConnection(conn);
@@ -54,7 +57,6 @@ public class Main {
         System.out.println();
     }
 
-
     public static void requisito_funcional4(Connection conn, String tipo_instalacao){
         String sql;
         PreparedStatement preparedStatement;
@@ -69,7 +71,6 @@ public class Main {
 
             preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, tipo_instalacao);
-
             resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.isBeforeFirst()){
@@ -155,7 +156,6 @@ public class Main {
             preparedStatement.setInt(1, id_instalacao);
             preparedStatement.setDate(2, Date.valueOf(d_inicio));
             preparedStatement.setDate(3, Date.valueOf(d_fim));   
-
             resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.isBeforeFirst()){
@@ -180,7 +180,6 @@ public class Main {
         }
     }
 
-    //                                       in c_id int, d_inicio date, d_fim date, estado tinyint)
     public static void requisito_funcional7(Connection conn, int cliente_id, LocalDate d_inicio, LocalDate d_fim, boolean estado){
         String sql;
         PreparedStatement preparedStatement;
@@ -201,7 +200,6 @@ public class Main {
             preparedStatement.setBoolean(2, estado);
             preparedStatement.setDate(3, Date.valueOf(d_inicio));
             preparedStatement.setDate(4, Date.valueOf(d_fim));
-
             resultSet = preparedStatement.executeQuery();
 
             if(!resultSet.isBeforeFirst()){
@@ -221,6 +219,46 @@ public class Main {
             e.printStackTrace();
         }
     }
+    
+    public static void requisito_funcional9(Connection conn, int id_instalacao){
+        String sql;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        try{
+            sql = """
+                SELECT d.instalacao_id, d.id, d.tipo, d.data_instalacao 
+                FROM instalacao AS i JOIN dispositivo AS d
+                ON i.id = d.instalacao_id
+                WHERE d.instalacao_id = ?;
+            """;
+
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id_instalacao);
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.isBeforeFirst()){
+                System.out.println("Nada encontrado nesse período ou instalação não existe");
+            }
+            else{
+                linha(45, '-');
+                System.out.printf("Inst. \t Disp. \t Tipo \t\t Data Inst.\n");
+                linha(45, '-');
+                while(resultSet.next()){
+                    System.out.printf("%d \t %d \t %s \t %s\n",
+                    resultSet.getInt("instalacao_id"),
+                    resultSet.getInt("id"),
+                    resultSet.getString("tipo"),
+                    resultSet.getDate("data_instalacao").toString());
+                }
+                linha(45, '-');
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+    
     // public static void messageReceived(String topic, MqttMessage message) {
     //     System.out.println("Message arrived. Topic: " + topic + " Message: " + message.toString());
     // }
