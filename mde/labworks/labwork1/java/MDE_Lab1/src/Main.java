@@ -31,9 +31,12 @@ public class Main {
             requisito_funcional6(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31));
             requisito_funcional7(conn, 22,  LocalDate.of(2022, 01, 10), LocalDate.of(2028, 12, 31), true);
             requisito_funcional9(conn, 15);
+            requisito_funcional10(conn, 5);
             */
 
-            requisito_funcional10(conn, 5);
+            requisito_funcional11(conn, "Lowcost");
+            requisito_funcional11(conn, "Normal");
+            requisito_funcional11(conn, "Profissional");
 
             //Close Connection
             MySQL_Integration.closeConnection(conn);
@@ -268,6 +271,7 @@ public class Main {
         }
     }
 
+    /* Top n clientes com mais instalações */
     public static void requisito_funcional10(Connection conn, int limite){
         String sql;
         PreparedStatement preparedStatement;
@@ -302,6 +306,47 @@ public class Main {
         }
     }
     
+    /* Número de serviço de um determinado tipo */
+    public static void requisito_funcional11(Connection conn, String tipo_servico){
+        String sql;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        try{
+            sql = """
+                SELECT COUNT(*) AS "nr_servico", s.nivel FROM cliente as c join instalacao as i 
+                ON c.id = i.cliente_id JOIN contrato AS ct
+                ON i.contrato_id = ct.id JOIN contrato_servico as cs
+                ON ct.id = cs.contrato_id JOIN servico AS s
+                ON cs.servico_id = s.id
+                WHERE s.nivel = ?;     
+            """;
+
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, tipo_servico);
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.isBeforeFirst()){
+                System.err.println("Nenhum serviço com esse tipo foi achado: " + tipo_servico);
+            }
+            else{
+                linha(22, '-');
+                System.out.println("Total \t Tipo Serviço");
+                linha(22, '-');
+                while(resultSet.next()){
+                    System.out.printf("%d \t %s\n", 
+                    resultSet.getInt("nr_servico"),
+                    resultSet.getString("nivel")
+                    );
+                }
+                linha(22, '-');
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     // public static void messageReceived(String topic, MqttMessage message) {
     //     System.out.println("Message arrived. Topic: " + topic + " Message: " + message.toString());
     // }
