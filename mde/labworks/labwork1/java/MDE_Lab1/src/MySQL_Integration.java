@@ -1,4 +1,6 @@
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.NoSuchElementException;
 
 public class MySQL_Integration {
 
@@ -44,9 +46,9 @@ public class MySQL_Integration {
                 System.out.printf("Não existe instalação do tipo: %s\n", tipo_instalacao);
             }
             else{
-                linha(100, '-');
+                Utilitario.linha(100, '-');
                 System.out.printf("%-20s \t %-10s \t %-10s \t %-10s \t %-10s\n", "nome", "telefone", "nif", "tipo", "endereco");
-                linha(100, '-');
+                Utilitario.linha(100, '-');
                 
                 while(resultSet.next()){
                     System.out.printf("%-20s \t %s \t %s \t %s \t %s\n", 
@@ -57,7 +59,7 @@ public class MySQL_Integration {
                         resultSet.getString("endereco") 
                     );
                 }   
-                linha(100, '-');
+               Utilitario.linha(100, '-');
             }
         }
         catch(SQLException e){
@@ -91,9 +93,9 @@ public class MySQL_Integration {
                 System.out.printf("Não foi encontrado um serviçço de nível: %s\n", tipo_servico);
             }
             else{
-                linha(60, '-');
+                Utilitario.linha(60, '-');
                 System.out.printf("id \t %-25s \t %s \t Qtd\n", "Nome", "Tipo Sercviço");
-                linha(60, '-');
+               Utilitario.linha(60, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %-25s \t %s \t %d\n", 
                         resultSet.getInt("id"), 
@@ -102,7 +104,7 @@ public class MySQL_Integration {
                         resultSet.getInt("qtd")
                     );
                 }
-                linha(60, '-');
+               Utilitario.linha(60, '-');
             }
         }
         catch(SQLException e){
@@ -135,15 +137,15 @@ public class MySQL_Integration {
                 );
             }
             else{
-                linha(32, '-');
+               Utilitario.linha(32, '-');
                 System.out.printf("id \t d_Instalação \t tipo\n");
-                linha(32, '-');
+               Utilitario.linha(32, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %s \t %s\n", resultSet.getInt("id"), 
                     resultSet.getDate("data_instalacao").toString(),
                     resultSet.getString("tipo"));
                 }
-                linha(32, '-');
+               Utilitario.linha(32, '-');
             }
         }
         catch(SQLException e){
@@ -177,16 +179,16 @@ public class MySQL_Integration {
                 System.out.println("Faturação não encontrado nesse intervalo");
             }
             else{
-                linha(30, '-');
+               Utilitario.linha(30, '-');
                 System.out.printf("média \t %20s\n", "nome");
-                linha(30, '-');
+               Utilitario.linha(30, '-');
                 while(resultSet.next()){
                     System.out.printf("%.2f \t %20s\n", 
                         resultSet.getFloat("media"), 
                         resultSet.getString("nome")
                     );
                 }
-                linha(30, '-');
+               Utilitario.linha(30, '-');
             }
         }
         catch(SQLException e){
@@ -215,9 +217,9 @@ public class MySQL_Integration {
                 System.out.println("Nada encontrado nesse período ou instalação não existe");
             }
             else{
-                linha(45, '-');
+               Utilitario.linha(45, '-');
                 System.out.printf("Inst. \t Disp. \t Tipo \t\t Data Inst.\n");
-                linha(45, '-');
+               Utilitario.linha(45, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %d \t %s \t %s\n",
                         resultSet.getInt("instalacao_id"),
@@ -226,7 +228,7 @@ public class MySQL_Integration {
                         resultSet.getDate("data_instalacao").toString()
                     );
                 }
-                linha(45, '-');
+               Utilitario.linha(45, '-');
             }
         }
         catch(SQLException e){
@@ -251,9 +253,9 @@ public class MySQL_Integration {
                 System.out.println("Não foi encontrado cliente com instalação");
             }
             else{
-                linha(43, '-');
+               Utilitario.linha(43, '-');
                 System.out.printf("Id \t %-20s \t Nr Inst.\n", "Nome Cliente");
-                linha(43, '-');
+               Utilitario.linha(43, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %-20s \t %d\n",
                     resultSet.getInt("id"),
@@ -261,7 +263,7 @@ public class MySQL_Integration {
                     resultSet.getInt("nr_instalacao")
                     );
                 }
-                linha(43, '-');
+               Utilitario.linha(43, '-');
             }
         }
         catch(SQLException e){
@@ -293,16 +295,16 @@ public class MySQL_Integration {
                 System.err.println("Nenhum serviço com esse tipo foi achado: " + tipo_servico);
             }
             else{
-                linha(22, '-');
+               Utilitario.linha(22, '-');
                 System.out.println("Total \t Tipo Serviço");
-                linha(22, '-');
+               Utilitario.linha(22, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %s\n", 
                     resultSet.getInt("nr_servico"),
                     resultSet.getString("nivel")
                     );
                 }
-                linha(22, '-');
+               Utilitario.linha(22, '-');
             }
         }
         catch(SQLException e){

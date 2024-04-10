@@ -2,15 +2,9 @@
 
 import java.sql.*;
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
 
-import com.mysql.cj.protocol.Resultset;
-
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
-    static Scanner scanner = new Scanner(System.in);
+    
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         // TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
@@ -42,21 +36,21 @@ public class Main {
             requisito_funcional11(conn, "Profissional");
             */
 
-            // USER PROMPT
-            // menuPrincipal();
-            // usuarioOpcao();
 
             do{
-                menu_principal();
-                opcao = lerString("Qual opção: ");
+                Menu.menu_principal();
+                opcao = Leitura.opcao_usuario();
 
                 if(opcao.equals("s")){
                     sair = true;
                 }
                 else if(opcao.equals("i")){
                     // Inserir
+                    // System.out.println("Inserir");
+                    inserir_dados(conn);
                 }
                 else if(opcao.equals("a")){
+                    System.out.println("Atualizar");
                     // atualizar
                 }
                 else if(opcao.equals("l")){
@@ -64,10 +58,12 @@ public class Main {
                 }
                 else if(opcao.equals("d")){
                     // deletar
+                    System.out.println("Apagar");
                 }
                 else{
-                    mensagem_erro();
+                    Utilitario.mensagem_erro();
                 }
+                System.out.println();
             }while(!sair);
             System.out.println("Obrigado\n");
 
@@ -88,58 +84,42 @@ public class Main {
         //Comment the following line for testing WITHOUT real data
         //MQTTLibrary.createSubscriber(broker);
     }
-
-    public static void mensagem_erro(){
-        System.out.println("ERROOOOOOOOOOOOOOO");
-    }
-
-    public static void linha(int tamanho, char ch){
-        for(int i = 0; i < tamanho; i++)
-            System.out.printf("%c", ch);
-        System.out.println();
-    }
-
-
  
 
-    // User
-    public static int lerInteiro(String prompt){
-        int num;
-        System.out.print(prompt);
-        num = scanner.nextInt();
-        return num;
-    }
-
-    public static String lerString(String prompt){
-        String str;
-        System.out.print(prompt);
-        str = scanner.next();
-        return str;
-    }
-
-    public static LocalDate lerData(String prompt){
-        String str = lerString(prompt);
-        LocalDate data = LocalDate.parse(str);
-        return data;
-    }
-
-
-    public static void menu_principal(){
-        System.out.println("i \t-\t Inserir novo");
-        System.out.println("a \t-\t atualizar");
-        System.out.println("d \t-\t Deletar");
-        System.out.println("l \t-\t Ler dados (RF's)");
-        System.out.println("s \t-\t Sair");
-    }
-
-    public static void menu_requisito_funcional(){
-        for(int i = 4; i <= 12; i++){
-            System.out.printf("%2d \t-\t Requisito Funcional %d\n", i, i);
+    public static void fechar_conexao(Connection conn){
+        try{
+            conn.close();
         }
-        System.out.println(" v \t-\t Voltar");
-        System.out.println(" s \t-\t Sair");
+        catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
+    public static void inserir_dados(Connection conn){
+        String opcao, str_entrada;
+        int int_entrada;
+        LocalDate d_inicio, d_fim;
+        boolean sair = false;
+
+        do{
+            Menu.menu_inserir();
+            opcao = Leitura.opcao_usuario();
+
+            if(opcao.equals("s")){
+                fechar_conexao(conn);
+                System.exit(0);
+            }
+            else if(opcao.equals("v")){
+                sair = true;
+            }
+            else if(opcao.equals("cl")){}
+            else if(opcao.equals("in")){}
+            else if(opcao.equals("di")){}
+            else if(opcao.equals("co")){}
+            else if(opcao.equals("fa")){}
+            else if(opcao.equals("se")){}
+        }while(!sair);
+    }
 
     public static void usuario_requisito_funcional(Connection conn){
         String opcao, str_entrada;
@@ -147,61 +127,59 @@ public class Main {
         LocalDate d_inicio, d_final;
         boolean sair = false;
         do{
-            menu_requisito_funcional();
-            opcao = lerString("Escolhe uma opçao: ");
-            opcao = opcao.toLowerCase();
-
-            System.out.println();
+            Menu.menu_requisito_funcional();
+            opcao = Leitura.opcao_usuario(); 
+            
             if(opcao.equals("v")){
                 sair = true;
             }
             else if(opcao.equals("s")){
-                conn.close();
+                fechar_conexao(conn);
                 System.exit(0);
             }
-            else if(opcao.equals("4")){
-                str_entrada = lerString("Introduza o tipo de instalação: ");
-                requisito_funcional4(conn, str_entrada);
+            else if(opcao.equals("rf4")){
+                str_entrada = Leitura.lerString("Introduza o tipo de instalação: ");
+                MySQL_Integration.requisito_funcional4(conn, str_entrada);
             }
-            else if(opcao.equals("5")){
-                str_entrada = lerString("Introduza o tipo de serviço: ");
-                requisito_funcional5(conn, str_entrada);
+            else if(opcao.equals("rf5")){
+                str_entrada = Leitura.lerString("Introduza o tipo de serviço: ");
+                MySQL_Integration.requisito_funcional5(conn, str_entrada);
             }
-            else if(opcao.equals("6")){
-                int_entrada = lerInteiro("Digite id do cliente: ");
-                d_inicio = lerData("Data inicio [aaaa-mm-dd]: ");
-                d_final =  lerData("Data fim    [aaaa-mm-dd]: ");
-                requisito_funcional6(conn, int_entrada, d_inicio, d_final);
+            else if(opcao.equals("rf6")){
+                int_entrada = Leitura.lerInteiro("Digite id do cliente: ");
+                d_inicio = Leitura.lerData("Data inicio [aaaa-mm-dd]: ");
+                d_final =  Leitura.lerData("Data fim    [aaaa-mm-dd]: ");
+                MySQL_Integration.requisito_funcional6(conn, int_entrada, d_inicio, d_final);
             }
-            else if(opcao.equals("7")){
-                int_entrada = lerInteiro("Digite id da instalação: ");
-                d_inicio = lerData("Data inicio [aaaa-mm-dd]: ");
-                d_final =  lerData("Data fim    [aaaa-mm-dd]: ");
-                requisito_funcional7(conn, 22,  d_inicio, d_final, true);
+            else if(opcao.equals("rf7")){
+                int_entrada = Leitura.lerInteiro("Digite id da instalação: ");
+                d_inicio = Leitura.lerData("Data inicio [aaaa-mm-dd]: ");
+                d_final =  Leitura.lerData("Data fim    [aaaa-mm-dd]: ");
+                MySQL_Integration.requisito_funcional7(conn, 22,  d_inicio, d_final, true);
             }
-            else if(opcao.equals("8")){
-                
+            else if(opcao.equals("rf8")){
+                System.out.println("PORRR FAZERRRRRRRRRRRRRRR 8");
             }
-            else if(opcao.equals("9")){
-                int_entrada = lerInteiro("Digite id da instalação: ");
-                requisito_funcional9(conn, int_entrada);
+            else if(opcao.equals("rf9")){
+                int_entrada = Leitura.lerInteiro("Digite id da instalação: ");
+                MySQL_Integration.requisito_funcional9(conn, int_entrada);
             }
-            else if(opcao.equals("10")){
-                int_entrada = lerInteiro("Quantos top client queres ver: ");
-                requisito_funcional10(conn, int_entrada);
+            else if(opcao.equals("rf10")){
+                int_entrada = Leitura.lerInteiro("Quantos top client queres ver: ");
+                MySQL_Integration.requisito_funcional10(conn, int_entrada);
             }
-            else if(opcao.equals("11")){
-                str_entrada = lerString("Introduza o tipo de serviço: ");
-                requisito_funcional11(conn, str_entrada);
+            else if(opcao.equals("rf11")){
+                str_entrada = Leitura.lerString("Introduza o tipo de serviço: ");
+                MySQL_Integration.requisito_funcional11(conn, str_entrada);
             }
-            else if(opcao.equals("12")){
-
+            else if(opcao.equals("rf12")){
+                System.out.println("PORRR FAZERRRRRRRRRRRRRRR 12");
             }
             else{
-                System.out.println("\nERRO: OPÇÃO INVÁLIDA\n");
+                Utilitario.mensagem_erro();
             }
+            System.out.println();
         }while(!sair);
-        System.out.println("Obrigado\n");
     }
 
 
