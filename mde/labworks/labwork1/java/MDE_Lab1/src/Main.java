@@ -3,6 +3,10 @@
 import java.sql.*;
 import java.time.LocalDate;
 
+import interacao.Leitura;
+import interacao.Menu;
+import interacao.Utilitario;
+
 public class Main {
     
     public static void main(String[] args) throws SQLException, ClassNotFoundException {

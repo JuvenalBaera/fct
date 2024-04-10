@@ -2,6 +2,8 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
+import interacao.Utilitario;
+
 public class MySQL_Integration {
 
     static Connection createConnection(String url, String username, String password) throws SQLException {
