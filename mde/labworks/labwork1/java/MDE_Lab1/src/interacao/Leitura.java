@@ -16,7 +16,7 @@ public class Leitura {
     public static String lerString(String prompt){
         String str;
         System.out.print(prompt);
-        str = scanner.next();
+        str = scanner.nextLine();
         return str;
     }
 

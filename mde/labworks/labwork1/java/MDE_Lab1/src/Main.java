@@ -3,6 +3,7 @@
 import java.sql.*;
 import java.time.LocalDate;
 
+import dados.Inserir;
 import interacao.Leitura;
 import interacao.Menu;
 import interacao.Utilitario;
@@ -116,7 +117,16 @@ public class Main {
             else if(opcao.equals("v")){
                 sair = true;
             }
-            else if(opcao.equals("cl")){}
+            else if(opcao.equals("cl")){
+                int_entrada = Inserir.inserirCliente(conn);
+                if(int_entrada != 0){
+                    System.out.printf("Cliente inserido com sucesso, id : %d\n", int_entrada);
+                }
+                else{
+                    System.out.println("Erro ao inserir esse cliente");
+                }
+                System.out.println();
+            }
             else if(opcao.equals("in")){}
             else if(opcao.equals("di")){}
             else if(opcao.equals("co")){}
