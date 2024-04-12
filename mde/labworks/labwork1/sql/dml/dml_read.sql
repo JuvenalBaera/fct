@@ -1,6 +1,7 @@
 select * from cliente;
 select * from instalacao;
 select * from contrato;
+select * from contrato_servico;
 select * from dispositivo;
 select * from faturacao;
 select * from servico;

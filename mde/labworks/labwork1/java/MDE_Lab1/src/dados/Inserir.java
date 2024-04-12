@@ -1,6 +1,7 @@
 package dados;
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.HashMap;
 
 import interacao.Leitura;
 import interacao.Utilitario;
@@ -53,8 +54,99 @@ public class Inserir {
         return return_id;
     }
 
-    // public static int inserirInstalacao(Connection conn){}
-    // public static int inserirDispositivo(Connection conn){}
+    public static int inserirInstalacao(Connection conn){
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String sql, tipo, endereco;
+        int id_cliente, id_contrato, return_id=0;
+
+        tipo = Leitura.lerString("Tipo da instalação: ");
+        endereco = Leitura.lerString("Endereço: ");
+        id_cliente = Leitura.lerInteiro("Id do cliente: ");
+        id_contrato = Leitura.lerInteiro("Id do contrato: ");
+
+        try{
+            sql = "INSERT INTO instalacao (tipo, endereco, cliente_id, contrato_id) VALUES (?, ?, ?, ?)";
+            preparedStatement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, tipo);
+            preparedStatement.setString(2, endereco);
+            preparedStatement.setInt(3, id_cliente);
+            preparedStatement.setInt(4, id_contrato);
+
+            return_id = preparedStatement.executeUpdate();
+            if(return_id > 0){
+                resultSet = preparedStatement.getGeneratedKeys();
+                if(resultSet.next()){
+                    return_id = resultSet.getInt(1);
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return return_id;
+    }
+
+    public static int inserirDispositivo(Connection conn){
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String sql, modelo, tipo, especificacao;
+        int id_instalacao, return_id=0;
+        LocalDate data;
+        HashMap<String, String> disp = new HashMap<>();
+        disp.put("a", "16DC5E");
+        disp.put("f", "16A631");
+        disp.put("p", "6F3275");
+        disp.put("t", "MQ9");
+        disp.put("g", "DS18B20");
+        
+        do{
+            System.out.println("A \t-\t Aquecedor");
+            System.out.println("F \t-\t Frigorífico");
+            System.out.println("P \t-\t Passadeira");
+            System.out.println("T \t-\t Temperatura");
+            System.out.println("G \t-\t GAS");
+
+            tipo = Leitura.opcao_usuario();
+            switch(tipo.charAt(0)){
+                case 'a': tipo = disp.get("a"); break;
+                case 'f': tipo = disp.get("f"); break;
+                case 'p': tipo = disp.get("p"); break;
+                case 't': tipo = disp.get("t"); break;
+                case 'g': tipo = disp.get("g"); break;
+                default: tipo = "0";
+            }
+        }while(tipo.equals("0"));
+
+        modelo = Leitura.lerString("Modelo: ");
+        especificacao = Leitura.lerString("especificacao: ");
+        data = Leitura.lerData("Data da instalação: ");
+        id_instalacao = Leitura.lerInteiro("Id da instalação: ");
+
+        try{
+            sql = "INSERT INTO dispositivo (modelo, tipo, data_instalacao, estado, especificacao, instalacao_id) VALUES (?, ?, ?, 0, ?, ?)";
+            preparedStatement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, modelo);
+            preparedStatement.setString(2, tipo);
+            preparedStatement.setDate(3, Date.valueOf(data));
+            preparedStatement.setString(4, especificacao);
+            preparedStatement.setInt(5, id_instalacao);
+
+            return_id = preparedStatement.executeUpdate();
+
+            if(return_id != 0){
+                resultSet = preparedStatement.getGeneratedKeys();
+                if(resultSet.next()){
+                    return_id = resultSet.getInt(1);
+                }
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return return_id;
+    }
+
     public static int inserirContrato(Connection conn){
         PreparedStatement preparedStatement;
         ResultSet resultSet;

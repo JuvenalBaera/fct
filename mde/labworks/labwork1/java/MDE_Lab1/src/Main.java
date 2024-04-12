@@ -1,4 +1,3 @@
-// import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -126,8 +125,24 @@ public class Main {
                     System.out.println("Erro ao inserir cliente");
                 }
             }
-            else if(opcao.equals("in")){}
-            else if(opcao.equals("di")){}
+            else if(opcao.equals("in")){
+                int_entrada = Inserir.inserirInstalacao(conn);
+                if(int_entrada != 0){
+                    System.out.printf("Instalação inserido, id: %d\n", int_entrada);
+                }
+                else{
+                    System.out.println("ERRO AO INSERIR INSTALAÇÃO");
+                }
+            }
+            else if(opcao.equals("di")){
+                int_entrada = Inserir.inserirDispositivo(conn);
+                if(int_entrada != 0){
+                    System.out.printf("Dispositivo inserido: %d\n", int_entrada);
+                }
+                else{
+                    System.out.println("ERRO AO INSERIR DISPOSITIVO");
+                }
+            }
             else if(opcao.equals("co")){
                 int_entrada = Inserir.inserirContrato(conn);
                 if(int_entrada != 0){
