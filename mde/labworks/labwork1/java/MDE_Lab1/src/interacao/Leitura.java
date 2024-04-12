@@ -5,11 +5,21 @@ import java.util.Scanner;
 
 public class Leitura {
     static Scanner scanner = new Scanner(System.in);
-        // User
+    
+    // User
     public static int lerInteiro(String prompt){
         int num;
         System.out.print(prompt);
         num = scanner.nextInt();
+        if(scanner.hasNextLine())
+            scanner.nextLine();
+        return num;
+    }
+
+    public static float lerFloat(String prompt){
+        float num;
+        System.out.print(prompt);
+        num = scanner.nextFloat();
         return num;
     }
 

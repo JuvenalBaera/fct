@@ -3,6 +3,7 @@ select * from instalacao;
 select * from contrato;
 select * from dispositivo;
 select * from faturacao;
+select * from servico;
 
 
 

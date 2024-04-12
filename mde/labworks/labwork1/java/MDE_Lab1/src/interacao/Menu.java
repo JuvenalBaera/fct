@@ -22,8 +22,9 @@ public class Menu {
         System.out.println("in \t-\t instalação");
         System.out.println("di \t-\t dispositivo");
         System.out.println("co \t-\t contrato");
-        System.out.println("fa \t-\t faturação");
         System.out.println("se \t-\t serviço");
+        System.out.println("cs \t-\t contrato serviço");
+        System.out.println("fa \t-\t faturação");
         System.out.println("v \t-\t voltar");
     }
 }

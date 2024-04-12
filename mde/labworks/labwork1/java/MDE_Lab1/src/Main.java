@@ -123,15 +123,48 @@ public class Main {
                     System.out.printf("Cliente inserido com sucesso, id : %d\n", int_entrada);
                 }
                 else{
-                    System.out.println("Erro ao inserir esse cliente");
+                    System.out.println("Erro ao inserir cliente");
                 }
-                System.out.println();
             }
             else if(opcao.equals("in")){}
             else if(opcao.equals("di")){}
-            else if(opcao.equals("co")){}
-            else if(opcao.equals("fa")){}
-            else if(opcao.equals("se")){}
+            else if(opcao.equals("co")){
+                int_entrada = Inserir.inserirContrato(conn);
+                if(int_entrada != 0){
+                    System.out.printf("Contrato inserido id: %d\n", int_entrada);
+                }
+                else{
+                    System.out.println("Erro ao inserir contrato");
+                }
+            }
+            else if(opcao.equals("fa")){
+                int_entrada = Inserir.inserirFaturacao(conn);
+                if(int_entrada != 0){
+                    System.out.printf("Faturação id: %d\n", int_entrada);
+                }
+                else{
+                    System.out.println("Erro ao emitir a fatura");
+                }
+            }
+            else if(opcao.equals("cs")){
+                int_entrada = Inserir.inserirContratoServico(conn);
+                if(int_entrada != 0){
+                    System.out.printf("Contrato serviço inserido, id: %d\n", int_entrada);
+                }
+                else{
+                    System.out.println("Erro ao inserir CS");
+                }
+            }
+            else if(opcao.equals("se")){
+                int_entrada = Inserir.inserirServico(conn);
+                if(int_entrada != 0){
+                    System.out.printf("Serviço inserido com sucesso, id: %d\n", int_entrada);
+                }
+                else{
+                    System.err.println("Erro ao inserir serviço");
+                }
+            }
+            System.out.println();
         }while(!sair);
     }
 
