@@ -6,6 +6,7 @@ select * from dispositivo;
 select * from faturacao;
 select * from servico;
 
+select * from instalacao where contrato_id = 3;
 
 
 -- RF4:

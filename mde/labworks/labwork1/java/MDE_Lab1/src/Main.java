@@ -2,6 +2,8 @@
 import java.sql.*;
 import java.time.LocalDate;
 
+import dados.Atualizar;
+import dados.Deletar;
 import dados.Inserir;
 import interacao.Leitura;
 import interacao.Menu;
@@ -49,20 +51,16 @@ public class Main {
                     sair = true;
                 }
                 else if(opcao.equals("i")){
-                    // Inserir
-                    // System.out.println("Inserir");
                     inserir_dados(conn);
                 }
                 else if(opcao.equals("a")){
-                    System.out.println("Atualizar");
-                    // atualizar
+                    atualizar_dados(conn);
                 }
                 else if(opcao.equals("l")){
                     usuario_requisito_funcional(conn);
                 }
                 else if(opcao.equals("d")){
-                    // deletar
-                    System.out.println("Apagar");
+                    deletar_dados(conn);
                 }
                 else{
                     Utilitario.mensagem_erro();
@@ -143,15 +141,6 @@ public class Main {
                     System.out.println("ERRO AO INSERIR DISPOSITIVO");
                 }
             }
-            else if(opcao.equals("co")){
-                int_entrada = Inserir.inserirContrato(conn);
-                if(int_entrada != 0){
-                    System.out.printf("Contrato inserido id: %d\n", int_entrada);
-                }
-                else{
-                    System.out.println("Erro ao inserir contrato");
-                }
-            }
             else if(opcao.equals("fa")){
                 int_entrada = Inserir.inserirFaturacao(conn);
                 if(int_entrada != 0){
@@ -161,23 +150,98 @@ public class Main {
                     System.out.println("Erro ao emitir a fatura");
                 }
             }
-            else if(opcao.equals("cs")){
-                int_entrada = Inserir.inserirContratoServico(conn);
-                if(int_entrada != 0){
-                    System.out.printf("Contrato serviço inserido, id: %d\n", int_entrada);
+            System.out.println();
+        }while(!sair);
+    }
+
+    public static void atualizar_dados(Connection conn){
+        String opcao, str_entrada;
+        int int_entrada;
+        boolean sair = false;
+
+        do{
+            Menu.menu_atualizar();
+            opcao = Leitura.opcao_usuario();
+
+            if(opcao.equals("s")){
+                fechar_conexao(conn);
+                System.exit(0);
+            }
+            else if(opcao.equals("v")){
+                sair = true;
+            }
+            else if(opcao.equals("pf")){
+                if(Atualizar.pagarFactura(conn)){
+                    System.out.println("Fatura pago com sucesso");
                 }
                 else{
-                    System.out.println("Erro ao inserir CS");
+                    System.out.println("Erro ao pagar a factura");
                 }
             }
-            else if(opcao.equals("se")){
-                int_entrada = Inserir.inserirServico(conn);
-                if(int_entrada != 0){
-                    System.out.printf("Serviço inserido com sucesso, id: %d\n", int_entrada);
+            else if(opcao.equals("ai")){
+                int_entrada = Atualizar.alugarInstalacao(conn);
+                if(int_entrada == -1){
+                    System.out.println("Cliente inexistente");
+                }
+                else if(int_entrada == 1){
+                    System.out.println("Erro ao pagar a factura");
                 }
                 else{
-                    System.err.println("Erro ao inserir serviço");
+                    System.out.printf("Id do contrato: %d\n", int_entrada);
                 }
+            }
+            else if(opcao.equals("di")){
+                
+            }
+            System.out.println();
+        }while(!sair);
+    }
+
+    public static void deletar_dados(Connection conn){
+        String opcao;
+        boolean sair = false;
+        int int_entrada;
+
+        do{
+            Menu.menu_inserir();
+            opcao = Leitura.opcao_usuario();
+
+            if(opcao.equals("s")){
+                fechar_conexao(conn);
+                System.exit(0);
+            }
+            else if(opcao.equals("v")){
+                sair = true;
+            }
+            else if(opcao.equals("cl")){
+                if(Deletar.deletar(conn, "cliente"))
+                    System.out.println("Cliente apagado");
+                else
+                    System.out.println("ERRO AO APAGAR CLIENTE");
+            }
+            else if(opcao.equals("in")){
+                if(Deletar.deletar(conn, "instalacao"))
+                    System.out.println("Instalação apagada");
+                else
+                    System.out.println("ERRO AO APAGAR INSTALAÇÃO");
+            }
+            else if(opcao.equals("di")){
+                if(Deletar.deletar(conn, "dispositivo"))
+                    System.out.println("dispositivo apagado");
+                else
+                    System.out.println("ERRO AO APAGAR O DISPOSITIVO");
+            }
+            else if(opcao.equals("co")){
+                if(Deletar.deletar(conn, "contrato"))
+                    System.out.println("Contrato apagado");
+                else
+                    System.out.println("ERRO AO APAGAR O CONTRATO");
+            }
+            else if(opcao.equals("fa")){
+                if(Deletar.deletar(conn, "faturacao"))
+                    System.out.println("Fatura apagada");
+                else
+                    System.out.println("ERRO AO APAGAR A FACTURA");
             }
             System.out.println();
         }while(!sair);
