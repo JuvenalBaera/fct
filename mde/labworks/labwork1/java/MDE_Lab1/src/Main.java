@@ -27,7 +27,7 @@ public class Main {
         try {
             //Start Connection
             Connection conn = MySQL_Integration.createConnection(url,username,password);
-            
+            Inserir.gerarFatura(conn);
             String opcao;
             boolean sair = false;
             /* 

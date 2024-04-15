@@ -37,7 +37,7 @@ on i.id = d.instalacao_id
 where d.instalacao_id = 15;
 
 -- RF10
--- top 10 clientes com mais instalações
+-- top 5 clientes com mais instalações
 select * from top_clientes limit 5;
 
 -- RF11

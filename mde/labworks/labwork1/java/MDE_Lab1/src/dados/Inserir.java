@@ -2,6 +2,7 @@ package dados;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.Random;
 
 import interacao.Leitura;
 import interacao.Utilitario;
@@ -267,6 +268,56 @@ public class Inserir {
         }
         catch(SQLException e){
             e.printStackTrace();
+        }
+    }
+    
+    private static void faturaAutomatico(Connection conn, int id_contrato, float preco){
+
+        LocalDate data_atual = LocalDate.now();
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String sql;
+
+        try{
+            sql = "INSERT INTO faturacao (contrato_id, preco) VALUES (?, ?)";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id_contrato);
+            preparedStatement.setFloat(2, preco);
+
+            if(preparedStatement.executeUpdate() == 0)
+                System.out.println("Erro ao criar fatura");
+            else
+                System.out.println("Fatura criada");
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void gerarFatura(Connection conn){
+        LocalDate data_atual = LocalDate.now();
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String sql;
+        int contrato_id;
+        float preco;
+        Random random = new Random();
+
+        if(data_atual.getDayOfMonth() == 2){
+            try{
+                sql = "SELECT * FROM contrato";
+                preparedStatement = conn.prepareStatement(sql);
+                resultSet = preparedStatement.executeQuery();
+
+                while(resultSet.next()){
+                    contrato_id = resultSet.getInt("id");
+                    preco = Math.abs(20 + (random.nextInt() % (200 - 20)));
+                    faturaAutomatico(conn, contrato_id, preco);
+                }
+            }
+            catch(SQLException e){
+                e.printStackTrace();
+            }
         }
     }
 
