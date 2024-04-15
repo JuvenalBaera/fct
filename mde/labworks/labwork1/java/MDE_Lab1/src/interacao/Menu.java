@@ -30,7 +30,7 @@ public class Menu {
         System.out.println("pf \t-\t Pagar factura");
         System.out.println("ai \t-\t Alugar instalação");
         System.out.println("ad \t-\t Activar dispositivo");
-        System.out.println("di \t-\t Colocar disp na instalação");
+        System.out.println("id \t-\t Instalar dispositivo");
         System.out.println("v \t-\t voltar");
     }
 }

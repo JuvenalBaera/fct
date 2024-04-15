@@ -71,4 +71,27 @@ public class Verificar {
         }
         return false;
     }
+
+
+    public static boolean dispositivoNaInstalacao(Connection conn, int id_dispositivo){
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String sql;
+
+        try{
+            sql = "SELECT * FROM dispositivo WHERE id = ?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id_dispositivo);
+            resultSet = preparedStatement.executeQuery();
+            
+            if(resultSet.next()){
+                if(resultSet.getInt("instalacao_id") != 0)
+                    return true;
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

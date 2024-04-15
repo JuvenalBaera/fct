@@ -80,16 +80,46 @@ public class Atualizar {
         return 0;
     }
 
-    public static int dispositoNaInstalacao(Connection conn){
+    public static int instalarDispositivo(Connection conn){
         PreparedStatement preparedStatement;
         ResultSet resultSet;
-        int id_cliente, id_contrato, id_instalacao;
+        int id_dispositivo, id_instalacao;
         String sql;
 
-        id_cliente = Leitura.lerInteiro("Digite id do cliente: ");
-        if(!Verificar.existeId(conn, "cliente", id_cliente)){
-            System.out.println("Cliente inexistente");
+        id_dispositivo = Leitura.lerInteiro("Digite id do dispositivo: ");
+        if(!Verificar.existeId(conn, "dispositivo", id_dispositivo)){
+            System.out.println("Dispositivo inexistente");
             return 0;
         }
+
+        if(Verificar.dispositivoNaInstalacao(conn, id_dispositivo)){
+            System.out.println("Dispositivo já está numa instalação");
+            return 0;
+        }
+
+        id_instalacao = Leitura.lerInteiro("Digite id da instalação: ");
+        if(!Verificar.existeId(conn, "instalacao", id_instalacao)){
+            System.out.println("Instalação inexistente");
+            return 0;
+        }
+
+        
+        try{
+            sql = "UPDATE dispositivo SET instalacao_id = ? WHERE id = ?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id_instalacao);
+            preparedStatement.setInt(2, id_dispositivo);
+            if(preparedStatement.executeUpdate() != 0){
+                System.out.println("Dispositivo instalado com sucesso");
+                return 1;
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        System.out.println("Erro ao colocar dispositivo na instalação");
+        return 0;
+
+        // TODO: mudar estado de um dispositivo
     }
 }

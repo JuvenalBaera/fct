@@ -190,8 +190,11 @@ public class Main {
                     System.out.printf("Id do contrato: %d\n", int_entrada);
                 }
             }
-            else if(opcao.equals("di")){
+            else if(opcao.equals("ad")){
                 
+            }
+            else if(opcao.equals("id")){
+                Atualizar.instalarDispositivo(conn);
             }
             System.out.println();
         }while(!sair);
