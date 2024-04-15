@@ -104,8 +104,8 @@ DROP TABLE IF EXISTS `faturacao` ;
 
 CREATE TABLE IF NOT EXISTS `faturacao` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `data` DATE NOT NULL,
-  `estado` TINYINT NOT NULL,
+  `data` DATE NOT NULL DEFAULT Now(),
+  `estado` TINYINT NOT NULL DEFAULT 0,
   `contrato_id` INT NOT NULL,
   `preco` DECIMAL(5,2) NOT NULL,
   PRIMARY KEY (`id`),
@@ -113,7 +113,7 @@ CREATE TABLE IF NOT EXISTS `faturacao` (
   CONSTRAINT `fk_faturacao_contrato1`
     FOREIGN KEY (`contrato_id`)
     REFERENCES `contrato` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

@@ -222,7 +222,6 @@ public class Inserir {
         String sql;
 
         int return_id = 0, id_contrato;
-        LocalDate data;
         float preco;
 
         id_contrato = Leitura.lerInteiro("Id do contrato: ");
@@ -231,15 +230,13 @@ public class Inserir {
             return 0;
         }
 
-        data = Leitura.lerData("Data limite da fatura: ");
         preco = Leitura.lerFloat("Valor da fatura: ");
 
         try{
-            sql = "INSERT INTO faturacao (data, estado, contrato_id, preco) VALUES (?, 0, ?, ?)";
+            sql = "INSERT INTO faturacao (contrato_id, preco) VALUES (?, ?)";
             preparedStatement = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            preparedStatement.setDate(1, Date.valueOf(data));
-            preparedStatement.setInt(2, id_contrato);
-            preparedStatement.setFloat(3, preco);
+            preparedStatement.setInt(1, id_contrato);
+            preparedStatement.setFloat(2, preco);
 
             return_id = preparedStatement.executeUpdate();
             if(return_id > 0){

@@ -122,4 +122,42 @@ public class Atualizar {
 
         // TODO: mudar estado de um dispositivo
     }
+
+    public static int activarDispositivo(Connection conn){
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        int id_dispositivo;
+        String sql;
+
+        id_dispositivo = Leitura.lerInteiro("Digite id do dispositivo: ");
+        if(!Verificar.existeId(conn, "dispositivo", id_dispositivo)){
+            System.out.println("Dispositivo inexistente");
+            return 0;
+        }
+
+        if(!Verificar.dispositivoNaInstalacao(conn, id_dispositivo)){
+            System.out.println("Dispositivo deve estar numa instalação");
+            return 0;
+        }
+
+        if(Verificar.dispositivoActivo(conn, id_dispositivo)){
+            System.out.println("Dispositivo já está activo");
+            return 0;
+        }
+
+        try{
+            sql = "UPDATE dispositivo SET estado = 1 WHERE id = ?";
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id_dispositivo);
+            if(preparedStatement.executeUpdate() != 0){
+                System.out.println("Dispositivo activado com sucesso");
+                return 1;
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+        System.out.println("Erro ao activar o dispositivo");
+        return 0;
+    }
 }

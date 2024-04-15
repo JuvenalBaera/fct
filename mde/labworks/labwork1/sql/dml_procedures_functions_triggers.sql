@@ -67,7 +67,7 @@ delimiter ;
 
 
 -- RF10
--- top 10 clientes com mais instalações (view)
+-- top n clientes com mais instalações (view)
 create view top_clientes as
 	select cliente.id, nome, count(*) as nr_instalacao 
 	from cliente join instalacao
@@ -89,12 +89,16 @@ begin
 end $$
 delimiter ;
 
--- valor em falta por pagar dum cliente
-select c.nome, c.nif, f.data, sum(f.preco) as total from cliente as c 
-join instalacao as i
-on c.id = i.cliente_id 
-join contrato as cnt
-on cnt.id = i.contrato_id 
-join faturacao as f
-on f.contrato_id = cnt.id
-where c.id = 77 and f.estado = 0; -- 22, 61, 37, 66
+-- RF12: faturas por pagar de um certo cliente
+delimiter $$
+create procedure faturas_por_pagar_cliente(in cl_id INT)
+begin
+	select cl.nome, cl.nif, fa.data, fa.preco
+	from cliente as cl join instalacao as ins
+	on cl.id = ins.cliente_id join contrato as co
+	on ins.contrato_id = co.id join faturacao as fa
+	on fa.contrato_id = co.id
+	where fa.estado = 0 and cl.id = cl_id;
+end $$
+delimiter ;
+

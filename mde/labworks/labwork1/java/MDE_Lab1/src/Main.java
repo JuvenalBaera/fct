@@ -191,7 +191,7 @@ public class Main {
                 }
             }
             else if(opcao.equals("ad")){
-                
+                Atualizar.activarDispositivo(conn);
             }
             else if(opcao.equals("id")){
                 Atualizar.instalarDispositivo(conn);
@@ -302,7 +302,8 @@ public class Main {
                 MySQL_Integration.requisito_funcional11(conn, str_entrada);
             }
             else if(opcao.equals("rf12")){
-                System.out.println("PORRR FAZERRRRRRRRRRRRRRR 12");
+                int_entrada = Leitura.lerInteiro("Digite id do cliente: ");
+                MySQL_Integration.requisito_funcional12(conn, int_entrada);
             }
             else{
                 Utilitario.mensagem_erro();

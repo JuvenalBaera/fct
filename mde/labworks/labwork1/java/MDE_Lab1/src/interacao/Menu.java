@@ -21,7 +21,6 @@ public class Menu {
         System.out.println("cl \t-\t cliente");
         System.out.println("in \t-\t instalação");
         System.out.println("di \t-\t dispositivo");
-        System.out.println("co \t-\t contrato");
         System.out.println("fa \t-\t faturação");
         System.out.println("v \t-\t voltar");
     }

@@ -46,5 +46,6 @@ call numero_cliente_tipo_servico("Normal");
 call numero_cliente_tipo_servico("Profissional");
 
 -- RF12
--- RF13
+call faturas_por_pagar_cliente(100);
+-- RF13: Java
 -- RF14

@@ -35,7 +35,7 @@ public class MySQL_Integration {
 
         try{
             sql = """
-                SELECT c.nome, c.endereco, c.nif, c.telefone, i.tipo  
+                SELECT c.nome, c.nif, c.telefone, i.tipo, c.endereco  
                 FROM cliente AS c 
                 JOIN instalacao AS i ON c.id = i.cliente_id WHERE i.tipo = ?
             """;
@@ -49,7 +49,7 @@ public class MySQL_Integration {
             }
             else{
                 Utilitario.linha(100, '-');
-                System.out.printf("%-20s \t %-10s \t %-10s \t %-10s \t %-10s\n", "nome", "telefone", "nif", "tipo", "endereco");
+                System.out.printf("%-20s \t %s \t %s \t\t %-15s \t %s\n", "nome", "telefone", "nif", "tipo", "endereco");
                 Utilitario.linha(100, '-');
                 
                 while(resultSet.next()){
@@ -255,9 +255,9 @@ public class MySQL_Integration {
                 System.out.println("Não foi encontrado cliente com instalação");
             }
             else{
-               Utilitario.linha(43, '-');
+                Utilitario.linha(43, '-');
                 System.out.printf("Id \t %-20s \t Nr Inst.\n", "Nome Cliente");
-               Utilitario.linha(43, '-');
+                Utilitario.linha(43, '-');
                 while(resultSet.next()){
                     System.out.printf("%d \t %-20s \t %d\n",
                     resultSet.getInt("id"),
@@ -313,5 +313,48 @@ public class MySQL_Integration {
             e.printStackTrace();
         }
     }
+
+    public static void requisito_funcional12(Connection conn, int id_cliente){
+        String sql;
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        try{
+            sql = """
+                SELECT cl.nome, cl.nif, fa.data, fa.preco
+                FROM cliente AS cl JOIN instalacao AS ins
+                on cl.id = ins.cliente_id JOIN contrato AS co
+                on ins.contrato_id = co.id JOIN faturacao AS fa
+                on fa.contrato_id = co.id
+                WHERE fa.estado = 0 AND cl.id = ?;   
+            """;
+
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id_cliente);
+            resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.isBeforeFirst()){
+                System.err.println("Todas faturas foram pagas");
+            }
+            else{
+                Utilitario.linha(40, '-');
+                System.out.printf("%s \t\t %s \t\t %s \t\t %s\n", "Nome", "Nif", "Data", "Preço");
+                Utilitario.linha(40, '-');
+                while(resultSet.next()){
+                    System.out.printf("%s \t %s \t %s \t %.2f\n", 
+                        resultSet.getString("nome"), 
+                        resultSet.getString("nif"),
+                        resultSet.getDate("data").toString(),
+                        resultSet.getFloat("preco")
+                    );
+                }
+               Utilitario.linha(40, '-');
+            }
+        }
+        catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
 }
 
