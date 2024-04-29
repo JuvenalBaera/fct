@@ -1,0 +1,9 @@
+part(robot, base).
+part(robot, arm).
+part(robot, griper).
+part(robot, controller).
+
+part(griper, wrist).
+part(griper, fingers).
+part(griper, sensor):
+
