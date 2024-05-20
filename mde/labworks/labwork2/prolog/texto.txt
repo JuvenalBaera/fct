@@ -1,0 +1,10 @@
+dispositivo(id, tipo, consumo)
+instalacao(id, pot, tipo, contador, disp[])
+	pot  - 	6.9/10.35/13.8 kVA
+		13.8/20.7
+	tipo - monofásico, trifásico
+condutor(tipos cabo, material, isolamento)
+	cabo 	 - rigido/multifilar
+	material - alumínio/cobre
+	isolamento     - pvc/polietileno
+ligacao(insO, insD, idcond, comp, perdas);
