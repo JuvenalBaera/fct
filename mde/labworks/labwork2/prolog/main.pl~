@@ -3,52 +3,172 @@
 :- dynamic dispositivo/3.
 
 
+concatenar([], L, L).
+concatenar([C|R], L, [C|T]) :- concatenar(R, L, T).
+
+membro(X, [X|_]).  % O elemento X é a cabeça da lista.
+membro(X, [_|T]) :- membro(X, T).  % Verifique se X está na cauda da lista.
+
+remover_elemento_lista(_, [], []).
+remover_elemento_lista(Elem, [Elem|Cauda], Resultado) :-
+    remover_elemento_lista(Elem, Cauda, Resultado).
+remover_elemento_lista(Elem, [Cabeca|Cauda], [Cabeca|Resultado]) :-
+    Elem \= Cabeca,
+    remover_elemento_lista(Elem, Cauda, Resultado).
+
+
+
 %dispositivo(1, )
 
 % ############### FACTOS             ####################
-/*
-instalacao(1, monofasico(6.9),  1022).
-instalacao(2, monofasico(10.5), 890).
-instalacao(3, trifasico(13.80), 1990).
-instalacao(4, trifasico(20.70), 1229).
-*/
 
-% ########## DISPOSITIVO ########
-adicionar_dispositivo :- writeln("Digite as seguintes info:"),
-    write("Id"), read(Id),
-    write("Tipo"), read(Tipo),
-    assertz(dispositivo(Id, Tipo, 0)).
-
-adicionar_consumo_dispositivo :- write("Digite id do dispositivo"), read(Id),
-    (dispositivo(Id,Tipo,_)
-    ->  T = Tipo,
-        write("Digite nivel de consumo"), read(Cons),
-        retract(dispositivo(Id,_,_)),
-        assertz(dispositivo(Id, T, Cons))
-    ); writeln("Dispositivo Inexistente").
+instalacao(1, 13.8,  "tri",  300, [1, 2]).
+instalacao(2, 20.7,  "tri",  3500, [5,6,9]).
+instalacao(3, 6.9,   "mono", 80, [7,8]).
+instalacao(4, 10.35, "mono", 1050, [3, 10]).
+instalacao(5, 15.75, "tri",  0, []).
+instalacao(6, 6.9,   "mono", 0, []).
+instalacao(7, 6.9,   "mono", 0, []).
+instalacao(8, 10.35, "mono", 0, []).
+instalacao(9, 13.8,  "tri",  0, []).
+instalacao(10, 20.7, "tri",  0, []).
 
 
-remover_dispositivo :- write("Digite id do dispositivo"), read(Id),
+
+dispositivo(1, "TV", 100).
+dispositivo(2, "Refrigerador", 200).
+dispositivo(3, "Microondas", 150).
+dispositivo(4, "Computador", 250).
+dispositivo(5, "Ar Condicionado", 1200).
+dispositivo(6, "Máquina de Lavar", 500).
+dispositivo(7, "Ventilador", 70).
+dispositivo(8, "Lâmpada LED", 10).
+dispositivo(9, "Aquecedor", 1800).
+dispositivo(10, "Forno Elétrico", 800).
+
+
+ligacao(1, 2, condutor("Rigido", "Cobre", "PVC"), 200, 100).
+ligacao(1, 3, condutor("Multifilar", "Alumínio", "PE"), 150, 50).
+ligacao(1, 4, condutor("Rigido", "Cobre", "PE"), 300, 20).
+ligacao(2, 3, condutor("Multifilar", "Cobre", "PVC"), 100, 16).
+ligacao(2, 4, condutor("Rigido", "Alumínio", "PE"), 250, 15).
+ligacao(3, 4, condutor("Rigido", "Cobre", "PVC"), 220, 10).
+
+
+
+% Define a regra principal para adicionar um dispositivo com depuração
+adicionar_dispositivo_na_instalacao :-
+    write("Digite Id da instalacao: "),read(Id_Ins),
+    (instalacao(Id_Ins, Pot, Tipo, Cont, LDisp) ->
+         write("Id Dispositivo: "), read(Id_di),
+        (dispositivo(Id_di,_, _) -> writeln("Dispositivo ja Existente");
+            ( write("Tipo dispositivo '..': "), read(Tipo_Disp),
+              assertz(dispositivo(Id_di, Tipo_Disp, 0)),
+              concatenar(LDisp, [Id_di], NLDisp),
+              retract(instalacao(Id_Ins, Pot, Tipo, Cont, LDisp)),
+              assertz(instalacao(Id_Ins, Pot, Tipo, Cont, NLDisp)),
+              writeln("Dispositivo adicionado com sucesso")
+            )
+         )
+    ); writeln("Instalacao Inexistente").
+
+
+% retract(dispositivo(X,_,_)).
+% retract(instalacao(X,_,_,_,_)).
+
+adicionar_consumo_dispositivo :-
+    write("Digite id da instalacao"), read(Id_I),
+    (   instalacao(Id_I, Pot, Tipo_P, Cont, LDisp) ->
+        write("Digite id do dispositivo"), read(Id_D),
+        ((membro(Id_D, LDisp) ->
+             (((dispositivo(Id_D,Tipo_D,Con) -> T = Tipo_D,
+                 ((Con = 0 ->
+                   write("Digite nivel de consumo"), read(Cons), C is Cont+Cons,
+                   retract(dispositivo(Id_D,_,_)),
+                   assertz(dispositivo(Id_D, T, Cons)),
+                   retract(instalacao(Id_I,_,_,_,_)),
+                   assertz(instalacao(Id_I,Pot,Tipo_P,C, LDisp))
+                   ); writeln("Dispositivo ja tem consumo"))
+               )); writeln("Dispositivo Inexistente")
+             )
+        ); writeln("Dispositivo nao esta nessa instalacao"))
+    ); writeln("Instalacao inexistente").
+
+
+
+/*remover_dispositivo :- write("Digite id do dispositivo"), read(Id),
     (dispositivo(Id,_,_)
-    ->  retract(dispositivo(Id,_,_,_)),
+    ->  retract(dispositivo(Id,_,_)),
         writeln("Dispositivo removido")
     ); (writeln("Dispositivo inexistente")).
+*/
 
+
+remover_dispositivo_na_instalacao :-
+     write("Digite id da instalacao"), read(Id_I),
+    (   instalacao(Id_I, Pot, Tipo_P, Cont, LDisp) ->
+        write("Digite id do dispositivo"), read(Id_D),
+        ((membro(Id_D, LDisp) ->
+             (((dispositivo(Id_D,_,Con) -> C is Cont-Con,
+                   remover_elemento_lista(Id_D, LDisp, NLDisp),
+                   retract(dispositivo(Id_D,_,_)),
+                   retract(instalacao(Id_I,_,_,_,_)),
+                   assertz(instalacao(Id_I,Pot,Tipo_P,C, NLDisp)),
+                   writeln("Dispositivo removido")
+               )); writeln("Dispositivo Inexistente")
+             )
+        ); writeln("Dispositivo nao esta nessa instalacao"))
+    ); writeln("Instalacao inexistente").
+
+
+remover_consumo_de_dispositivo :-
+     write("Digite id da instalacao"), read(Id_I),
+    (   instalacao(Id_I, Pot, Tipo_P, Cont, LDisp) ->
+        write("Digite id do dispositivo"), read(Id_D),
+        ((membro(Id_D, LDisp) ->
+             (((dispositivo(Id_D,Tipo_D,Con) -> C is Cont-Con,
+                   retract(dispositivo(Id_D,_,_)),
+                   assertz(dispositivo(Id_D, Tipo_D, 0)),
+                   retract(instalacao(Id_I,_,_,_,_)),
+                   assertz(instalacao(Id_I,Pot,Tipo_P,C, LDisp)),
+                   writeln("Consumo removido")
+               )); writeln("Dispositivo Inexistente")
+             )
+        ); writeln("Dispositivo nao esta nessa instalacao"))
+    ); writeln("Instalacao inexistente").
+
+% POR TERMINAR..........
+/*remover_consumo_dispositivo :- write("Digite id do dispositivo"), read(Id),
+    (dispositivo(Id,Tipo,Consumo)
+    ->  T = Tipo, Cons = Consumo
+    ); writeln("Dispositivo Inexistente").
+*/
 
 % ########## INSTALACAO ###########
 adicionar_instalacao :- writeln("Digite seguintes informacoes:"),
     write("Id"), read(Id_ins),
-    write("Tipo (tri, mono)"), read(Tipo_ins),
-    write("Potencia"), read(Pot),
-    assertz(instalacao(Id_ins, Pot, Tipo_ins, 0, [0])),
-    writeln("Instalacao Adicionada").
+    (instalacao(Id_ins,_,_,_,_) -> writeln("Instalacao existente");
+       (write("Tipo (tri, mono)"), read(Tipo_ins),
+        write("Potencia"), read(Pot),
+        assertz(instalacao(Id_ins, Pot, Tipo_ins, 0, [])),
+        writeln("Instalacao Adicionada")
+       )
+    ).
+
+
+remover_dispositivos_na_instalacao([]). % Caso base: lista vazia
+remover_dispositivos_na_instalacao([Cabeca|Cauda]) :- % Caso recursivo: lista não vazia
+    rectract(dispositivo(Cabeca,_,_)), % Imprime a cabeça da lista
+    remover_dispositivos_na_instalacao(Cauda). % Chama recursivamente para a cauda da lista
+
 
 remover_instalacao :- write("Digite Id da instalacao: "), read(Id),
-    (instalacao(Id,_,_,_,_)
-    -> retract(instalacao(Id,_,_,_,_)),
+    (instalacao(Id,_,_,_,LD)
+    -> remover_dispositivos_na_instalacao(LD),
+       retract(instalacao(Id,_,_,_,_)),
+       retractall(ligacao(Id,_,_,_,_)), retractall(ligacao(_,Id,_,_,_)),
        writeln("Instalacao removida")
     ); (writeln("Instalacao nao existe")).
-
 
 
 % ########### LIGACAO ##########
@@ -60,15 +180,20 @@ adicionar_condutor(Cond) :- writeln("ADICIONAR CONDUTOR"),
 
 adicionar_ligacao :- writeln("DADOS DA LIGACAO"),
     write("Id Inst. Origem"), read(Ori),
-    write("Id Inst. Destino"), read(Des),
-    adicionar_condutor(Con),
-    write("Comprimento"), read(Comp),
-    write("Perdas"), read(Perd),
-    assertz(ligacao(Ori, Des, Con, Comp, Perd)).
+    write("Id Inst. Destino"), read(Des), Ori =\= Des,
+    (((instalacao(Ori,_,_,_,_), instalacao(Des,_,_,_,_)))
+    ->   ((ligacao(Ori, Des,_,_,_); ligacao(Des,Ori,_,_,_)) -> writeln("Ligacao Existente");
+            (adicionar_condutor(Con),
+             write("Comprimento"), read(Comp),
+             write("Perdas"), read(Perd),
+             assertz(ligacao(Ori, Des, Con, Comp, Perd))
+            )
+         )
+    ); writeln("ERRO").
 
 remover_ligacao :- write("Digite Id Origem"), read(O),
     write("Digite Id Destino"), read(D),
-    (ligacao(O, D,_,_,_)
+    ((ligacao(O, D,_,_,_); ligacao(D, O,_,_,_))
     ->  retract(ligacao(O, D,_,_,_)),
         writeln("Ligacao removida")
     ); (writeln("Ligacao inexistente")).
@@ -79,7 +204,7 @@ remover_ligacao :- write("Digite Id Origem"), read(O),
 comecar :- nl, nl, writeln("##### LABWORK #2 DE MDE #####"), nl,
     menu_principal(Opcao), executar_opcao(Opcao).
 
-menu_principal(Opcao) :- writeln("0 - Sair"),
+menu_principal(Opcao) :- writeln("0  - Sair"),
     writeln("1  - Adicionar uma instalacao na rede."),
     writeln("2  - Adicionar dispositivo a uma instalacao."),
     writeln("3  - Adicionar ligacao entre duas instalacoes."),
@@ -91,7 +216,10 @@ menu_principal(Opcao) :- writeln("0 - Sair"),
     writeln("9  - Remover instalacao da rede."),
     writeln("10 - Remover um dispositivo de uma instalacao."),
     writeln("11 - Remover ligacao entre duas instalacoes."),
-    writeln("12 - Remover consumo de um dispositivo."), nl,
+    writeln("12 - Remover consumo de um dispositivo."),
+    writeln("13 - Listar instalacao"),
+    writeln("14 - Listar dispositivos"),
+    writeln("15 - Listar Ligacao"),nl,
     ler_opcao(Opcao).
 
 
@@ -103,23 +231,27 @@ ler_opcao(Opcao) :- nl, writeln("ERRO: Opcao Invalida"), nl, ler_opcao(Opcao).
 validar_opcao(Opcao) :- Opcao >= 0 ; Opcao =< 12.
 
 
-executar_opcao(0) :- nl, writeln("Muito Obrigado, atï¿½ a prï¿½xima").
+executar_opcao(0) :- nl, writeln("Muito Obrigado, atï¿½ a proxima").
 executar_opcao(Opcao) :- executar(Opcao), nl, menu_principal(NOpcao), executar_opcao(NOpcao).
 
 
 % Executa cada opï¿½ï¿½o lida
 executar(1)  :- adicionar_instalacao.
-executar(2)  :- adicionar_dispositivo.
+executar(2)  :- adicionar_dispositivo_na_instalacao .
 executar(3)  :- adicionar_ligacao.
 executar(4)  :- adicionar_consumo_dispositivo.
 executar(5)  :- writeln("Alterar uma instalaï¿½ï¿½o da rede").
 executar(6)  :- writeln("Alterar um dispositivo de uma instalï¿½ï¿½o").
 executar(7)  :- writeln("Alterar ligaï¿½ï¿½o entre duas instalaï¿½ï¿½es").
 executar(8)  :- writeln("Alterar consumo de um dispositivo de um instalï¿½ï¿½o").
-executar(9)  :- remover_instalacao.
-executar(10) :- remover_dispositivo. % NAO
+executar(9)  :- remover_instalacao. % NÃO: Remover ligação tambem
+executar(10) :- remover_dispositivo_na_instalacao.
 executar(11) :- remover_ligacao.
-executar(12) :- writeln("Remover .....").
+executar(12) :- remover_consumo_de_dispositivo.
+executar(13) :- listing(instalacao).
+executar(14) :- listing(dispositivo).
+executar(15) :- listing(ligacao).
+
 
 
 
